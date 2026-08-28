@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About Claude Code skills — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/80-archive/02-code-and-skills-may2026/00-about-skills.html">
+  <link rel="stylesheet" href="../../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details >
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details open>
+        <summary>Archive</summary>        <ul>          <li><a href="../../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details open>
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+class="current">About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details >
+        <summary>Code</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>About Claude Code skills</h1>
+      <p>This section documents both the <strong>skills</strong> used to run the analysis
+and the <strong>Python code</strong> those skills orchestrate. The two are
+companion pieces — the skill is the workflow, the code is what the
+workflow runs. To make the rest of the section readable, this page
+explains the <em>skill</em> concept once.</p>
+<h2 id="what-is-claude-code">What is Claude Code?</h2>
+<p><a href="https://docs.claude.com/en/docs/claude-code">Claude Code</a> is
+Anthropic's command-line tool for Claude — an LLM agent that reads
+the project's files, runs scripts, edits source, and orchestrates
+multi-step tasks from the terminal. It is invoked as <code>claude</code> in the
+project root.</p>
+<p>In this thesis, Claude Code is used as the development environment
+for the analysis pipeline. Every galaxy in the final sample was
+processed through Claude Code; the methodology decisions visible in
+<code>docs/rules/</code> were taken across many such sessions.</p>
+<h2 id="what-is-a-skill">What is a skill?</h2>
+<p>A <strong>skill</strong> is a single Markdown file at <code>.claude/skills/&lt;name&gt;/SKILL.md</code>
+that defines one reusable, parameterised workflow. The file has a
+fixed structure:</p>
+<div class="compare"><div class="col"><p><strong>Header (YAML frontmatter)</strong></p>
+<pre><code class="language-yaml">---
+name: alma-query
+description: |
+  When to invoke this skill — surfaces in
+  Claude's autocomplete and decision-making.
+---
+</code></pre>
+</div><div class="col"><p><strong>Body (Markdown)</strong></p>
+<ul>
+<li><em>When to use</em> — situations the skill is for</li>
+<li><em>Invocation patterns</em> — examples of how it's typed</li>
+<li><em>Step-by-step task</em> — what the agent does, in order</li>
+<li><em>Hard rules</em> — things the agent must / must not do</li>
+<li><em>Return format</em> — what the user gets back</li>
+</ul>
+</div></div>
+<p>When you type <code>/alma-query NGC6810</code> in a Claude Code session, the
+agent reads the matching <code>SKILL.md</code>, treats its body as instructions,
+and executes the workflow with the arguments substituted in. The
+skill file <em>is</em> the program — there is no separate compilation step
+or hidden binary.</p>
+<h2 id="why-use-skills-in-this-project">Why use skills in this project?</h2>
+<p>Without skills, every per-galaxy analysis would require re-typing the
+same long prompt into Claude: &quot;run <code>/alma-query</code>-style cone-search,
+filter to H30α + CO(2-1), write a step3 config, run it, check the
+sanity heuristics ...&quot; Beyond the typing burden, that approach gives
+no reproducibility — small phrasing differences across sessions
+quietly produce different rankings or different masks. Encoding the
+workflow into a skill file solves three problems at once:</p>
+<div class="compare"><div class="col"><p><strong>Reproducibility</strong></p>
+<p>The skill file is version-controlled in the project repository. Every
+selection or analysis run can be traced back to the exact skill
+revision that produced it — the methodology section's claim that &quot;32
+sources were selected by the same procedure&quot; relies on this.</p>
+</div><div class="col"><p><strong>Token economy</strong></p>
+<p>A long, domain-loaded prompt (rule files, cube conventions, sanity
+heuristics) is expensive to reissue. The
+<a href="01-skills/02-analyze-galaxy.html"><code>/analyze-galaxy</code></a> skill
+pushes that context into a <strong>subagent</strong> that runs once per galaxy,
+and the main session sees only the ≤ 800-token summary. Net cost
+per galaxy in the main session: ~1100 tokens instead of ~9000.</p>
+</div></div>
+<div class="compare"><div class="col"><p><strong>Pre-flight termination</strong></p>
+<p>The skill can detect contradictions between the data and the rules
+(strong tracer missing from the cube, anomalous S/N, flux 10× a
+published value) and stop cleanly with a <em>Conflict Report</em> before
+producing any output. A free-form prompt would more often plough
+through and emit a half-result.</p>
+</div><div class="col"><p><strong>Chaining</strong></p>
+<p>Skills call other skills. <a href="01-skills/02-analyze-galaxy.html"><code>/analyze-galaxy</code></a>
+auto-invokes <a href="01-skills/03-update-progress.html"><code>/update-progress</code></a>
+on success to refresh the project's Status table without further user
+input. The conflict-resolution protocol can invoke
+<code>/update-progress --after-rule-change</code>. Composition keeps each skill
+narrow.</p>
+</div></div>
+<h2 id="how-a-skill-is-used">How a skill is used</h2>
+<p>A typical session looks like this:</p>
+<pre><code class="language-bash"># Inside the project root, start Claude Code
+claude
+
+# Then in the Claude prompt:
+/alma-query NGC6810 --write-script
+/analyze-galaxy NGC6810
+/update-progress     # auto-invoked, usually no need to type
+</code></pre>
+<p>Each slash command triggers the agent to read the corresponding
+<code>SKILL.md</code> and execute the workflow. The user never edits the
+generated <code>download_query.md</code>, <code>step-1_download.py</code>, or
+<code>step3_analyze.py</code> by hand — those are skill output. Edits go into
+the skill file or the rule files in <code>docs/rules/</code>, never the
+per-galaxy artefacts.</p>
+<h2 id="the-three-skills-used-in-this-thesis">The three skills used in this thesis</h2>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="01-skills/01-alma-query.html"><code>/alma-query</code></a></td>
+<td>ALMA archive cone-search, line-coverage filtering, geometric filter, sensitivity ranking; emits a Markdown selection report and an optional download script</td>
+</tr>
+<tr>
+<td><a href="01-skills/02-analyze-galaxy.html"><code>/analyze-galaxy</code></a></td>
+<td>Resolves inputs from the project filesystem, pre-flights cube coverage, spawns a subagent that writes a per-galaxy <code>step3_analyze.py</code> config and runs the dual-cube pipeline</td>
+</tr>
+<tr>
+<td><a href="01-skills/03-update-progress.html"><code>/update-progress</code></a></td>
+<td>Maintains <code>docs/progress.md</code> — three narrow operations (Status table, Issue Log, Next Steps cleanup) and nothing else</td>
+</tr>
+</tbody>
+</table>
+<p>The pages under <a href="02-code/01-dual-cube-pipeline.html"><em>Code</em></a> embed the
+Python that these skills actually run. The two are paired: a skill is
+the <em>what and when</em>, the code is the <em>how</em>.</p>
+
+    </article>    <aside class="page-toc">
+      <div class="page-toc-label">On this page</div>
+      <ul>        <li class="lvl-2"><a href="#what-is-claude-code">What is Claude Code?</a></li>        <li class="lvl-2"><a href="#what-is-a-skill">What is a skill?</a></li>        <li class="lvl-2"><a href="#why-use-skills-in-this-project">Why use skills in this project?</a></li>        <li class="lvl-2"><a href="#how-a-skill-is-used">How a skill is used</a></li>        <li class="lvl-2"><a href="#the-three-skills-used-in-this-thesis">The three skills used in this thesis</a></li>      </ul>
+    </aside>  </div>
+
+  <script src="../../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

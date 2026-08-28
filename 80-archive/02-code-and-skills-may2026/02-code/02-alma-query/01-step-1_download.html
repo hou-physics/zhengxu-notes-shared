@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>step-1_download.py — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html">
+  <link rel="stylesheet" href="../../../../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../../../../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../../../../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details >
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../../../../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../../../../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../../../../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../../../../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../../../../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../../../../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../../../../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../../../../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../../../../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details open>
+        <summary>Archive</summary>        <ul>          <li><a href="../../../../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../../../../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../../../../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../../../../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../../../../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details open>
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details open>
+        <summary>Code</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details open>
+        <summary>Alma query</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+class="current">step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>step-1_download.py</h1>
+      <p>Downloads the ALMA archive product chosen by <code>/alma-query</code> (Scenario B,
+pipeline-imaged FITS), reconstructs the non-pbcor cube from
+<code>pbcor × pb</code>, and creates canonical symlinks
+(<code>NGC3628_H30a_pbcor.fits</code>, <code>NGC3628_CO21_pbcor.fits</code>, …) so the
+downstream analysis script doesn't have to know the cryptic ALMA
+product paths.</p>
+<p>NGC 3628 is shown here as a representative; the same template is
+emitted by <code>/alma-query</code> for every galaxy in the final sample, with
+<code>MOUSID</code>, <code>REGEX</code>, <code>Z</code>, and the line table substituted.</p>
+<pre><code class="language-python">##############################################################################
+# Step -1: ALMA archive download for NGC 3628
+#
+# Generated by /alma-query on 2026-04-21; modernized 2026-05-02 to match
+# NGC5135 / He2-10 template (auto nonpbcor reconstruction + line/SPW
+# auto-detect + canonical symlinks). Replaces v5 custom-imaged cube with
+# the ALMA pipeline standard product to remove imaging quality as a
+# confound in per-galaxy null testing.
+#
+# Scenario: B (FITS cube product)
+# Project:  2013.1.00087.S
+# Mousid:   uid://A001/X144/X23b
+##############################################################################
+
+import re
+from pathlib import Path
+from astroquery.alma import Alma
+
+MOUSID = &quot;uid://A001/X144/X23b&quot;
+# Restrict to NGC_3628_sci (excludes 12 calibrator cubes that share the mousid).
+REGEX  = r&quot;NGC_3628_sci\..*\.cube\.I\.(pbcor\.fits|pb\.fits\.gz)$&quot;
+DEST   = Path(&quot;/Volumes/HouAstro/master/master_thesis/work_dir/NGC3628&quot;)
+DEST.mkdir(parents=True, exist_ok=True)
+
+print(f&quot;Probing data info for {MOUSID} ...&quot;)
+alma = Alma()
+info = alma.get_data_info(MOUSID, expand_tarfiles=True)
+
+def _row_size_bytes(row):
+    try:
+        return int(row[&quot;content_length&quot;])
+    except (ValueError, TypeError, KeyError):
+        return 0
+
+
+# Select URLs whose filename matches the scenario regex; track sizes.
+matched = [(str(row[&quot;access_url&quot;]), _row_size_bytes(row))
+           for row in info if re.search(REGEX, str(row[&quot;access_url&quot;]))]
+matched_urls = [u for u, _ in matched]
+total_bytes = sum(sz for _, sz in matched)
+total_gb = total_bytes / 1e9
+
+# Write URL list as fallback (for manual `wget -c -i download_urls.txt`).
+urls_file = DEST / &quot;download_urls.txt&quot;
+with open(urls_file, &quot;w&quot;) as f:
+    for url in matched_urls:
+        f.write(f&quot;{url}\n&quot;)
+print(f&quot;Fallback URL list written to {urls_file}&quot;)
+print(&quot;  (if astroquery download fails, use: wget -c -i download_urls.txt)&quot;)
+print()
+
+print(f&quot;Matched {len(matched_urls)} URLs, total {total_gb:.2f} GB.&quot;)
+print(f&quot;Downloading to {DEST} ...&quot;)
+print(f&quot;  regex filter: {REGEX}&quot;)
+print(f&quot;  continuation (byte-level resume): True&quot;)
+print()
+
+alma.download_files(
+    matched_urls,
+    savedir=str(DEST),
+    cache=True,
+    continuation=True,
+)
+
+
+# Reconstruct non-pbcor = pbcor × pb (ARI-L only publishes pbcor + PB).
+print()
+print(&quot;Reconstructing non-pbcor cubes = pbcor × pb ...&quot;)
+import gzip
+import shutil
+from astropy.io import fits
+for pbcor_path in sorted(p for p in DEST.glob(&quot;*_sci.*.cube.I.pbcor.fits&quot;)
+                         if not p.name.startswith(&quot;._&quot;)):
+    stem = pbcor_path.name.replace(&quot;.cube.I.pbcor.fits&quot;, &quot;&quot;)
+    pb_gz_path = DEST / f&quot;{stem}.cube.I.pb.fits.gz&quot;
+    pb_path = DEST / f&quot;{stem}.cube.I.pb.fits&quot;
+    nonpbcor_path = DEST / f&quot;{stem}.cube.I.nonpbcor.fits&quot;
+    if not pb_gz_path.exists():
+        print(f&quot;  SKIP {pbcor_path.name}: matching pb file not found&quot;)
+        continue
+    if nonpbcor_path.exists():
+        print(f&quot;  SKIP {nonpbcor_path.name}: already exists&quot;)
+        continue
+    if not pb_path.exists():
+        print(f&quot;  decompressing {pb_gz_path.name} ...&quot;)
+        with gzip.open(pb_gz_path, &quot;rb&quot;) as src, open(pb_path, &quot;wb&quot;) as dst:
+            shutil.copyfileobj(src, dst, length=64 * 1024 * 1024)
+    with fits.open(pbcor_path, memmap=True) as h_pbcor, fits.open(pb_path, memmap=True) as h_pb:
+        pbcor_data = h_pbcor[0].data
+        pb_data = h_pb[0].data
+        header = h_pbcor[0].header.copy()
+        shape = pbcor_data.shape
+        shdu = fits.StreamingHDU(str(nonpbcor_path), header)
+        try:
+            if len(shape) == 4:
+                for i in range(shape[1]):
+                    shdu.write(pbcor_data[0, i] * pb_data[0, i])
+            elif len(shape) == 3:
+                for i in range(shape[0]):
+                    shdu.write(pbcor_data[i] * pb_data[i])
+            else:
+                raise ValueError(f&quot;Unexpected cube shape {shape} for {pbcor_path.name}&quot;)
+        finally:
+            shdu.close()
+    print(f&quot;  wrote {nonpbcor_path.name}&quot;)
+    pb_path.unlink()
+    print(f&quot;  cleaned up {pb_path.name}&quot;)
+
+# Detect which configured line falls in each SPW, create canonical symlinks.
+import numpy as np
+
+Z = 0.002772
+GALAXY_SAFE = &quot;NGC3628&quot;
+LINE_TABLE = [
+    (&quot;H30a&quot;, 231.90092784),
+    (&quot;CO21&quot;, 230.538),
+]
+
+def _spw_freq_range_hz(fpath):
+    with fits.open(fpath) as h:
+        hdr = h[0].header
+        f0 = float(hdr[&quot;CRVAL3&quot;])
+        df = float(hdr[&quot;CDELT3&quot;])
+        n = int(hdr[&quot;NAXIS3&quot;])
+        crpix = float(hdr[&quot;CRPIX3&quot;])
+        freqs = f0 + (np.arange(n) + 1 - crpix) * df
+    return float(min(freqs[0], freqs[-1])), float(max(freqs[0], freqs[-1]))
+
+def _spw_num(name):
+    m = re.search(r&quot;\.spw(\d+)_&quot;, name)
+    return m.group(1) if m else &quot;unknown&quot;
+
+print()
+print(f&quot;Detecting lines in each SPW (z={Z}) ...&quot;)
+mapping = []
+for pbcor_path in sorted(p for p in DEST.glob(&quot;*_sci.*.cube.I.pbcor.fits&quot;)
+                         if not p.name.startswith(&quot;._&quot;)):
+    f_min, f_max = _spw_freq_range_hz(pbcor_path)
+    matched_line = None
+    for line_name, rest_ghz in LINE_TABLE:
+        obs_hz = (rest_ghz / (1.0 + Z)) * 1e9
+        if f_min &lt;= obs_hz &lt;= f_max:
+            matched_line = line_name
+            break
+    label = matched_line if matched_line else f&quot;spw{_spw_num(pbcor_path.name)}&quot;
+    stem = pbcor_path.name.replace(&quot;.cube.I.pbcor.fits&quot;, &quot;&quot;)
+
+    for old_suffix, new_suffix in [
+        (&quot;.cube.I.pbcor.fits&quot;, &quot;_pbcor.fits&quot;),
+        (&quot;.cube.I.nonpbcor.fits&quot;, &quot;_nonpbcor.fits&quot;),
+        (&quot;.cube.I.pb.fits.gz&quot;, &quot;_pb.fits.gz&quot;),
+    ]:
+        old = DEST / f&quot;{stem}{old_suffix}&quot;
+        new = DEST / f&quot;{GALAXY_SAFE}_{label}{new_suffix}&quot;
+        if not old.exists():
+            continue
+        if new.is_symlink():
+            if new.resolve() == old.resolve():
+                continue
+            new.unlink()
+        elif new.exists():
+            print(f&quot;  SKIP {new.name}: regular file exists (not a symlink), refusing to overwrite&quot;)
+            continue
+        new.symlink_to(old.name)
+        mapping.append((new.name, old.name))
+        line_tag = matched_line or &quot;untagged&quot;
+        print(f&quot;  [{line_tag}] {new.name} -&gt; {old.name[:70]}...&quot;)
+
+mapping_path = DEST / &quot;file_mapping.txt&quot;
+with open(mapping_path, &quot;w&quot;) as f:
+    f.write(f&quot;# Generated by step-1_download.py\n&quot;)
+    f.write(f&quot;# Galaxy: {GALAXY_SAFE}  z={Z}\n&quot;)
+    f.write(f&quot;# short_name  -&gt;  original_name\n&quot;)
+    for short, orig in mapping:
+        f.write(f&quot;{short}  -&gt;  {orig}\n&quot;)
+print(f&quot;File mapping saved: {mapping_path}&quot;)
+
+
+print()
+print(&quot;Done. Files in destination:&quot;)
+for f in sorted(DEST.iterdir()):
+    if f.is_file():
+        print(f&quot;  {f.name}  ({f.stat().st_size / 1e9:.2f} GB)&quot;)
+</code></pre>
+
+    </article>  </div>
+
+  <script src="../../../../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

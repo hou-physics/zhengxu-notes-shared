@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>analyze.py — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html">
+  <link rel="stylesheet" href="../../../../../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../../../../../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../../../../../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details >
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../../../../../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../../../../../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../../../../../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../../../../../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../../../../../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../../../../../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../../../../../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../../../../../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../../../../../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details open>
+        <summary>Archive</summary>        <ul>          <li><a href="../../../../../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../../../../../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../../../../../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../../../../../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../../../../../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details open>
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details open>
+        <summary>Code</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details open>
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details open>
+        <summary>Step3 package</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+class="current">analyze.py</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>analyze.py</h1>
+      <p>The orchestrator. Walks one galaxy through the full pipeline:
+<strong>load → PB cut → common beam → mask → reproject → flux extraction →
+parameter scan → report</strong>. Called by every <code>step3_analyze.py</code> config
+script (one per galaxy) via <code>from analyze import analyze</code>.</p>
+<p>Mask construction logic, baseline subtraction, S/N calculation are
+delegated to the modules in this package; this file is the conductor.</p>
+<pre><code class="language-python">&quot;&quot;&quot;Orchestrator: load → PB cut → common beam → mask → reproject → extract → scan → report.&quot;&quot;&quot;
+from __future__ import annotations
+
+import math
+import os
+from pathlib import Path
+from typing import List, Tuple
+
+import numpy as np
+
+from config import AnalysisConfig, AnalysisResult, SkyRegion
+from cube_io import (
+    CubeBundle, load_cube_bundle, apply_pb_cutoff,
+    get_beam_area_pix, channel_width_kms,
+)
+from flux import make_moment0, extract_spectrum, sigma_clip_noise, calc_flux_sn
+from geometry import sky_region_to_pixel_box
+from mask import (
+    smooth, build_mask,
+    compute_common_beam, convolve_to_beam,
+    reproject_mask,
+)
+
+from reproject import reproject_interp as _reproject_interp
+
+
+def _reproject_image(image, src_wcs, tgt_wcs, target_shape):
+    &quot;&quot;&quot;Reproject a 2D image (not mask) for visualization. Returns (data, footprint).&quot;&quot;&quot;
+    return _reproject_interp((image, src_wcs.celestial), tgt_wcs.celestial, shape_out=target_shape)
+
+
+class ConflictReportError(RuntimeError):
+    &quot;&quot;&quot;Raised when data contradicts a rule (e.g. line outside cube freq range).&quot;&quot;&quot;
+
+
+C_KMS = 299792.458
+
+
+def _cube_freq_range_hz(cube: CubeBundle) -&gt; Tuple[float, float]:
+    n = cube.data.shape[0]
+    freqs = cube.crval3_hz + (np.arange(n) + 1 - cube.crpix3) * cube.cdelt3_hz
+    return float(min(freqs[0], freqs[-1])), float(max(freqs[0], freqs[-1]))
+
+
+def _resolve_line_channels(
+    cube: CubeBundle, rest_ghz: float, z: float, window_kms: float
+) -&gt; Tuple[int, int, int]:
+    &quot;&quot;&quot;Return (ch_min, ch_max, center_chan) for a line at given rest freq, z.
+
+    Raises ConflictReportError if observed freq is outside cube's range ± 10%.
+    &quot;&quot;&quot;
+    obs_ghz = rest_ghz / (1.0 + z)
+    obs_hz = obs_ghz * 1e9
+    f_min, f_max = _cube_freq_range_hz(cube)
+    bandwidth = f_max - f_min
+    if not (f_min - 0.1 * bandwidth &lt;= obs_hz &lt;= f_max + 0.1 * bandwidth):
+        raise ConflictReportError(
+            f&quot;Line at rest {rest_ghz} GHz / z={z} (obs {obs_ghz:.3f} GHz) &quot;
+            f&quot;is outside cube frequency range ({f_min/1e9:.3f}-{f_max/1e9:.3f} GHz)&quot;
+        )
+    ch_center = int(round(cube.crpix3 - 1 + (obs_hz - cube.crval3_hz) / cube.cdelt3_hz))
+    chan_width_kms_here = C_KMS * abs(cube.cdelt3_hz) / obs_hz
+    half_ch = int(round(window_kms / 2.0 / chan_width_kms_here))
+    ch_min = max(0, ch_center - half_ch)
+    ch_max = min(cube.data.shape[0] - 1, ch_center + half_ch)
+    return ch_min, ch_max, ch_center
+
+
+def _estimate_co_line_half_width_kms(
+    co_cube: CubeBundle,
+    signal_box: Tuple[int, int, int, int],
+    line_center_chan: int,
+    chan_width_kms: float,
+    default_window_kms: float = 300.0,
+    extent_threshold_frac: float = 0.1,
+) -&gt; float:
+    &quot;&quot;&quot;Adaptive estimate of CO line half-width-window for moment-0 integration.
+
+    Sums the cube within signal_box per channel to get an integrated CO
+    spectrum, finds the line peak near `line_center_chan`, and returns a
+    half-window covering the line down to `extent_threshold_frac × peak`
+    (approximately FW(10%)/2) plus a 30 km/s buffer. Falls back to
+    `default_window_kms / 2` if line is not detected at ≥ 5σ.
+
+    Avoids over-integrating noise channels for narrow-line sources
+    (NGC 5253 FWHM 68 km/s with default 600 km/s window: ~5× too wide).
+    &quot;&quot;&quot;
+    x1, y1, x2, y2 = signal_box
+    data = co_cube.data
+    if data.ndim == 4:
+        data = data[0]
+    sub = data[:, y1:y2 + 1, x1:x2 + 1]
+    spec = np.nansum(sub, axis=(1, 2))
+    n_chan = len(spec)
+    fixed_half = int(round(default_window_kms / chan_width_kms))
+
+    # Estimate noise from outside ±default_window_kms region.
+    idx = np.arange(n_chan)
+    noise_keep = ((idx &lt; line_center_chan - fixed_half) |
+                  (idx &gt; line_center_chan + fixed_half))
+    noise_vals = spec[noise_keep]
+    noise_vals = noise_vals[np.isfinite(noise_vals)]
+    if len(noise_vals) &lt; 10:
+        return default_window_kms / 2.0
+    sigma = float(np.nanstd(noise_vals))
+    if sigma &lt;= 0:
+        return default_window_kms / 2.0
+
+    # Find peak in central ±default_window region.
+    lo = max(0, line_center_chan - fixed_half)
+    hi = min(n_chan - 1, line_center_chan + fixed_half)
+    central = spec[lo:hi + 1]
+    if not np.any(np.isfinite(central)):
+        return default_window_kms / 2.0
+    peak = float(np.nanmax(central))
+    if peak &lt; 5.0 * sigma:
+        # No detection — fall back to default.
+        return default_window_kms / 2.0
+    threshold = max(extent_threshold_frac * peak, 3.0 * sigma)
+    above_local = np.where(central &gt; threshold)[0]
+    if len(above_local) == 0:
+        return default_window_kms / 2.0
+    extent_chan = above_local.max() - above_local.min() + 1
+    extent_kms = extent_chan * chan_width_kms
+    # Half-window = extent/2 + 30 km/s buffer; cap at default.
+    half_window_kms = extent_kms / 2.0 + 30.0
+    return min(half_window_kms, default_window_kms / 2.0)
+
+
+def _shift_center_for_null(
+    hrl_center: int, offset_kms: float, chan_width_kms: float, nchan: int,
+    buffer_kms: float = 550.0,
+) -&gt; int:
+    &quot;&quot;&quot;Shift HRL center channel by offset_kms. Raises if the shifted center
+    falls within `buffer_kms` of either cube edge (buffer = max integration
+    half-width 250 + noise-exclude half-width 300).&quot;&quot;&quot;
+    offset_ch = int(round(offset_kms / chan_width_kms))
+    new_center = hrl_center + offset_ch
+    buffer_ch = int(round(buffer_kms / chan_width_kms))
+    if not (buffer_ch &lt;= new_center &lt;= nchan - 1 - buffer_ch):
+        raise ConflictReportError(
+            f&quot;Null-test offset {offset_kms:+.0f} km/s pushes HRL center to &quot;
+            f&quot;ch {new_center} (cube has {nchan} chans, need buffer of {buffer_ch}); &quot;
+            f&quot;skip this offset&quot;
+        )
+    return new_center
+
+
+def _look_up_rest_freq(line_name: str) -&gt; float:
+    &quot;&quot;&quot;Fallback rest freqs (GHz).&quot;&quot;&quot;
+    table = {
+        &quot;H30a&quot;: 231.90092784, &quot;H29a&quot;: 256.30203519,
+        &quot;H40a&quot;: 99.02295247, &quot;H41a&quot;: 92.03443415, &quot;H42a&quot;: 85.68838984,
+        &quot;CO10&quot;: 115.271202, &quot;CO21&quot;: 230.538000, &quot;CO32&quot;: 345.795990,
+        &quot;HCN10&quot;: 88.631847, &quot;HCN32&quot;: 265.886434,
+        &quot;HCO+10&quot;: 89.188523, &quot;HCO+32&quot;: 267.557633,
+        &quot;HNC10&quot;: 90.663568,
+        &quot;CS21&quot;: 97.980953,
+        &quot;13CO21&quot;: 220.398684, &quot;C18O21&quot;: 219.560354,
+    }
+    if line_name not in table:
+        raise ConflictReportError(f&quot;Unknown line name: {line_name!r}; specify rest freq in config&quot;)
+    return table[line_name]
+
+
+def _format_sky_region(reg: SkyRegion) -&gt; str:
+    if reg.dec_size_arcsec is not None and reg.dec_size_arcsec != reg.size_arcsec:
+        return f&quot;{reg.size_arcsec:.1f}″ × {reg.dec_size_arcsec:.1f}″ (RA × Dec)&quot;
+    return f&quot;{reg.size_arcsec:.1f}″ (square)&quot;
+
+
+def _render_regions_block(
+    config: AnalysisConfig,
+    hrl_signal_box: Tuple[int, int, int, int],
+    hrl_noise_box: Tuple[int, int, int, int],
+    co_signal_box: Tuple[int, int, int, int],
+    co_noise_box: Tuple[int, int, int, int],
+) -&gt; str:
+    &quot;&quot;&quot;Audit trail of subagent-chosen signal/noise SkyRegions.
+
+    Sky values are deterministic inputs; pixel boxes are WCS-projected
+    and clipped to cube shape. Both grids reported because cross-mousid
+    cases give different pixel boxes per cube.
+    &quot;&quot;&quot;
+    sig = config.signal_region
+    noi = config.noise_region
+    return (
+        &quot;\n## Sky regions (audit trail)\n\n&quot;
+        &quot;Selected by `/analyze-galaxy` subagent based on NED + CO mom-0 inspection. &quot;
+        &quot;Full rationale in the comment block above each `SkyRegion(...)` call in &quot;
+        &quot;the per-galaxy `step3_analyze.py` config script.\n\n&quot;
+        &quot;| Region | RA (deg) | Dec (deg) | Size | HRL pixel box (x1,y1,x2,y2) | CO pixel box |\n&quot;
+        &quot;|---|---|---|---|---|---|\n&quot;
+        f&quot;| signal | {sig.ra_deg:.6f} | {sig.dec_deg:.6f} | &quot;
+        f&quot;{_format_sky_region(sig)} | {hrl_signal_box} | {co_signal_box} |\n&quot;
+        f&quot;| noise  | {noi.ra_deg:.6f} | {noi.dec_deg:.6f} | &quot;
+        f&quot;{_format_sky_region(noi)} | {hrl_noise_box} | {co_noise_box} |\n\n&quot;
+        &quot;If a downstream metric looks suspicious (e.g. σ too high, mask cut at edge, &quot;
+        &quot;non-detection where one is expected), check whether the signal_region &quot;
+        &quot;covers the CO emission peak with margin and the noise_region sits in a &quot;
+        &quot;line-free patch at PB &gt; 0.5.\n&quot;
+    )
+
+
+def analyze(config: AnalysisConfig) -&gt; AnalysisResult:
+    weak_rest = config.weak_line_rest_ghz or _look_up_rest_freq(config.weak_line)
+    strong_rest = config.strong_line_rest_ghz or _look_up_rest_freq(config.strong_line)
+
+    # [1] Load cubes. Dedup by path (single-cube case points multiple roles at
+    # the same FITS file; loading 4× wastes 3× memory and OOM-kills on large cubes
+    # like NGC 253's 3838-chan Band 3 cube).
+    from cube_io import load_cube
+    _cache: dict = {}
+    def _get(path: str):
+        if path not in _cache:
+            _cache[path] = load_cube(path)
+        return _cache[path]
+    bundles = {
+        &quot;hrl_pbcor&quot;: _get(config.hrl_pbcor_path),
+        &quot;hrl_nonpbcor&quot;: _get(config.hrl_nonpbcor_path),
+        &quot;co_pbcor&quot;: _get(config.co_pbcor_path),
+        &quot;co_nonpbcor&quot;: _get(config.co_nonpbcor_path),
+    }
+    hrl_pbcor = bundles[&quot;hrl_pbcor&quot;]
+    hrl_nonpbcor = bundles[&quot;hrl_nonpbcor&quot;]
+    co_nonpbcor = bundles[&quot;co_nonpbcor&quot;]
+
+    # [2] PB cutoff on both non-pbcor cubes, only if PB paths were provided.
+    if config.hrl_pb_path:
+        from cube_io import load_cube
+        hrl_nonpbcor = apply_pb_cutoff(
+            hrl_nonpbcor, load_cube(config.hrl_pb_path), config.pb_cutoff)
+    if config.co_pb_path:
+        from cube_io import load_cube
+        co_nonpbcor = apply_pb_cutoff(
+            co_nonpbcor, load_cube(config.co_pb_path), config.pb_cutoff)
+
+    # [3] Resolve sky regions
+    hrl_signal_box = sky_region_to_pixel_box(
+        config.signal_region, hrl_pbcor.wcs, cube_shape=hrl_pbcor.data.shape)
+    hrl_noise_box = sky_region_to_pixel_box(
+        config.noise_region, hrl_pbcor.wcs, cube_shape=hrl_pbcor.data.shape)
+    co_signal_box = sky_region_to_pixel_box(
+        config.signal_region, co_nonpbcor.wcs, cube_shape=co_nonpbcor.data.shape)
+    co_noise_box = sky_region_to_pixel_box(
+        config.noise_region, co_nonpbcor.wcs, cube_shape=co_nonpbcor.data.shape)
+
+    # [4] Resolve channel ranges. CO window is adapted to the actual line
+    # FW(10%) width when `strong_line_adaptive_window=True` (default), to
+    # avoid over-integrating noise on narrow-line sources (NGC 5253 FWHM
+    # 68 km/s with the legacy 600 km/s window dilutes mom-0 by ~5×).
+    co_chan_width_kms_provisional = channel_width_kms(co_nonpbcor, strong_rest)
+    co_center_provisional = int(round(
+        co_nonpbcor.crpix3 - 1
+        + ((strong_rest * 1e9 / (1.0 + config.z)) - co_nonpbcor.crval3_hz)
+        / co_nonpbcor.cdelt3_hz
+    ))
+    if config.strong_line_adaptive_window:
+        co_half_window_kms = _estimate_co_line_half_width_kms(
+            co_nonpbcor, co_signal_box, co_center_provisional,
+            co_chan_width_kms_provisional,
+            default_window_kms=config.strong_line_window_kms)
+        co_window_kms_effective = 2.0 * co_half_window_kms
+    else:
+        co_window_kms_effective = config.strong_line_window_kms
+    co_chmin, co_chmax, co_center = _resolve_line_channels(
+        co_nonpbcor, strong_rest, config.z, co_window_kms_effective)
+    hrl_chmin, hrl_chmax, hrl_center = _resolve_line_channels(
+        hrl_pbcor, weak_rest, config.z, config.weak_line_window_kms)
+    try:
+        hrl_co_chmin, hrl_co_chmax, _ = _resolve_line_channels(
+            hrl_pbcor, strong_rest, config.z, co_window_kms_effective)
+    except ConflictReportError:
+        hrl_co_chmin = hrl_co_chmax = None
+
+    # [4b] Null-test offset: shift HRL center ONLY (CO center + mask unchanged).
+    hrl_chan_width_kms = channel_width_kms(hrl_pbcor, weak_rest)
+    co_contamination_flag = False
+    if config.null_test_offset_kms != 0.0:
+        hrl_center = _shift_center_for_null(
+            hrl_center, config.null_test_offset_kms,
+            hrl_chan_width_kms, hrl_pbcor.data.shape[0],
+        )
+        if hrl_co_chmin is not None:
+            max_half = int(round(max(config.velocity_widths_kms) / hrl_chan_width_kms / 2.0))
+            if (hrl_center - max_half) &lt;= hrl_co_chmax and (hrl_center + max_half) &gt;= hrl_co_chmin:
+                co_contamination_flag = True
+
+    # [5] Common beam convolution
+    target_beam = compute_common_beam(co_nonpbcor, hrl_pbcor, hrl_nonpbcor)
+    co_nonpbcor = convolve_to_beam(co_nonpbcor, target_beam)
+    hrl_pbcor = convolve_to_beam(hrl_pbcor, target_beam)
+    hrl_nonpbcor = convolve_to_beam(hrl_nonpbcor, target_beam)
+    beam_area_pix_common = get_beam_area_pix(hrl_pbcor)
+    # Beam area on CO grid (used for the npix-on-CO-grid sanity check below).
+    # For same-mousid cases this equals beam_area_pix_common (CO and HRL share
+    # pixel scale); for dual-mousid (e.g. X1a HRL 0.019″/pix + X1c CO 0.18″/pix)
+    # the two diverge by ~ (CO_pix / HRL_pix)² and using the wrong one makes
+    # every candidate mask falsely fail the &quot;≥ 1 beam&quot; gate. Bug found
+    # 2026-04-25 in the X1a deep analysis.
+    beam_area_pix_co_grid = get_beam_area_pix(co_nonpbcor)
+
+    # [6] CO moment-0
+    co_chan_width_kms = channel_width_kms(co_nonpbcor, strong_rest)
+    co_mom0 = make_moment0(co_nonpbcor.data, co_chmin, co_chmax, co_chan_width_kms)
+
+    # [7] CO physical footprint (hard-constraint on mask selection, 2026-04-24,
+    # 2026-04-25 fragmentation fix). The footprint envelopes the region where CO
+    # is detected at config.co_footprint_sigma × σ. Originally computed from the
+    # unsmoothed CO mom-0; this fragments at native sub-arcsecond beams (NGC 5253
+    # X1a 0.19″: 142 disconnected components, none big enough to anchor a mask)
+    # and the connected-component mask filter then collapses the mask to a tiny
+    # fragment with no source overlap. We now compute the footprint from a CO
+    # mom-0 first smoothed by an absolute-arcsec kernel
+    # (`config.co_footprint_smoothing_arcsec`, default 1″) so the noise scale is
+    # set by the smoothing rather than the per-pixel beam — the resulting
+    # envelope is a single coherent component at any beam size. The smoothing
+    # is purely for the footprint definition; the candidate-mask scan still uses
+    # CO smoothed by the per-galaxy `smoothing_factors × beam` ladder.
+    co_footprint: Optional[np.ndarray] = None
+    if config.enable_co_footprint_constraint:
+        co_pixel_scale_arcsec = abs(co_nonpbcor.header.get(
+            &quot;CDELT1&quot;, co_nonpbcor.header.get(&quot;CDELT2&quot;, 1.0))) * 3600.0
+        fp_smooth_pix = (config.co_footprint_smoothing_arcsec /
+                         co_pixel_scale_arcsec)
+        co_mom0_for_fp = smooth(co_mom0, fp_smooth_pix)
+        fp_sigma = sigma_clip_noise(co_mom0_for_fp, co_noise_box)
+        co_footprint = co_mom0_for_fp &gt; config.co_footprint_sigma * fp_sigma
+        # Restrict footprint to inside the signal_box for the legacy &quot;box&quot; mode.
+        # For &quot;dilated_footprint&quot; mode this restriction is skipped — the dilated
+        # footprint is computed from `co_footprint` itself and therefore cannot
+        # extend beyond it; restricting would be a no-op in that case anyway.
+        if config.signal_region_mode == &quot;box&quot;:
+            x1, y1, x2, y2 = co_signal_box
+            fp_box = np.zeros_like(co_footprint, dtype=bool)
+            fp_box[y1:y2 + 1, x1:x2 + 1] = True
+            co_footprint = co_footprint &amp; fp_box
+
+    # Adaptive signal/noise region computation (S1/N1 from caveats-draft.md).
+    # `*_signal_active` and `*_noise_active` are the values actually used by
+    # build_mask + sigma_clip_noise downstream; the original *_signal_box and
+    # *_noise_box tuples are kept for plotting/audit-table rendering only.
+    co_signal_active = co_signal_box
+    hrl_signal_active = hrl_signal_box
+    co_noise_active = co_noise_box
+    hrl_noise_active = hrl_noise_box
+    # Center pixel for component selection (used by build_mask &quot;center&quot; mode).
+    co_center_pix = (
+        (co_signal_box[0] + co_signal_box[2]) // 2,
+        (co_signal_box[1] + co_signal_box[3]) // 2,
+    )
+
+    if config.signal_region_mode == &quot;dilated_footprint&quot;:
+        if co_footprint is None:
+            raise ConflictReportError(
+                &quot;signal_region_mode='dilated_footprint' requires &quot;
+                &quot;enable_co_footprint_constraint=True&quot;)
+        from scipy.ndimage import binary_dilation
+        buffer_pix = max(0, int(round(config.signal_buffer_arcsec /
+                                      co_pixel_scale_arcsec)))
+        if buffer_pix &gt; 0:
+            dilated = binary_dilation(co_footprint, iterations=buffer_pix)
+        else:
+            dilated = co_footprint.copy()
+        # Center anchor: circle around NED pixel ensures source center always
+        # included even when CO is weak there.
+        anchor_pix = config.signal_center_anchor_arcsec / co_pixel_scale_arcsec
+        ny, nx = dilated.shape
+        cx_co, cy_co = co_center_pix
+        yy, xx = np.ogrid[:ny, :nx]
+        anchor = ((xx - cx_co) ** 2 + (yy - cy_co) ** 2) &lt;= anchor_pix ** 2
+        co_signal_active = dilated | anchor
+        # HRL grid: same array for single-cube (HRL pbcor path == CO pbcor path).
+        # For dual-cube the HRL signal mask is reprojected from CO grid.
+        if config.hrl_pbcor_path == config.co_pbcor_path:
+            hrl_signal_active = co_signal_active
+        else:
+            hrl_signal_active = reproject_mask(
+                co_signal_active, co_nonpbcor.wcs, hrl_pbcor.wcs,
+                target_shape=(hrl_pbcor.data.shape[1], hrl_pbcor.data.shape[2]),
+            )
+
+    if config.noise_region_mode == &quot;auto&quot;:
+        # Cube-level σ: every pixel at PB &gt; threshold not inside the CO footprint.
+        # Requires PB cube; fall back to legacy box if absent.
+        if config.co_pb_path is None:
+            raise ConflictReportError(
+                &quot;noise_region_mode='auto' requires co_pb_path (PB cube needed &quot;
+                &quot;to define line-free region)&quot;)
+        co_pb_cube = load_cube(config.co_pb_path)
+        if co_pb_cube.data.ndim == 3:
+            pb2d_co = np.nanmedian(co_pb_cube.data, axis=0)
+        else:
+            pb2d_co = np.squeeze(co_pb_cube.data)
+        co_noise_active = (pb2d_co &gt; config.noise_pb_threshold)
+        if co_footprint is not None:
+            co_noise_active = co_noise_active &amp; (~co_footprint)
+        if config.hrl_pb_path is not None and \
+                config.hrl_pbcor_path != config.co_pbcor_path:
+            hrl_pb_cube = load_cube(config.hrl_pb_path)
+            if hrl_pb_cube.data.ndim == 3:
+                pb2d_hrl = np.nanmedian(hrl_pb_cube.data, axis=0)
+            else:
+                pb2d_hrl = np.squeeze(hrl_pb_cube.data)
+            hrl_noise_active = (pb2d_hrl &gt; config.noise_pb_threshold)
+            # Reproject footprint to HRL grid for hole-cutting.
+            if co_footprint is not None:
+                fp_hrl = reproject_mask(
+                    co_footprint, co_nonpbcor.wcs, hrl_pbcor.wcs,
+                    target_shape=(hrl_pbcor.data.shape[1], hrl_pbcor.data.shape[2]),
+                )
+                hrl_noise_active = hrl_noise_active &amp; (~fp_hrl)
+        else:
+            hrl_noise_active = co_noise_active
+
+    # [8] Scan
+    co_pixel_scale = abs(co_nonpbcor.header.get(&quot;CDELT1&quot;,
+                                                 co_nonpbcor.header.get(&quot;CDELT2&quot;, 1.0)))
+    co_bmaj_pix = target_beam.major.to(&quot;deg&quot;).value / co_pixel_scale
+
+    # Channel-range optimization (2026-04-28, REVERTED 2026-04-28): restricting
+    # per-channel masked-sum work to HRL line + σ-buffer was tested as a 2×
+    # speedup. Verified on NGC 5248 it changes per-channel RMS estimate
+    # (S/N 3.39 → 7.10) because σ_clip on a smaller noise sample gives a
+    # different σ — this is a real methodology change, not a wash.
+    # We disable the optimization by default to keep all canonical runs
+    # (NGC 4945 8.84 / Toma 9.27, etc.) numerically reproducible. The
+    # `extract_spectrum(..., ch_range=...)` parameter is preserved for future
+    # use if a follow-up re-baselines the entire sample.
+    extract_ch_range = None
+
+    results = []
+    for sf in config.smoothing_factors:
+        smoothed_co = smooth(co_mom0, sf * co_bmaj_pix)
+        smoothed_sigma = sigma_clip_noise(smoothed_co, co_noise_active)
+        for sthresh in config.spatial_thresholds:
+            threshold_val = sthresh * smoothed_sigma
+            cx, cy = co_center_pix
+            mask_co = build_mask(
+                smoothed_co, threshold_val, co_signal_active,
+                config.require_connected, (cx, cy),
+                co_footprint=co_footprint,
+                components_mode=config.mask_components_mode)
+            npix = int(np.sum(mask_co))
+            if npix / beam_area_pix_co_grid &lt; 1:
+                continue
+            mask_hrl = reproject_mask(
+                mask_co, co_nonpbcor.wcs, hrl_pbcor.wcs,
+                target_shape=(hrl_pbcor.data.shape[1], hrl_pbcor.data.shape[2]))
+            spectrum, _, nbeam = extract_spectrum(
+                hrl_pbcor.data, mask_hrl, beam_area_pix_common,
+                ch_range=extract_ch_range)
+            for vw in config.velocity_widths_kms:
+                flux, sn, mw, peak = calc_flux_sn(
+                    spectrum, hrl_center, vw, hrl_chan_width_kms,
+                    exclude_line_chans=(hrl_co_chmin, hrl_co_chmax)
+                    if hrl_co_chmin is not None else None,
+                    baseline_degree=config.baseline_degree,
+                )
+                results.append({
+                    &quot;smooth&quot;: sf, &quot;sthresh&quot;: sthresh, &quot;vel_width&quot;: vw,
+                    &quot;nbeam&quot;: nbeam, &quot;mask_width&quot;: mw,
+                    &quot;flux&quot;: flux, &quot;sn&quot;: sn, &quot;peak&quot;: peak,
+                })
+
+    if not results:
+        raise ConflictReportError(
+            &quot;No valid (smoothing, threshold, width) combination produced nbeam &gt;= 1; &quot;
+            &quot;check signal_region and spatial_thresholds in config&quot;
+        )
+    best = max(results, key=lambda r: r[&quot;sn&quot;])
+
+    # Reconstruct best mask for diagnostic plot
+    smoothed_co_best = smooth(co_mom0, best[&quot;smooth&quot;] * co_bmaj_pix)
+    sigma_best = sigma_clip_noise(smoothed_co_best, co_noise_active)
+    cx, cy = co_center_pix
+    mask_co_best = build_mask(
+        smoothed_co_best, best[&quot;sthresh&quot;] * sigma_best, co_signal_active,
+        config.require_connected, (cx, cy),
+        co_footprint=co_footprint,
+        components_mode=config.mask_components_mode)
+
+    # Morphology diagnostic: IoU(best_mask, co_footprint) on CO grid. With the
+    # hard constraint active, best_mask ⊂ footprint, so this simplifies to the
+    # &quot;fill fraction&quot; = |mask| / |footprint|. Reported in summary.md for flagging
+    # pathological small-area-within-large-footprint selector picks.
+    mask_footprint_iou: Optional[float] = None
+    if co_footprint is not None and co_footprint.any():
+        inter = np.logical_and(mask_co_best, co_footprint).sum()
+        union = np.logical_or(mask_co_best, co_footprint).sum()
+        mask_footprint_iou = float(inter) / float(union) if union &gt; 0 else 0.0
+    mask_hrl_best = reproject_mask(
+        mask_co_best, co_nonpbcor.wcs, hrl_pbcor.wcs,
+        target_shape=(hrl_pbcor.data.shape[1], hrl_pbcor.data.shape[2]))
+
+    if getattr(config, &quot;save_mask_npy&quot;, False):
+        out = Path(config.output_dir)
+        out.mkdir(parents=True, exist_ok=True)
+        np.save(out / &quot;best_mask_hrl.npy&quot;,
+                mask_hrl_best.astype(np.uint8))
+    # Best-mask spectrum: NOT truncated — used for plotting and needs full
+    # SPW context (so the spectrum panel shows CO line for single-cube,
+    # baseline structure, etc.).
+    spec_best, _, _ = extract_spectrum(
+        hrl_pbcor.data, mask_hrl_best, beam_area_pix_common)
+
+    half_best = int(round(best[&quot;vel_width&quot;] / hrl_chan_width_kms / 2.0))
+    hrl_mom0_opt = make_moment0(
+        hrl_pbcor.data,
+        max(0, hrl_center - half_best),
+        min(hrl_pbcor.data.shape[0] - 1, hrl_center + half_best),
+        hrl_chan_width_kms)
+
+    # Separate DISPLAY moment-0 (narrower window for visual contrast, 2026-04-24).
+    # Flux-optimal integration (scan-best width) can be wide enough that mom-0
+    # over that window dilutes the per-pixel contrast — the source appears
+    # washed out even when S/N &gt; 3.54. For display, use half the scan-best
+    # width (still covers the core of the line but reduces noise channels
+    # contribution by √2). Spectrum panel continues to highlight the full
+    # flux integration window in red so the full vs display relationship is
+    # visible to the reader.
+    display_vel_width_kms = max(60.0, best[&quot;vel_width&quot;] * 0.5)  # min 60 km/s
+    half_display = int(round(display_vel_width_kms / hrl_chan_width_kms / 2.0))
+    hrl_mom0_display = make_moment0(
+        hrl_pbcor.data,
+        max(0, hrl_center - half_display),
+        min(hrl_pbcor.data.shape[0] - 1, hrl_center + half_display),
+        hrl_chan_width_kms)
+
+    # Display PB-cutoff DISABLED (2026-04-29): the previous behavior masked
+    # the display mom-0 at PB &gt; display_pb_cutoff (default 0.7), which made
+    # HRL render as a small circle while the CO panel rendered across the
+    # full HRL grid — visually misleading because the two panels then
+    # appear to be at different scales. Now we keep the natural cube
+    # footprint (NaN only where the original cube is NaN, i.e. the
+    # nonpbcor isnan footprint, ~PB &gt; 0.2). Pbcor edge noise IS visible
+    # at low PB, which is the honest representation. The display_pb_cutoff
+    # config field is retained for backwards compatibility but no longer
+    # applied. FLUX MEASUREMENT IS UNCHANGED.
+    pb_valid_2d = np.isfinite(hrl_nonpbcor.data[hrl_center])
+    hrl_mom0_display = np.where(pb_valid_2d, hrl_mom0_display, np.nan)
+
+    # Reproject CO mom0 to HRL grid for Panel C visualization
+    co_mom0_hrl_grid, _ = _reproject_image(
+        co_mom0, co_nonpbcor.wcs, hrl_pbcor.wcs,
+        target_shape=(hrl_pbcor.data.shape[1], hrl_pbcor.data.shape[2]))
+
+    # Ada-style nested-contour inputs: fixed smoothing at the smallest configured
+    # factor (typically 3×bmaj, close to Ada 2022's 4×), contours drawn at a fixed
+    # σ ladder. Purely diagnostic — does not influence the flux/S/N statistics.
+    nested_smooth_factor = config.smoothing_factors[0]
+    nested_contour_sigmas = [3.0, 5.0, 8.0, 13.0, 20.0]
+    smoothed_co_nested = smooth(co_mom0, nested_smooth_factor * co_bmaj_pix)
+    smoothed_co_nested_sigma = sigma_clip_noise(smoothed_co_nested, co_noise_active)
+    smoothed_co_nested_hrl_grid, _ = _reproject_image(
+        smoothed_co_nested, co_nonpbcor.wcs, hrl_pbcor.wcs,
+        target_shape=(hrl_pbcor.data.shape[1], hrl_pbcor.data.shape[2]))
+
+    # Reproject CO footprint onto HRL grid for optional plot overlay (pale outline
+    # showing the physical CO boundary that constrained the scan).
+    co_footprint_hrl_grid = None
+    if co_footprint is not None:
+        fp_reproj, _ = _reproject_image(
+            co_footprint.astype(float), co_nonpbcor.wcs, hrl_pbcor.wcs,
+            target_shape=(hrl_pbcor.data.shape[1], hrl_pbcor.data.shape[2]))
+        co_footprint_hrl_grid = (fp_reproj &gt; 0.5) &amp; np.isfinite(fp_reproj)
+
+    # Find Ada-style fixed-mask flux (smooth=first, thresh=3σ) for secondary reporting.
+    ada_match = [r for r in results
+                 if r[&quot;smooth&quot;] == nested_smooth_factor and r[&quot;sthresh&quot;] == 3.0]
+    ada_flux = ada_match[0][&quot;flux&quot;] if ada_match else None
+    ada_sn = ada_match[0][&quot;sn&quot;] if ada_match else None
+    ada_nbeam = ada_match[0][&quot;nbeam&quot;] if ada_match else None
+    ada_width = ada_match[0][&quot;mask_width&quot;] if ada_match else None
+
+    # [9, 10] Write outputs
+    out = Path(config.output_dir)
+    tables_dir = out / &quot;tables&quot;
+    plots_dir = out / &quot;plots&quot;
+    tables_dir.mkdir(parents=True, exist_ok=True)
+    plots_dir.mkdir(parents=True, exist_ok=True)
+
+    # Cache everything the plots need so replotting doesn't require a full re-run
+    # (scan + cube load dominates wall time; plot generation is ~5 s).
+    plot_args = dict(
+        hrl_mom0_opt=hrl_mom0_display,   # narrower display window (2026-04-24)
+        co_mom0=co_mom0_hrl_grid,
+        spatial_mask_hrl=mask_hrl_best,
+        spectrum=spec_best,
+        hrl_center_chan=hrl_center,
+        half_width_chan=half_best,        # spectrum highlight stays on flux window
+        half_display_chan=half_display,   # but display uses narrower window
+        display_vel_width_kms=display_vel_width_kms,
+        co_hrl_chans=(hrl_co_chmin, hrl_co_chmax),
+        chan_width_kms=hrl_chan_width_kms,
+        vel_start_kms=0.0,
+        best_sn=best[&quot;sn&quot;], best_flux=best[&quot;flux&quot;],
+        best_nbeam=best[&quot;nbeam&quot;], best_sthresh=best[&quot;sthresh&quot;],
+        best_smooth=best[&quot;smooth&quot;], best_width_kms=best[&quot;mask_width&quot;],
+        signal_box_hrl=hrl_signal_box,
+        gal_name=config.galaxy,
+        smoothed_co_hrl_grid=smoothed_co_nested_hrl_grid,
+        smoothed_co_sigma=smoothed_co_nested_sigma,
+        nested_contour_sigmas=nested_contour_sigmas,
+        nested_contour_smooth_factor=nested_smooth_factor,
+    )
+    heatmap_args = dict(
+        results=results,
+        smoothing_factors=config.smoothing_factors,
+        gal_name=config.galaxy,
+    )
+    import pickle
+    with open(out / &quot;_plot_cache.pkl&quot;, &quot;wb&quot;) as _f:
+        pickle.dump({&quot;plot_args&quot;: plot_args, &quot;heatmap_args&quot;: heatmap_args}, _f)
+
+    if not config.skip_plots:
+        from plots import plot_optimal_mask_diagnostic, plot_sn_heatmap
+        plot_optimal_mask_diagnostic(
+            outpath=str(plots_dir / &quot;optimal_mask.png&quot;),
+            **plot_args,
+        )
+        plot_sn_heatmap(
+            outpath=str(plots_dir / &quot;SN_heatmap.png&quot;), **heatmap_args)
+
+    results_file = tables_dir / &quot;results.txt&quot;
+    with open(results_file, &quot;w&quot;) as f:
+        f.write(&quot;# smooth sthresh vel_width nbeam mask_width flux sn peak\n&quot;)
+        for r in results:
+            f.write(f&quot;{r['smooth']} {r['sthresh']} {r['vel_width']} &quot;
+                    f&quot;{r['nbeam']:.1f} {r['mask_width']:.0f} &quot;
+                    f&quot;{r['flux']:.4f} {r['sn']:.2f} {r['peak']:.6f}\n&quot;)
+
+    is_null_run = config.null_test_offset_kms != 0.0
+    summary_path = out / &quot;summary.md&quot;
+
+    # S1+N1 false-positive guard rails (2026-04-28). Skip in null-test runs
+    # (we want raw scan results in the null distribution). For science runs,
+    # if guards are configured and best mask violates either, override
+    # is_detection to False.
+    from scipy.ndimage import label as _label
+    n_components_best = int(_label(mask_co_best)[1])
+    guard_violation: Optional[str] = None
+    if not is_null_run:
+        if config.nbeam_min is not None and best[&quot;nbeam&quot;] &lt; config.nbeam_min:
+            guard_violation = (
+                f&quot;Nbeam {best['nbeam']:.1f} &lt; guard threshold &quot;
+                f&quot;{config.nbeam_min} (likely 1-pixel hotspot)&quot;
+            )
+        elif (config.n_components_max is not None and
+              n_components_best &gt; config.n_components_max):
+            guard_violation = (
+                f&quot;Mask has {n_components_best} connected components &gt; guard &quot;
+                f&quot;threshold {config.n_components_max} (likely fragmented &quot;
+                f&quot;selector pickup)&quot;
+            )
+    is_detection = ((not is_null_run) and best[&quot;sn&quot;] &gt; 3 and
+                    guard_violation is None)
+    if is_null_run:
+        status = f&quot;Null test (offset {config.null_test_offset_kms:+.0f} km/s)&quot;
+    elif guard_violation is not None:
+        status = f&quot;Non-detection (S/N {best['sn']:.2f} above threshold but guard rule failed: {guard_violation})&quot;
+    else:
+        status = &quot;Detection&quot; if is_detection else &quot;Non-detection&quot;
+    ada_block = &quot;&quot;
+    if ada_flux is not None:
+        ada_block = (
+            f&quot;\n## Fixed-envelope mask (diagnostic)\n\n&quot;
+            f&quot;Secondary measurement with CO smoothing fixed at &quot;
+            f&quot;{nested_smooth_factor}×bmaj and the 3σ envelope as the integration &quot;
+            f&quot;mask (no selector optimization):\n\n&quot;
+            f&quot;| Metric | Value |\n|---|---|\n&quot;
+            f&quot;| S/N | {ada_sn:.2f} |\n&quot;
+            f&quot;| Flux | {ada_flux:.3f} Jy·km/s |\n&quot;
+            f&quot;| Width | {ada_width:.0f} km/s |\n&quot;
+            f&quot;| N_beam | {ada_nbeam:.1f} |\n\n&quot;
+            f&quot;Compare against the headline row above: for a genuine detection &quot;
+            f&quot;the two should agree within noise; a large divergence or a sign &quot;
+            f&quot;flip (as seen here with non-detections) indicates the scan &quot;
+            f&quot;optimizer is picking a noise-sized peak.\n&quot;
+        )
+    iou_block = &quot;&quot;
+    if mask_footprint_iou is not None:
+        # Joint (IoU, S/N) interpretation: IoU alone is a fill-fraction under the
+        # hard footprint constraint (mask ⊂ footprint), so it reflects &quot;how much
+        # of the CO footprint the mask covers&quot; rather than morphological validity.
+        # A real compact detection (NGC 3628 style, Nbeam ~1) naturally has low
+        # IoU; a real extended detection (NGC 4945 style) has high IoU. What
+        # distinguishes selector-bias from either is whether S/N clears the
+        # null-calibrated threshold (3.54).
+        sn_val = best[&quot;sn&quot;]
+        iou_val = mask_footprint_iou
+        if sn_val &gt;= 3.54:
+            if iou_val &gt;= 0.5:
+                iou_verdict = (
+                    &quot;extended emission fills CO footprint — consistent with real &quot;
+                    &quot;source covering the CO-bright region&quot;
+                )
+            elif iou_val &gt;= 0.05:
+                iou_verdict = (
+                    &quot;compact-to-moderate mask within CO — consistent with a real &quot;
+                    &quot;source concentrated in a subset of the CO footprint&quot;
+                )
+            else:
+                iou_verdict = (
+                    &quot;mask is a tiny fraction of CO — may be a real pointsource-&quot;
+                    &quot;like detection, or cross-check with Nbeam + CO peak coincidence&quot;
+                )
+        else:
+            if iou_val &gt;= 0.5:
+                iou_verdict = (
+                    &quot;mask extended but S/N below null threshold — weak-emission &quot;
+                    &quot;non-detection&quot;
+                )
+            elif iou_val &gt;= 0.05:
+                iou_verdict = (
+                    &quot;mask compact and S/N below null threshold — non-detection, &quot;
+                    &quot;scan may have picked a small favored region within CO&quot;
+                )
+            else:
+                iou_verdict = (
+                    &quot;mask tiny + S/N below null threshold — classic selector-&quot;
+                    &quot;bias pattern (small mask inside CO chosen from noise)&quot;
+                )
+        iou_block = (
+            f&quot;\n## Mask morphology vs CO footprint (IoU diagnostic, 2026-04-24)\n\n&quot;
+            f&quot;Intersection-over-Union between the scan-optimal mask and the CO\n&quot;
+            f&quot;{config.co_footprint_sigma:.0f}σ physical footprint (computed from CO\n&quot;
+            f&quot;smoothed at {config.co_footprint_smoothing_arcsec:.1f}″ reference scale).\n&quot;
+            f&quot;With the hard footprint constraint enabled, this is a fill-fraction\n&quot;
+            f&quot;(mask ⊂ footprint). Interpret jointly with S/N:\n&quot;
+            f&quot;- High IoU + high S/N → real extended detection\n&quot;
+            f&quot;- Low IoU + high S/N → real compact detection (e.g. NGC 3628)\n&quot;
+            f&quot;- High IoU + low S/N → extended non-detection\n&quot;
+            f&quot;- Low IoU + low S/N → classic selector-bias non-detection\n\n&quot;
+            f&quot;| Metric | Value |\n|---|---|\n&quot;
+            f&quot;| IoU(mask, CO {config.co_footprint_sigma:.0f}σ footprint) | **{iou_val:.3f}** |\n&quot;
+            f&quot;| S/N | {sn_val:.2f} (null-calibrated threshold = 3.54) |\n&quot;
+            f&quot;| Interpretation | {iou_verdict} |\n&quot;
+        )
+
+    regions_block = _render_regions_block(
+        config, hrl_signal_box, hrl_noise_box, co_signal_box, co_noise_box,
+    )
+    summary_path.write_text(
+        f&quot;# {config.galaxy} — {config.weak_line} Analysis Summary\n&quot;
+        f&quot;**Date:** (auto-generated)\n&quot;
+        f&quot;**Status:** {status}\n\n&quot;
+        f&quot;## Result\n\n&quot;
+        f&quot;| Metric | Value |\n|---|---|\n&quot;
+        f&quot;| S/N | {best['sn']:.2f} |\n&quot;
+        f&quot;| Flux | {best['flux']:.3f} Jy·km/s |\n&quot;
+        f&quot;| Width | {best['mask_width']:.0f} km/s |\n&quot;
+        f&quot;| N_beam | {best['nbeam']:.1f} |\n&quot;
+        f&quot;{ada_block}{iou_block}\n&quot;
+        f&quot;## Inputs\n- HRL pbcor: `{config.hrl_pbcor_path}`\n&quot;
+        f&quot;- CO pbcor: `{config.co_pbcor_path}`\n&quot;
+        f&quot;{regions_block}\n&quot;
+        f&quot;## Outputs\n- plots: `{plots_dir}/`\n- tables: `{tables_dir}/`\n&quot;
+    )
+
+    if config.results_csv_row is not None:
+        csv_path = Path(config.results_csv_row)
+        csv_path.parent.mkdir(parents=True, exist_ok=True)
+        write_header = not csv_path.exists()
+        iou_csv = f&quot;{mask_footprint_iou:.4f}&quot; if mask_footprint_iou is not None else &quot;&quot;
+        with open(csv_path, &quot;a&quot;) as f:
+            if write_header:
+                f.write(&quot;galaxy,offset_kms,max_sn,best_flux,best_mask_width_kms,&quot;
+                        &quot;best_nbeam,best_smooth,best_sthresh,best_vel_width,&quot;
+                        &quot;n_valid_combos,co_contamination,mask_footprint_iou\n&quot;)
+            f.write(
+                f&quot;{config.galaxy},{config.null_test_offset_kms:.1f},&quot;
+                f&quot;{best['sn']:.3f},{best['flux']:.4f},{best['mask_width']:.0f},&quot;
+                f&quot;{best['nbeam']:.2f},{best['smooth']},{best['sthresh']},&quot;
+                f&quot;{best['vel_width']},{len(results)},&quot;
+                f&quot;{int(co_contamination_flag)},{iou_csv}\n&quot;
+            )
+
+    return AnalysisResult(
+        galaxy=config.galaxy, weak_line=config.weak_line,
+        sn=best[&quot;sn&quot;], flux_jy_km_s=best[&quot;flux&quot;],
+        width_kms=best[&quot;mask_width&quot;], nbeam=best[&quot;nbeam&quot;],
+        peak_jy=best[&quot;peak&quot;],
+        best_smoothing=best[&quot;smooth&quot;],
+        best_spatial_threshold=best[&quot;sthresh&quot;],
+        best_velocity_width_kms=best[&quot;vel_width&quot;],
+        script_path=&quot;(set by caller)&quot;,
+        summary_md_path=str(summary_path),
+        plots_dir=str(plots_dir),
+        tables_dir=str(tables_dir),
+        is_detection=is_detection,
+        mask_footprint_iou=mask_footprint_iou,
+    )
+
+
+def replot_from_cache(output_dir: str) -&gt; None:
+    &quot;&quot;&quot;Regenerate plots from the pickled cache written by `analyze()`.
+
+    Use when only the plot style or contour choices change — skips the full
+    cube load + scan (which dominate wall time) and just re-renders the
+    diagnostic PNG/PDF from saved intermediate state.
+    &quot;&quot;&quot;
+    import pickle
+    from plots import plot_optimal_mask_diagnostic, plot_sn_heatmap
+    out = Path(output_dir)
+    cache_path = out / &quot;_plot_cache.pkl&quot;
+    if not cache_path.exists():
+        raise FileNotFoundError(
+            f&quot;No plot cache at {cache_path}. Run the full analysis once &quot;
+            f&quot;to produce it before using replot_from_cache.&quot;
+        )
+    with open(cache_path, &quot;rb&quot;) as f:
+        cache = pickle.load(f)
+    plots_dir = out / &quot;plots&quot;
+    plots_dir.mkdir(exist_ok=True)
+    plot_optimal_mask_diagnostic(
+        outpath=str(plots_dir / &quot;optimal_mask.png&quot;),
+        **cache[&quot;plot_args&quot;],
+    )
+    plot_sn_heatmap(
+        outpath=str(plots_dir / &quot;SN_heatmap.png&quot;),
+        **cache[&quot;heatmap_args&quot;],
+    )
+    print(f&quot;Replotted {cache['plot_args']['gal_name']} from cache &quot;
+          f&quot;({cache_path}).&quot;)
+</code></pre>
+
+    </article>  </div>
+
+  <script src="../../../../../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

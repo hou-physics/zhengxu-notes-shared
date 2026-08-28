@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dual-cube analysis pipeline — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html">
+  <link rel="stylesheet" href="../../../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../../../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../../../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details >
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../../../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../../../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../../../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../../../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../../../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../../../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../../../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../../../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../../../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details open>
+        <summary>Archive</summary>        <ul>          <li><a href="../../../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../../../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../../../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../../../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../../../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details open>
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details open>
+        <summary>Code</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+class="current">Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>Dual-cube analysis pipeline</h1>
+      <p>The analysis pipeline turns an ALMA archival cube (or a pair of cubes)
+into an integrated HRL flux and an S/N number. It is the same code
+path for every galaxy in the final sample; per-galaxy parameters
+(redshift, mask mode, scenario tier) come in through a thin
+configuration layer.</p>
+<h2 id="stages-in-order">Stages, in order</h2>
+<div class="compare"><div class="col"><p><strong>Setup</strong></p>
+<ol>
+<li><strong>Download</strong> — <code>step-1_download.py</code> (emitted by <code>/alma-query</code>)
+pulls the chosen ALMA product into a per-galaxy scratch directory.</li>
+<li><strong>Rename + symlink</strong> — <code>step-2_link.py</code> resolves the cryptic
+archive product paths into stable filenames
+(<code>{GALAXY}_H30a_pbcor.fits</code>, <code>_nonpbcor.fits</code>, <code>_pb.fits</code>, etc.)
+inside <code>master_thesis/work_dir/{GALAXY}/</code>.</li>
+</ol>
+</div><div class="col"><p><strong>Analysis</strong></p>
+<ol start="3">
+<li><strong>Common-beam convolution</strong> — <code>_step3/mask.py:convolve_to_beam</code>
+uses <code>radio_beam</code> to bring both cubes onto a common synthesised
+beam (the larger of the two).</li>
+<li><strong>Spatial reprojection</strong> — <code>_step3/mask.py:reproject_pair</code> puts
+both cubes on a common pixel grid via <code>reproject</code>.</li>
+<li><strong>Mask construction</strong> — <code>_step3/mask.py:build_mask</code> thresholds the
+strong-tracer cube at <span class="math inline">$3\sigma$</span>, applies a velocity-integration
+window and a morphological-connectivity filter, then transfers the
+mask onto the HRL cube.</li>
+<li><strong>Baseline subtraction</strong> — <code>_step3/baseline.py</code> fits a degree-1
+polynomial baseline on line-free channels of the same SPW.</li>
+<li><strong>Flux integration</strong> — <code>_step3/scan.py</code> integrates the HRL pbcor
+cube within the mask over the velocity direction.</li>
+</ol>
+</div></div>
+<p>The pipeline emits a per-galaxy <code>summary.md</code> with the integrated flux,
+its uncertainty, the S/N number, the mask geometry, and pointers to
+the diagnostic plots.</p>
+<h2 id="why-dual-cube">Why dual-cube</h2>
+<p>ALMA SPWs are <span class="math inline">$\sim 1.875$</span> GHz wide. Ideally the HRL (e.g. H30α) and
+the strong-tracer line (e.g. CO(2-1)) fall in the same SPW, so a
+single cube contains both, and the mask built on the strong tracer can
+be applied to the weak HRL without further alignment. In archival
+practice this is the exception, not the rule:</p>
+<table>
+<thead>
+<tr>
+<th>Common configuration</th>
+<th>Number of cubes</th>
+<th>Resolution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HRL and tracer in the same SPW</td>
+<td>1</td>
+<td>trivial</td>
+</tr>
+<tr>
+<td>HRL and tracer in different SPWs of the same observation</td>
+<td>2</td>
+<td>reproject within project</td>
+</tr>
+<tr>
+<td>HRL and tracer in different observations (different MOUS-IDs)</td>
+<td>2</td>
+<td>reproject across projects</td>
+</tr>
+</tbody>
+</table>
+<p>The dual-cube workflow handles the latter two by <strong>convolving</strong> both
+cubes to a common beam and <strong>reprojecting</strong> them onto a common pixel
+grid before mask transfer. NGC 3628 (spw0 = CO(2-1), spw1 = H30α in
+the same observation) and NGC 5253 X1a (cross-MOUS-ID H30α + CO(2-1)
+from two separate observations) are both detected through this code
+path and reproduce published flux measurements to within their stated
+uncertainty.</p>
+<h2 id="when-pre-imaged-fits-is-enough">When pre-imaged FITS is enough</h2>
+<p>For all 32 sources in the final sample, the pipeline-imaged
+<code>*.pbcor.fits</code> product (Scenario B) was used directly. Re-imaging
+from MS (Scenario A) was investigated for NGC 4418 (an
+ultra-compact obscured nucleus) and NGC 1097 (a nuclear-bar
+starburst), but cancelled when other selection criteria gave a low
+predicted detection probability — the CASA pipeline cost (several
+hours and <span class="math inline">$10$</span>–<span class="math inline">$50$</span> GB of intermediate disk per source) was not
+justified.</p>
+<div class="note note-warning"><p><strong>Custom imaging is the exception.</strong> NGC 3628 served as a cautionary
+case: an early custom v5 imaging washed the signal down to <span class="math inline">$4.71\sigma$</span>;
+returning to the ALMA pipeline standard product recovered <span class="math inline">$\text{S/N} = 15.81$</span>
+and <span class="math inline">$F = 0.982$</span> Jy·km/s, consistent with Toma 2024's literature value
+to within 2%. The pipeline product is preferred unless there is a
+specific reason (e.g. published baseline structure) to re-image.</p>
+</div>
+<h2 id="configuration-surface">Configuration surface</h2>
+<p>A new galaxy enters the pipeline with three knobs:</p>
+<table>
+<thead>
+<tr>
+<th>Knob</th>
+<th>Default</th>
+<th>When to change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>z</code></td>
+<td>from <code>target-list.md</code></td>
+<td>always set per galaxy</td>
+</tr>
+<tr>
+<td><code>mode</code> (mask connectivity)</td>
+<td><code>'largest'</code></td>
+<td><code>'all'</code> for face-on barred spirals (multiple disjoint star-forming regions, e.g. NGC 3627)</td>
+</tr>
+<tr>
+<td><code>scenario tier</code></td>
+<td>auto-pick from <code>/alma-query</code></td>
+<td>force <code>MS</code> only when re-imaging is justified</td>
+</tr>
+</tbody>
+</table>
+<p>Everything else — beam-convolution targets, baseline-fit degree,
+mask threshold, velocity-window logic — is fixed across the sample by
+design, so that the detection rate (7/32 ≈ 22%) is the property of the
+selection rather than of per-galaxy tuning.</p>
+
+    </article>    <aside class="page-toc">
+      <div class="page-toc-label">On this page</div>
+      <ul>        <li class="lvl-2"><a href="#stages-in-order">Stages, in order</a></li>        <li class="lvl-2"><a href="#why-dual-cube">Why dual-cube</a></li>        <li class="lvl-2"><a href="#when-pre-imaged-fits-is-enough">When pre-imaged FITS is enough</a></li>        <li class="lvl-2"><a href="#configuration-surface">Configuration surface</a></li>      </ul>
+    </aside>  </div>
+
+  <script src="../../../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

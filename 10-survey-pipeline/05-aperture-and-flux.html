@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Step 4 — Aperture construction and flux measurement — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/10-survey-pipeline/05-aperture-and-flux.html">
+  <link rel="stylesheet" href="../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details open>
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+class="current">Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details >
+        <summary>Archive</summary>        <ul>          <li><a href="../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details >
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details >
+        <summary>Code</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>Step 4 — Aperture construction and flux measurement</h1>
+      <h1>Step 4 — Aperture construction and flux measurement</h1>
+<p>This is the heart of the survey: one frozen recipe, identical for every
+galaxy. Two scripts: <code>_step3/uniform_batch_stage1.py</code> (aperture) and
+<code>_step3/uniform_batch_stage2.py</code> (spectroscopy); the geometric core is
+<code>build_mask</code> in <code>_step3/uniform_contour_poc.py</code>.</p>
+<h2 id="3a-the-aperture-from-the-bright-tracer">3a. The aperture, from the bright tracer</h2>
+<p>The recombination line is too faint to define its own aperture (doing
+so would select noise — &quot;self-masking&quot; is forbidden). Instead the
+aperture comes from the bright tracer line:</p>
+<ol>
+<li><strong>Moment-0 map</strong>: sum the tracer cube over the velocity window
+around the line; multiply by the primary-beam response so the noise
+is spatially flat (thresholds then mean the same thing everywhere).</li>
+<li><strong>Smooth</strong> with a Gaussian of 1× the beam width (a matched filter;
+0×, 1×, 3× were tested on control galaxies — 3× destroyed flux
+through interferometric negative bowls, 1× was frozen).</li>
+<li><strong>Two-level contour</strong>: the extent of the aperture is the <strong>2σ
+contour</strong>; but an island of pixels only survives if it contains a
+<strong>≥5σ peak</strong> and covers <strong>≥1 beam area</strong>. Surviving islands are
+unioned (multiple star-forming clumps, double nuclei of mergers etc.
+all enter one aperture). The 5σ seed level comes from a false-alarm
+budget: even the largest map (~10⁵ independent beams) then admits a
+fake island with probability &lt; 0.1.</li>
+<li><strong>Objective guards</strong> (rule exits, never aesthetics): no 5σ seed →
+review; aperture &gt; 30% of the field of view → &quot;extended&quot; flag;
+rectangular footprint or ≥15 islands → mosaic-like disk, class B,
+excluded from the survey.</li>
+</ol>
+<p>A visual gallery of every aperture over its tracer map (one thumbnail
+per galaxy, with beam and physical scale bar) is regenerated after each
+batch: <code>_step3/uniform_batch_mom0_gallery.py</code> →</p>
+<a href="./figs/co_mom0_gallery.jpg" target="_blank">
+<img src="./figs/co_mom0_gallery.jpg" alt="CO moment-0 gallery"
+     style="max-width:700px;width:85%;display:block;margin:0.5em auto;"></a>
+<p><em>(one thumbnail per galaxy — click to open full size)</em></p>
+<h2 id="3b-line-width-from-the-tracer">3b. Line width from the tracer</h2>
+<p>The width of the tracer line sets how many velocity channels the
+recombination-line integration will span (&quot;the mountain's width sets
+the window&quot;). W20 — full width at 20% of peak — is measured on the
+aperture-integrated tracer spectrum, smoothed to a common 20 km/s
+resolution, taking the outermost 20% crossings (safe for the
+double-horned profiles of rotating disks).</p>
+<p>Two guard rails (added 2026-08-06 after a real failure):</p>
+<ul>
+<li><strong>The measuring range extends adaptively</strong>: if the measured width
+reaches the edge of the allowed search range, the range grows in
+steps — capped at ±600 km/s (no galaxy of this sample class is broader) and never past the nearest catalogued neighbouring line.</li>
+<li><strong>If the width still does not converge, the source exits to review</strong>
+rather than receiving an arbitrary window. This caught NGC 5128
+(Centaurus A): its CS tracer is so weak that the &quot;width&quot; grew with
+whatever range it was allowed — and the recombination-line flux
+flipped from +3σ to −1.3σ depending on that arbitrary width. A
+measurement that unstable is not reported.</li>
+</ul>
+<h2 id="3c-the-recombination-line-flux">3c. The recombination-line flux</h2>
+<ol>
+<li>The same aperture is applied to the recombination-line cube
+(primary-beam corrected, so fluxes are true fluxes).</li>
+<li><strong>Known neighbouring lines are blanked</strong>: a maintained catalog
+(<code>_step3/known_lines.py</code>: the recombination α and β lines, CO, CS,
+HCO⁺, HCN, ¹³CO, SO, HC3N) is redshifted to the galaxy's velocity
+and ±max(150, W/2) km/s around each such line is excluded — line
+widths are a property of the whole galaxy, so a broad galaxy has
+equally broad contaminant lines. One catalog entry (H39β) carried a
+wrong rest frequency during the survey run and excised channels
+holding no contaminant; the entry is corrected, the impact was
+measured before correcting (median flux shift 0.08 σ, no source
+crosses a tier boundary), and the thesis declares it rather than
+re-running.</li>
+<li>A <strong>first-order baseline</strong> is fitted to the remaining line-free
+channels (after a 3σ clip against anything unexpected) and
+subtracted.</li>
+<li><strong>Flux</strong> = the integral over the window; <strong>uncertainty</strong> = the
+empirically measured channel-to-channel noise of this very spectrum
+× √(number of channels) × channel width. Being measured on the same
+aperture-integrated spectrum, it automatically includes spatial
+noise correlation.</li>
+<li><strong>Diagnostics recorded</strong> (not subtracted): the same aperture
+translated to ≤16 empty positions in the map (&quot;nulls&quot; — an honest
+empirical noise check), and the spectrum of the 2–3σ skirt around
+the aperture.</li>
+</ol>
+<h2 id="3d-uncertainty-calibration-and-detection-tiers">3d. Uncertainty calibration and detection tiers</h2>
+<p>The formal uncertainty of step 3c is checked against the survey's own
+signal-free sources: for honestly estimated errors their S/N values
+should scatter with width 1, and the measured width is 1.43. Every σ
+and S/N the survey quotes therefore carries a <strong>global calibration
+factor of 1.5</strong> (one number for the whole survey — applying it cannot
+break uniformity), and the tiers below are cut on the calibrated S/N.</p>
+<table>
+<thead>
+<tr>
+<th>S/N (calibrated)</th>
+<th>tier</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>≥ 5</td>
+<td>detected</td>
+<td>flux usable as a true value</td>
+</tr>
+<tr>
+<td>3–5</td>
+<td>marginal</td>
+<td>a measurement, but not standalone-trustworthy — reviewed individually</td>
+</tr>
+<tr>
+<td>&lt; 3</td>
+<td>upper limit</td>
+<td>the true flux is at most ~3σ; plotted as an arrow</td>
+</tr>
+</tbody>
+</table>
+<p>Every source keeps its flux ± σ regardless of tier — the tier only
+sets the marker; on the diagram, upper limits are drawn at their 3σ
+values with a downward arrow. Negative fluxes for upper limits are
+normal (noise scatters both ways; 11 of our 32 signal-free sources are
+negative).</p>
+<h2 id="3e-regression-control">3e. Regression control</h2>
+<p>After any change to the procedure, four anchor galaxies must reproduce:
+NGC 4945 (−7% vs. the group's previous measurement), NGC 253 (−6%
+internal), NGC 3628 (bit-exact reproduction of the compact-aperture
+value 0.982 Jy km/s), NGC 5253 (consistent with the published ALMA
+value at 1.7σ on the nominal scale of the control set, 1.1σ once
+calibrated). The last full re-run (2026-08-06) left all control values
+unchanged.</p>
+
+    </article>    <aside class="page-toc">
+      <div class="page-toc-label">On this page</div>
+      <ul>        <li class="lvl-2"><a href="#3a-the-aperture-from-the-bright-tracer">3a. The aperture, from the bright tracer</a></li>        <li class="lvl-2"><a href="#3b-line-width-from-the-tracer">3b. Line width from the tracer</a></li>        <li class="lvl-2"><a href="#3c-the-recombination-line-flux">3c. The recombination-line flux</a></li>        <li class="lvl-2"><a href="#3d-uncertainty-calibration-and-detection-tiers">3d. Uncertainty calibration and detection tiers</a></li>        <li class="lvl-2"><a href="#3e-regression-control">3e. Regression control</a></li>      </ul>
+    </aside>  </div>
+
+  <script src="../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

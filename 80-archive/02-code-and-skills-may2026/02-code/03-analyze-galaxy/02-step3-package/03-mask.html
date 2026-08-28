@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>mask.py — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html">
+  <link rel="stylesheet" href="../../../../../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../../../../../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../../../../../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details >
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../../../../../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../../../../../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../../../../../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../../../../../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../../../../../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../../../../../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../../../../../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../../../../../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../../../../../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details open>
+        <summary>Archive</summary>        <ul>          <li><a href="../../../../../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../../../../../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../../../../../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../../../../../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../../../../../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details open>
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details open>
+        <summary>Code</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details open>
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details open>
+        <summary>Step3 package</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+class="current">mask.py</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>mask.py</h1>
+      <p>Mask construction and <strong>cross-cube transfer</strong>. For each candidate
+strong-line cube (CO(2-1) or CS(2-1) typically), this module:</p>
+<ol>
+<li>Convolves both the strong-line cube and the HRL cube to a <strong>common
+synthesised beam</strong> (the larger of the two) via <code>radio_beam</code>.</li>
+<li><strong>Reprojects</strong> them onto a shared pixel grid via <code>reproject</code>.</li>
+<li>Thresholds the strong-line moment-0 at <span class="math inline">$N\sigma$</span> (with <span class="math inline">$N$</span> taken
+from the parameter-scan grid).</li>
+<li>Applies the <strong>CO-footprint constraint</strong> (intersection with the
+unsmoothed CO <span class="math inline">$3\sigma$</span> map after a 1″ smoothing pass) — added
+2026-04-24 to suppress smoothed-noise selector bias.</li>
+<li>Returns a boolean mask, ready for <code>flux.py</code> to integrate the HRL
+cube within.</li>
+</ol>
+<p>The <code>mask_components_mode</code> config flag (<code>&quot;center&quot;</code>, <code>&quot;largest&quot;</code>,
+<code>&quot;all&quot;</code>) determines how the connected-component filter chooses among
+multiple disjoint CO regions — relevant for face-on barred spirals
+where CO is distributed across bar ends, ring, and arms (e.g.
+NGC 3627, NGC 5248) rather than concentrated in a single nuclear
+component.</p>
+<pre><code class="language-python">&quot;&quot;&quot;Mask construction + cross-cube transfer (beam convolution + reprojection).&quot;&quot;&quot;
+from __future__ import annotations
+
+from typing import Optional, Tuple
+
+import numpy as np
+from astropy.convolution import Gaussian2DKernel, convolve, convolve_fft
+from astropy.wcs import WCS
+import astropy.units as u
+from radio_beam import Beam
+from reproject import reproject_interp
+from scipy.ndimage import label
+
+from cube_io import CubeBundle
+
+
+def smooth(image: np.ndarray, kernel_fwhm_pix: float) -&gt; np.ndarray:
+    &quot;&quot;&quot;Gaussian smoothing on a 2-D image via FFT (O(N² log N) regardless
+    of kernel size). Equivalent to direct convolution within float32
+    precision (~1e-5 relative); ~10000× faster for sf &gt;&gt; beam.&quot;&quot;&quot;
+    sigma = kernel_fwhm_pix / (2 * np.sqrt(2 * np.log(2)))
+    kernel = Gaussian2DKernel(sigma)
+    return convolve_fft(image, kernel, normalize_kernel=True,
+                        nan_treatment=&quot;fill&quot;, boundary=&quot;fill&quot;)
+
+
+def build_mask(
+    smoothed: np.ndarray,
+    threshold: float,
+    signal_box: Tuple[int, int, int, int],
+    require_connected: bool,
+    galaxy_center_pix: Optional[Tuple[int, int]],
+    co_footprint: Optional[np.ndarray] = None,
+    components_mode: str = &quot;center&quot;,
+) -&gt; np.ndarray:
+    &quot;&quot;&quot;Binary mask = (smoothed &gt; threshold) ∩ signal_box ∩ co_footprint.
+
+    If `require_connected`, components_mode controls which connected components
+    of the resulting mask are retained:
+      &quot;center&quot;  — keep the component containing galaxy_center_pix; fall back
+                  to the largest component if center pixel is empty.
+      &quot;largest&quot; — keep only the largest component (ignores center).
+      &quot;all&quot;     — keep ALL components within the footprint (no filtering).
+                  Appropriate for distributed/disk-dominated sources where CO
+                  emission spans multiple arms or bar ends.
+
+    `co_footprint` (if provided) is a hard AND-constraint: the mask is
+    intersected with this boolean array before the component step.
+    &quot;&quot;&quot;
+    mask = np.zeros_like(smoothed, dtype=bool)
+    if isinstance(signal_box, np.ndarray) and signal_box.dtype == bool:
+        # Adaptive 2D signal mask (e.g. dilated footprint).
+        mask = (smoothed &gt; threshold) &amp; signal_box
+    else:
+        x1, y1, x2, y2 = signal_box
+        sub = smoothed[y1:y2 + 1, x1:x2 + 1]
+        mask[y1:y2 + 1, x1:x2 + 1] = sub &gt; threshold
+
+    if co_footprint is not None:
+        mask = mask &amp; co_footprint
+
+    if require_connected and mask.any() and components_mode != &quot;all&quot;:
+        labeled, nlabels = label(mask)
+        if components_mode == &quot;largest&quot;:
+            if nlabels &gt; 0:
+                sizes = [(labeled == i).sum() for i in range(1, nlabels + 1)]
+                mask = labeled == (int(np.argmax(sizes)) + 1)
+            else:
+                mask = np.zeros_like(smoothed, dtype=bool)
+        else:  # &quot;center&quot; (default)
+            if galaxy_center_pix is None:
+                cx, cy = (x1 + x2) // 2, (y1 + y2) // 2
+            else:
+                cx, cy = galaxy_center_pix
+            center_label = 0
+            if 0 &lt;= cy &lt; labeled.shape[0] and 0 &lt;= cx &lt; labeled.shape[1]:
+                center_label = int(labeled[cy, cx])
+            if center_label &gt; 0:
+                mask = labeled == center_label
+            elif nlabels &gt; 0:
+                sizes = [(labeled == i).sum() for i in range(1, nlabels + 1)]
+                mask = labeled == (int(np.argmax(sizes)) + 1)
+            else:
+                mask = np.zeros_like(smoothed, dtype=bool)
+    return mask
+
+
+def _cube_beam(cube: CubeBundle) -&gt; Beam:
+    return Beam(
+        major=cube.bmaj_deg * u.deg,
+        minor=cube.bmin_deg * u.deg,
+        pa=cube.bpa_deg * u.deg,
+    )
+
+
+def compute_common_beam(*cubes: CubeBundle) -&gt; Beam:
+    &quot;&quot;&quot;Smallest Beam that encloses all input cube beams.&quot;&quot;&quot;
+    beams = [_cube_beam(c) for c in cubes]
+    if len(beams) == 1:
+        return beams[0]
+    from radio_beam import Beams
+    b = Beams(beams=beams)
+    return b.common_beam()
+
+
+_IDENTITY_TOL = 0.001
+
+
+def _beams_equal(a: Beam, b: Beam) -&gt; bool:
+    rel_maj = abs(a.major.to(&quot;deg&quot;).value - b.major.to(&quot;deg&quot;).value) / b.major.to(&quot;deg&quot;).value
+    rel_min = abs(a.minor.to(&quot;deg&quot;).value - b.minor.to(&quot;deg&quot;).value) / b.minor.to(&quot;deg&quot;).value
+    return rel_maj &lt; _IDENTITY_TOL and rel_min &lt; _IDENTITY_TOL
+
+
+def convolve_to_beam(cube: CubeBundle, target_beam: Beam) -&gt; CubeBundle:
+    &quot;&quot;&quot;Convolve cube data to target_beam, streaming to a FITS scratch file.
+
+    Identity short-circuit on equal beams. Otherwise writes the convolved
+    cube to `{cube.path}.conv_&lt;beamhash&gt;.fits` next to the input and
+    returns a CubeBundle memmapped onto it. Peak RAM is ~1 channel plane
+    (~50 MB for 1700×1700 float32) instead of the full-cube allocation
+    (~25 GB for NGC 7793 / NGC 1313), which otherwise OOMs on a 16 GB
+    machine. The scratch file is reused across reruns (same target beam
+    → same filename) — delete it manually to force reconvolution.
+    &quot;&quot;&quot;
+    from pathlib import Path
+    from astropy.io import fits
+    current = _cube_beam(cube)
+    if _beams_equal(current, target_beam):
+        return cube
+    diff = target_beam.deconvolve(current)
+    pixel_scale_val = abs(cube.header.get(&quot;CDELT1&quot;, cube.header.get(&quot;CDELT2&quot;, 1.0)))
+    pixel_scale = pixel_scale_val * u.deg
+    kernel = diff.as_kernel(pixel_scale)
+
+    # Deterministic tempfile name keyed on target beam so reruns reuse scratch.
+    beam_tag = (
+        f&quot;b{target_beam.major.to('arcsec').value:.3f}x&quot;
+        f&quot;{target_beam.minor.to('arcsec').value:.3f}&quot;
+        f&quot;pa{target_beam.pa.to('deg').value:+.1f}&quot;
+    )
+    scratch_path = Path(cube.path).with_suffix(f&quot;.conv_{beam_tag}.fits&quot;)
+
+    # Prepare a 3-D header for StreamingHDU (original may have a singleton Stokes
+    # axis as NAXIS=4; the in-memory data is 3-D after load_cube, so header must
+    # match).
+    header = cube.header.copy()
+    if header.get(&quot;NAXIS&quot;, 0) == 4:
+        header[&quot;NAXIS&quot;] = 3
+        for key in (&quot;NAXIS4&quot;, &quot;CRVAL4&quot;, &quot;CRPIX4&quot;, &quot;CDELT4&quot;,
+                    &quot;CTYPE4&quot;, &quot;CUNIT4&quot;, &quot;PC04_04&quot;, &quot;PC4_4&quot;):
+            header.pop(key, None)
+        for axis in (1, 2, 3):
+            for key in (f&quot;PC0{axis}_04&quot;, f&quot;PC04_0{axis}&quot;,
+                        f&quot;PC{axis}_4&quot;, f&quot;PC4_{axis}&quot;):
+                header.pop(key, None)
+    header[&quot;BMAJ&quot;] = float(target_beam.major.to(&quot;deg&quot;).value)
+    header[&quot;BMIN&quot;] = float(target_beam.minor.to(&quot;deg&quot;).value)
+    header[&quot;BPA&quot;] = float(target_beam.pa.to(&quot;deg&quot;).value)
+    header[&quot;NAXIS1&quot;] = cube.data.shape[2]
+    header[&quot;NAXIS2&quot;] = cube.data.shape[1]
+    header[&quot;NAXIS3&quot;] = cube.data.shape[0]
+
+    if not scratch_path.exists():
+        # Choose direct vs FFT convolution based on kernel size (2026-04-25).
+        # astropy's `convolve` is O(N² × M²); for cross-mousid common-beam
+        # (X1a 0.19″ → 0.91″ gives FWHM ~80 pix, support ~300 pix) this is
+        # ~1000× slower than `convolve_fft` (O(N² log N), kernel-size independent).
+        # Threshold ~10 pix kernel FWHM: above this, FFT dominates.
+        try:
+            karr = kernel.array if hasattr(kernel, &quot;array&quot;) else np.asarray(kernel)
+            kernel_size_pix = max(karr.shape)
+        except Exception:
+            kernel_size_pix = 0
+        use_fft = kernel_size_pix &gt; 20
+
+        # Beam-area scaling for [Jy/beam] convolution (2026-04-25 fix). astropy's
+        # `convolve(normalize_kernel=True)` performs pixel-space averaging (kernel
+        # sums to 1 in pixel units), which preserves the pixel-summed flux but
+        # NOT the per-beam intensity when the beam changes. For [Jy/beam] data
+        # convolved to a larger common beam, the convolved image must be rescaled
+        # by (new_beam_area / old_beam_area) so total flux in physical units
+        # (Jy = sum(Jy/beam) × pix_area / beam_area) is preserved. Bug found
+        # 2026-04-25 in NGC 5253 X1a + X1c dual-mousid run: factor was ~56×.
+        # Same-mousid runs hide the bug because beam ratio ≈ 1.
+        new_area = (target_beam.major.to(&quot;arcsec&quot;).value *
+                    target_beam.minor.to(&quot;arcsec&quot;).value)
+        old_area = (current.major.to(&quot;arcsec&quot;).value *
+                    current.minor.to(&quot;arcsec&quot;).value)
+        beam_area_scale = new_area / old_area
+
+        shdu = fits.StreamingHDU(str(scratch_path), header)
+        try:
+            for ch in range(cube.data.shape[0]):
+                if use_fft:
+                    out_plane = convolve_fft(
+                        cube.data[ch], kernel,
+                        normalize_kernel=True, nan_treatment=&quot;fill&quot;,
+                        allow_huge=True,
+                    )
+                else:
+                    out_plane = convolve(
+                        cube.data[ch], kernel,
+                        normalize_kernel=True, nan_treatment=&quot;fill&quot;,
+                    )
+                out_plane = out_plane * beam_area_scale
+                shdu.write(out_plane.astype(cube.data.dtype, copy=False))
+        finally:
+            shdu.close()
+
+    with fits.open(str(scratch_path), memmap=True) as hdul:
+        new_data = np.asarray(hdul[0].data)
+    return CubeBundle(
+        path=str(scratch_path),
+        data=new_data,
+        wcs=cube.wcs,
+        header=header,
+        bmaj_deg=float(target_beam.major.to(&quot;deg&quot;).value),
+        bmin_deg=float(target_beam.minor.to(&quot;deg&quot;).value),
+        bpa_deg=float(target_beam.pa.to(&quot;deg&quot;).value),
+        crval3_hz=cube.crval3_hz,
+        cdelt3_hz=cube.cdelt3_hz,
+        crpix3=cube.crpix3,
+    )
+
+
+def reproject_mask(
+    mask_2d: np.ndarray,
+    source_wcs: WCS,
+    target_wcs: WCS,
+    target_shape: Tuple[int, int],
+) -&gt; np.ndarray:
+    &quot;&quot;&quot;Reproject a 2-D boolean mask using bilinear interp + threshold at 0.5.&quot;&quot;&quot;
+    src = source_wcs.celestial
+    tgt = target_wcs.celestial
+    out, _ = reproject_interp(
+        (mask_2d.astype(float), src), tgt, shape_out=target_shape
+    )
+    return (out &gt; 0.5) &amp; np.isfinite(out)
+</code></pre>
+
+    </article>  </div>
+
+  <script src="../../../../../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

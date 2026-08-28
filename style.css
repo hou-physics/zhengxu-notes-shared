@@ -1,0 +1,531 @@
+/* ============================================================
+   zhengxu-notes — base stylesheet
+   3 themes: manuscript (light) / iceberg (cool) / slate (dark)
+   ============================================================ */
+
+/* ---- Theme variables ---- */
+:root, body[data-theme="manuscript"] {
+  --paper:   #faf5e9; --paper-2: #f3ecd8;
+  --ink:     #2a2520; --ink-2:   #5a4f42;
+  --rule:    #c9bda0;
+  --accent:  #8b4513; --accent-2:#b85c1a;
+  --link:    #1e5d8a;
+  /* syntax highlighting palette */
+  --hl-comment:  #948468;
+  --hl-keyword:  #8b4513;
+  --hl-string:   #2e6f3f;
+  --hl-number:   #1e5d8a;
+  --hl-function: #b85c1a;
+  --hl-variable: #5a4f42;
+}
+body[data-theme="iceberg"] {
+  --paper:   #eceff4; --paper-2: #e0e5ec;
+  --ink:     #2e3440; --ink-2:   #4c566a;
+  --rule:    #c5cdd9;
+  --accent:  #5e81ac; --accent-2:#81a1c1;
+  --link:    #5e81ac;
+  --hl-comment:  #7a8492;
+  --hl-keyword:  #5e81ac;
+  --hl-string:   #4a7c3f;
+  --hl-number:   #b56d3a;
+  --hl-function: #2e7d8a;
+  --hl-variable: #4c566a;
+}
+body[data-theme="slate"] {
+  --paper:   #1a1d23; --paper-2: #232730;
+  --ink:     #e4e2dd; --ink-2:   #a6a39c;
+  --rule:    #3a3f4a;
+  --accent:  #c19a6b; --accent-2:#d4af7a;
+  --link:    #7aa2f7;
+  --hl-comment:  #6a7280;
+  --hl-keyword:  #c19a6b;
+  --hl-string:   #a3be8c;
+  --hl-number:   #d08770;
+  --hl-function: #88c0d0;
+  --hl-variable: #b8b3a6;
+}
+
+/* ---- Reset & body ---- */
+* { box-sizing: border-box; }
+html, body { background: var(--paper); margin: 0; padding: 0; }
+body {
+  font-family: "Charter", "Source Serif Pro", "Iowan Old Style",
+               "Songti SC", Georgia, "Times New Roman", serif;
+  color: var(--ink);
+  line-height: 1.65;
+  font-size: 15.5px;
+
+  --sidebar-w: 280px;
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  min-height: 100vh;
+  transition: grid-template-columns 0.2s ease;
+}
+body.sidebar-collapsed { --sidebar-w: 0px; }
+
+/* ---- Sidebar toggle: pinned inside sidebar top-right when open;
+        moves to top-left of viewport when sidebar is collapsed ---- */
+.sidebar-toggle {
+  position: fixed;
+  top: 0.75rem;
+  left: calc(var(--sidebar-w) - 42px);   /* inside sidebar, right edge */
+  z-index: 200;
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 0; line-height: 1;
+  color: var(--ink);
+  transition: left 0.2s ease, background 0.15s;
+}
+.sidebar-toggle:hover { background: var(--paper); }
+
+body.sidebar-collapsed .sidebar-toggle {
+  left: 0.6rem;                          /* viewport top-left when collapsed */
+}
+
+/* Icon: ◀ when sidebar open, ☰ when collapsed */
+.sidebar-toggle .ico::before {
+  content: "◀";
+  font-size: 13px;
+  color: var(--ink);
+}
+body.sidebar-collapsed .sidebar-toggle .ico::before {
+  content: "☰";
+  font-size: 16px;
+}
+
+/* ---- Sidebar ---- */
+.sidebar {
+  position: sticky; top: 0;
+  height: 100vh; overflow-y: auto; overflow-x: hidden;
+  background: var(--paper-2);
+  border-right: 1px solid var(--rule);
+  padding: 1.6rem 1.2rem 1.2rem 1.4rem;
+  font-size: 0.92em;
+  transition: opacity 0.15s;
+
+  /* UI chrome — don't trigger hypothes.is annotation popup on selection */
+  user-select: none;
+  -webkit-user-select: none;
+}
+.sidebar-toggle,
+.page-toc {
+  user-select: none;
+  -webkit-user-select: none;
+}
+body.sidebar-collapsed .sidebar {
+  opacity: 0; pointer-events: none;
+}
+.sidebar .site-title {
+  font-size: 1.15em; font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 0.2em 0;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid var(--rule);
+}
+.sidebar .site-subtitle {
+  font-size: 0.82em; color: var(--ink-2); font-style: italic;
+  margin: -0.2em 0 1.2em 0;
+}
+.sidebar nav details {
+  margin: 0.3em 0 0.5em 0;
+}
+.sidebar nav summary {
+  cursor: pointer;
+  padding: 0.3em 0;
+  font-weight: 600;
+  color: var(--ink);
+  list-style: none;
+  user-select: none;
+}
+.sidebar nav summary::-webkit-details-marker { display: none; }
+.sidebar nav summary::before {
+  content: "▸"; display: inline-block; width: 1em;
+  color: var(--ink-2); transition: transform 0.15s;
+}
+.sidebar nav details[open] > summary::before { transform: rotate(90deg); }
+.sidebar nav ul {
+  list-style: none;
+  margin: 0.1em 0 0.4em 1em;
+  padding: 0 0 0 0.7em;
+  border-left: 1px solid var(--rule);
+}
+/* Nested subsection: indent + lighter summary so the hierarchy reads */
+.sidebar nav details details {
+  margin: 0.2em 0 0.3em 1em;
+  padding-left: 0.7em;
+  border-left: 1px solid var(--rule);
+}
+.sidebar nav details details > summary {
+  font-weight: 500;
+  font-size: 0.94em;
+  color: var(--ink-2);
+}
+.sidebar nav details details > summary::before {
+  font-size: 0.85em;
+}
+.sidebar nav details details ul {
+  margin-left: 0.4em;
+  padding-left: 0.7em;
+}
+.sidebar nav li { margin: 0.15em 0; }
+.sidebar nav a {
+  display: block;
+  padding: 0.2em 0.5em;
+  color: var(--ink-2);
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
+.sidebar nav a:hover { background: var(--paper); color: var(--ink); }
+.sidebar nav a.current {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+/* ---- Theme switcher (bottom of sidebar) ---- */
+.theme-switcher {
+  position: sticky; bottom: 0;
+  background: var(--paper-2);
+  padding: 0.6em 0 0.2em 0;
+  margin-top: 1.5em;
+  border-top: 1px solid var(--rule);
+  display: flex; gap: 0.3em;
+  font-family: "Charter", Georgia, serif;
+  font-size: 0.78em;
+}
+.theme-switcher button {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--rule);
+  padding: 0.4em 0.5em;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit; font-size: inherit;
+  color: var(--ink-2);
+}
+.theme-switcher button:hover { background: var(--paper); color: var(--ink); }
+.theme-switcher button.active {
+  background: var(--accent); color: var(--paper);
+  border-color: var(--accent);
+}
+
+/* ---- Content area ----
+   Strategy: main column is WIDE (up to 1100 px) so structural widgets
+   (viz, compare, table, code, figure) can break out and use space.
+   Prose elements (p, ul, ol, h2, h3, blockquote) cap themselves at
+   720 px inside main, for comfortable reading width.
+   ---- */
+.content-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1100px) minmax(0, 220px);
+  column-gap: 3rem;
+  padding: 3rem 3rem 5rem 3rem;
+  max-width: 1520px;
+  margin: 0 auto;
+}
+.content-wrap > .main     { grid-column: 1; min-width: 0; }
+.content-wrap > .page-toc { grid-column: 2; }
+.content-wrap > .wide     { grid-column: 1 / -1; }
+.content-wrap > .full     { grid-column: 1 / -1; }
+
+/* prose elements: comfortable reading column */
+.main > p,
+.main > ul,
+.main > ol,
+.main > h1,
+.main > h2,
+.main > h3,
+.main > h4,
+.main > blockquote {
+  max-width: 720px;
+}
+
+/* structural / widget elements: break out and use the wide main column */
+.main > .viz,
+.main > .note,
+.main > .compare,
+.main > table,
+.main > pre,
+.main > figure,
+.main > .wide,
+.main > .full {
+  max-width: none;
+}
+
+/* ---- On-page TOC (right column, sticky) ---- */
+.page-toc {
+  position: sticky;
+  top: 1.5rem;
+  align-self: start;
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+  padding: 0.4rem 0 0.4rem 1rem;
+  border-left: 1px solid var(--rule);
+  font-size: 0.85em;
+  line-height: 1.5;
+}
+.page-toc-label {
+  font-size: 0.72em; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink-2);
+  margin-bottom: 0.6em;
+}
+.page-toc ul { list-style: none; margin: 0; padding: 0; }
+.page-toc li { margin: 0.25em 0; }
+.page-toc li.lvl-3 { padding-left: 1em; font-size: 0.95em; }
+.page-toc a {
+  color: var(--ink-2);
+  text-decoration: none;
+  display: block;
+  padding: 0.1em 0;
+  border-left: 2px solid transparent;
+  padding-left: 0.5em;
+  margin-left: -0.5em;
+  transition: color 0.1s, border-color 0.1s;
+}
+.page-toc a:hover { color: var(--ink); }
+.page-toc a.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+
+/* hide TOC when there's no room (narrow screens) */
+@media (max-width: 1080px) {
+  .content-wrap { grid-template-columns: minmax(0, 1fr); }
+  .content-wrap > .page-toc { display: none; }
+}
+
+/* ---- Article typography ---- */
+.main h1, .main h2, .main h3 {
+  color: var(--ink); font-weight: 600; letter-spacing: -0.01em;
+}
+.main h1 { font-size: 2em; line-height: 1.15; margin: 0 0 0.3em 0; }
+.main h2 { font-size: 1.45em; margin-top: 2.2em; margin-bottom: 0.4em;
+           padding-bottom: 0.2em; border-bottom: 1px solid var(--rule); }
+.main h3 { font-size: 1.1em; margin-top: 1.6em; color: var(--accent); }
+.main p  { margin: 0.7em 0; }
+.main a  { color: var(--link); text-decoration: underline;
+           text-decoration-color: color-mix(in srgb, var(--link), transparent 65%);
+           text-underline-offset: 3px; }
+
+.main hr { border: none; border-top: 1px solid var(--rule);
+           margin: 2.2em auto; width: 40%; }
+
+/* ---- Code ---- */
+.main code {
+  background: var(--paper-2);
+  padding: 0.1em 0.4em; border-radius: 3px;
+  font-size: 0.92em;
+  font-family: "SF Mono", Menlo, monospace;
+  color: var(--accent);
+}
+.main pre {
+  background: var(--paper-2);
+  padding: 1em 1.2em; border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.88em; line-height: 1.5;
+  border-left: 3px solid var(--rule);
+}
+.main pre code { background: none; color: var(--ink); padding: 0; }
+
+/* ---- Syntax highlighting (highlight.js, theme-aware) ---- */
+.hljs { background: transparent; color: var(--ink); }
+.hljs-comment, .hljs-quote {
+  color: var(--hl-comment); font-style: italic;
+}
+.hljs-keyword, .hljs-selector-tag, .hljs-literal,
+.hljs-doctag, .hljs-meta-keyword, .hljs-tag {
+  color: var(--hl-keyword); font-weight: 600;
+}
+.hljs-string, .hljs-attribute, .hljs-symbol, .hljs-bullet,
+.hljs-regexp, .hljs-addition, .hljs-meta-string {
+  color: var(--hl-string);
+}
+.hljs-number, .hljs-link, .hljs-meta, .hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: var(--hl-number);
+}
+.hljs-title, .hljs-section, .hljs-name, .hljs-built_in,
+.hljs-type, .hljs-class .hljs-title, .hljs-title.function_ {
+  color: var(--hl-function); font-weight: 600;
+}
+.hljs-variable, .hljs-template-variable, .hljs-params {
+  color: var(--hl-variable);
+}
+.hljs-emphasis  { font-style: italic; }
+.hljs-strong    { font-weight: bold; }
+.hljs-deletion  { color: #c0392b; }
+
+/* ---- Tables ---- */
+.main table { border-collapse: collapse; width: 100%;
+              font-size: 0.95em; margin: 1em 0; }
+.main th, .main td { padding: 0.5em 0.8em; text-align: left;
+                     border-bottom: 1px solid var(--rule); }
+.main th { background: var(--paper-2); font-weight: 600; }
+
+/* ============================================================
+   WIDGETS
+   ============================================================ */
+
+/* ---- viz: slider + readout + plot ---- */
+.viz {
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1.4em 1.6em;
+  margin: 1.5em 0;
+}
+.viz .slider-row {
+  display: flex; align-items: center; gap: 1em;
+  margin: 0.5em 0; flex-wrap: wrap;
+}
+.viz .slider-row label {
+  min-width: 5.5em; color: var(--ink-2); font-style: italic;
+}
+.viz input[type="range"] {
+  flex: 1; min-width: 180px; accent-color: var(--accent);
+}
+.viz .value {
+  font-family: "SF Mono", Menlo, monospace;
+  background: var(--paper); padding: 0.2em 0.7em;
+  border-radius: 3px; border: 1px solid var(--rule);
+  min-width: 6em; text-align: center; display: inline-block;
+  font-size: 0.92em;
+  color: var(--ink);
+}
+.viz .readouts {
+  display: flex; flex-wrap: wrap; gap: 1em;
+  margin: 0.8em 0; padding-top: 0.6em;
+  border-top: 1px dashed var(--rule);
+}
+.viz .readout {
+  font-size: 0.95em; color: var(--ink-2);
+}
+.viz .readout .label { font-style: italic; }
+.viz .readout .val {
+  color: var(--accent); font-weight: 600; font-family: "SF Mono", Menlo, monospace;
+  margin: 0 0.2em;
+}
+.viz .plot-area { margin-top: 1em; }
+
+/* ---- note: aside boxes ---- */
+.note {
+  background: var(--paper-2);
+  border-left: 4px solid var(--rule);
+  border-radius: 4px;
+  padding: 0.8em 1.3em;
+  margin: 1.3em 0;
+  font-size: 0.97em;
+}
+.note > :first-child { margin-top: 0; }
+.note > :last-child  { margin-bottom: 0; }
+.note-info    { border-left-color: var(--link); }
+.note-tip     { border-left-color: #5cb85c; }
+.note-warning { border-left-color: var(--accent-2); }
+.note-danger  { border-left-color: #c0392b; }
+.note::before {
+  display: block;
+  font-size: 0.75em; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 0.3em;
+  color: var(--ink-2);
+}
+.note-info::before    { content: "Info";    color: var(--link); }
+.note-tip::before     { content: "Tip";     color: #5cb85c; }
+.note-warning::before { content: "Warning"; color: var(--accent-2); }
+.note-danger::before  { content: "Danger";  color: #c0392b; }
+.note-default::before { content: "Note";    color: var(--ink-2); }
+
+/* ---- compare: two-column.
+        minmax(0, 1fr) is critical: default 1fr = minmax(auto, 1fr),
+        which lets <pre>'s longest line push the column past its share
+        and crush the other side. minmax(0, ...) forces equal split. ---- */
+.compare {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.2em;
+  margin: 1.4em 0;
+}
+.compare > .col {
+  background: var(--paper-2);
+  border-radius: 6px;
+  padding: 0.9em 1.2em;
+  font-size: 0.97em;
+  min-width: 0;                /* allow shrinking; same reason as above */
+}
+/* Long code inside compare gets a horizontal scrollbar instead of
+   pushing the column. */
+.compare > .col pre { max-width: 100%; overflow-x: auto; }
+.compare > .col > :first-child { margin-top: 0; }
+.compare > .col > :last-child  { margin-bottom: 0; }
+@media (max-width: 900px) {
+  .compare { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ============================================================
+   Responsive: on phones the sidebar becomes a fixed off-canvas
+   overlay that slides in from the left. Hamburger toggle stays
+   pinned to viewport top-left so it is always reachable.
+   ============================================================ */
+@media (max-width: 700px) {
+  /* Content takes the full viewport width; sidebar is overlaid above it.
+     We also collapse the 2-column body grid into 1 column — otherwise
+     the now-fixed-positioned sidebar leaves col 1 (width 0) empty and
+     content-wrap auto-flows into it, squeezing the main column to 0 px
+     and wrapping prose one character per line. */
+  body {
+    --sidebar-w: 0px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .content-wrap { padding: 3rem 1.2rem 4rem 1.2rem; }
+  .content-wrap > .margin {
+    border-left: 3px solid var(--rule);
+    padding: 0.4em 0 0.4em 0.9em;
+    margin: 1em 0; font-style: italic;
+  }
+
+  /* Sidebar slides in from the left edge; out of flow */
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: min(86vw, 320px);
+    height: 100vh;
+    z-index: 100;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+    transition: transform 0.22s ease;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.25);
+  }
+  /* When collapsed: slide out (overrides desktop's opacity: 0 fade) */
+  body.sidebar-collapsed .sidebar {
+    transform: translateX(-100%);
+    opacity: 1;
+    pointer-events: none;
+    box-shadow: none;
+  }
+
+  /* Hamburger toggle: pinned to viewport top-left, always visible.
+     The base desktop rule sets `left: calc(var(--sidebar-w) - 42px)`
+     which on mobile (--sidebar-w = 0) would put the button at −42 px
+     and off-screen. Override it here. */
+  .sidebar-toggle {
+    left: 0.6rem;
+    top: 0.6rem;
+    width: 40px; height: 40px;   /* larger touch target for fingers */
+    z-index: 101;
+  }
+
+  /* Backdrop behind sidebar when it's open (tap to dismiss) */
+  body:not(.sidebar-collapsed)::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 99;
+  }
+}

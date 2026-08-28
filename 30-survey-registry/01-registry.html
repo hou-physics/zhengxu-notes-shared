@@ -1,0 +1,2468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Survey registry — all 142 targets — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/30-survey-registry/01-registry.html">
+  <link rel="stylesheet" href="../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details >
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details open>
+        <summary>Survey registry</summary>        <ul>          <li><a href="../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+class="current">Survey registry — all 142 targets</a></li>        </ul>      </details>      <details >
+        <summary>Archive</summary>        <ul>          <li><a href="../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details >
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details >
+        <summary>Code</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>Survey registry — all 142 targets</h1>
+      <h1>Survey registry — every target in one table</h1>
+<p>This is the survey's master bookkeeping table: <strong>every galaxy the
+survey has measured, reviewed, excluded — or could measure next</strong>.
+It is <em>machine-generated</em> from the pipeline's stage outputs
+(<code>_step3/survey_registry.py</code> in the master repository; source of truth
+<code>result_v2/survey_registry.csv</code>) and is regenerated after every batch
+run — never edited by hand. Snapshot below: <strong>2026-08-26</strong>.</p>
+<h2 id="where-the-rows-come-from">Where the rows come from</h2>
+<p>Measured/excluded rows are the pipeline's own outputs. Candidate rows
+descend from the selection chain (see pipeline Step 1): IRAS bright
+galaxies (60 μm flux &gt; 5.24 Jy) × DEC ≤ +40° × Spitzer 8 μm coverage
+× usable ALMA archival data → minus those already processed.</p>
+<h2 id="how-to-read-the-columns">How to read the columns</h2>
+<ul>
+<li><strong>f60</strong>: IRAS 60 μm flux from the parent catalog (the selection
+quantity). Blank = target predates the catalog-based selection.</li>
+<li><strong>F, σ_F, S/N, W</strong>: the recombination-line measurement (flux,
+uncertainty, significance, integration width). <strong>σ_F and S/N are
+quoted on the calibrated scale of the thesis</strong> — every uncertainty
+carries the global factor 1.5 measured on the survey's own
+signal-free sources (see pipeline Step 4); the registry CSV stores
+the nominal values and the conversion is exact (×1.5 / ÷1.5).
+Negative F for upper limits is normal noise behaviour.</li>
+<li><strong>RMS10</strong>: measured noise per 10 km/s channel — the depth actually
+achieved. <strong>RMS10 pred</strong>: what the ALMA archive promised for
+candidate data; after processing, the two columns can be compared.</li>
+<li><strong>IR coverage</strong>: whether the ALMA field of view covers the galaxy's
+infrared emission (covered / covered-unresolved / partial).</li>
+<li><strong>next step</strong>: what a successor should do with this row — <code>done</code>,
+a review instruction, or a download-and-process instruction with the
+estimated data volume.</li>
+</ul>
+<p>The full 23-column version (positions, aperture areas, infrared sizes,
+data-volume estimates, per-column key) lives in
+<code>result_v2/survey_registry.{csv,md}</code>.</p>
+<h2 id="status-counts">Status counts</h2>
+<table>
+<thead>
+<tr>
+<th>status</th>
+<th>count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>candidate</td>
+<td>95</td>
+</tr>
+<tr>
+<td>measured-upper-limit</td>
+<td>33</td>
+</tr>
+<tr>
+<td>B-mosaic</td>
+<td>4</td>
+</tr>
+<tr>
+<td>measured-marginal</td>
+<td>3</td>
+</tr>
+<tr>
+<td>measured-detected</td>
+<td>2</td>
+</tr>
+<tr>
+<td>excluded (line out of band at true z)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>excluded (user)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>review</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>Tier boundaries are applied to the calibrated signal-to-noise ratio:
+detected at S/N ≥ 5, marginal at 3–5, upper limit below 3. On this
+scale the census is <strong>2 detected, 3 marginal, 33 upper limits</strong>, one
+source under review.</p>
+<h2 id="the-table">The table</h2>
+<table>
+<thead>
+<tr>
+<th>galaxy</th>
+<th>z</th>
+<th>f60 [Jy]</th>
+<th>status</th>
+<th>HRL</th>
+<th>tracer</th>
+<th>F [Jy km/s]</th>
+<th>σ_F</th>
+<th>S/N</th>
+<th>W [km/s]</th>
+<th>RMS10 [mJy]</th>
+<th>RMS10 pred [mJy]</th>
+<th>IR coverage</th>
+<th>next step</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ngc253</td>
+<td>0.00080</td>
+<td>967.81</td>
+<td>measured-detected</td>
+<td>H40a</td>
+<td>CS21</td>
+<td>4.4389</td>
+<td>0.222</td>
+<td>19.95</td>
+<td>264.7</td>
+<td>2.882</td>
+<td></td>
+<td>partial</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc4945</td>
+<td>0.00188</td>
+<td>625.46</td>
+<td>measured-detected</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>8.6669</td>
+<td>0.847</td>
+<td>10.23</td>
+<td>386.8</td>
+<td>9.085</td>
+<td></td>
+<td>partial</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc3628</td>
+<td>0.002772</td>
+<td>54.8</td>
+<td>measured-marginal</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>1.5165</td>
+<td>0.33</td>
+<td>4.59</td>
+<td>327.3</td>
+<td>3.845</td>
+<td></td>
+<td>partial</td>
+<td>adjudicated — done</td>
+</tr>
+<tr>
+<td>he2-10</td>
+<td>0.002912</td>
+<td></td>
+<td>measured-marginal</td>
+<td>H40a</td>
+<td>CS21</td>
+<td>0.1931</td>
+<td>0.053</td>
+<td>3.67</td>
+<td>100</td>
+<td>1.11</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>adjudicated — done</td>
+</tr>
+<tr>
+<td>eso097-013</td>
+<td>0.001448</td>
+<td></td>
+<td>measured-marginal</td>
+<td>H40a</td>
+<td>CS21</td>
+<td>0.4928</td>
+<td>0.143</td>
+<td>3.45</td>
+<td>299.2</td>
+<td>1.74</td>
+<td></td>
+<td>partial</td>
+<td>adjudicated — done</td>
+</tr>
+<tr>
+<td>ngc4826</td>
+<td>0.0014</td>
+<td>36.7</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>1.9567</td>
+<td>0.711</td>
+<td>2.75</td>
+<td>302.7</td>
+<td>8.612</td>
+<td></td>
+<td>partial</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc3256</td>
+<td>0.00928</td>
+<td>102.63</td>
+<td>measured-upper-limit</td>
+<td>H40a</td>
+<td>HCO+10</td>
+<td>0.2685</td>
+<td>0.167</td>
+<td>1.61</td>
+<td>185.5</td>
+<td>2.582</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>irasf19297-0406</td>
+<td>0.08573</td>
+<td>7.32</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>1.4381</td>
+<td>0.895</td>
+<td>1.61</td>
+<td>499.2</td>
+<td>8.444</td>
+<td></td>
+<td>partial</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc5253</td>
+<td>0.0014</td>
+<td>29.84</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>0.4914</td>
+<td>0.319</td>
+<td>1.54</td>
+<td>100</td>
+<td>6.723</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>iras17208-0014</td>
+<td>0.04281</td>
+<td>32.13</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>4.0282</td>
+<td>2.65</td>
+<td>1.52</td>
+<td>641</td>
+<td>22.064</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc7469</td>
+<td>0.01642</td>
+<td>27.33</td>
+<td>measured-upper-limit</td>
+<td>H40a</td>
+<td>CS21</td>
+<td>0.1368</td>
+<td>0.096</td>
+<td>1.42</td>
+<td>315.8</td>
+<td>1.142</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>irasf05189-2524</td>
+<td>0.04275</td>
+<td>13.25</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>0.8306</td>
+<td>0.622</td>
+<td>1.33</td>
+<td>294</td>
+<td>7.646</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc5408</td>
+<td>0.001682</td>
+<td></td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>0.0643</td>
+<td>0.049</td>
+<td>1.31</td>
+<td>100</td>
+<td>1.037</td>
+<td></td>
+<td>partial</td>
+<td>done</td>
+</tr>
+<tr>
+<td>irasf14378-3651</td>
+<td>0.06819</td>
+<td>6.72</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>1.2805</td>
+<td>0.985</td>
+<td>1.3</td>
+<td>317.4</td>
+<td>11.656</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ic4687</td>
+<td>0.017345</td>
+<td>20.2</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>0.2084</td>
+<td>0.181</td>
+<td>1.15</td>
+<td>287.5</td>
+<td>2.255</td>
+<td></td>
+<td>partial</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc7582</td>
+<td>0.00541</td>
+<td>52.2</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>0.5103</td>
+<td>0.506</td>
+<td>1.01</td>
+<td>378</td>
+<td>5.483</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>iras07251-0248</td>
+<td>0.08758</td>
+<td>6.49</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>0.316</td>
+<td>0.408</td>
+<td>0.77</td>
+<td>535.9</td>
+<td>3.718</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc1377</td>
+<td>0.005977</td>
+<td>7.43</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>0.1916</td>
+<td>0.247</td>
+<td>0.77</td>
+<td>135.4</td>
+<td>4.476</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc7172</td>
+<td>0.008726</td>
+<td>5.76</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>0.3978</td>
+<td>0.566</td>
+<td>0.71</td>
+<td>622.6</td>
+<td>4.778</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc1808</td>
+<td>0.00334</td>
+<td>105.55</td>
+<td>measured-upper-limit</td>
+<td>H40a</td>
+<td>CS21</td>
+<td>0.0957</td>
+<td>0.166</td>
+<td>0.58</td>
+<td>347.8</td>
+<td>1.872</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc6810</td>
+<td>0.006775</td>
+<td>18.2</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>0.2683</td>
+<td>0.588</td>
+<td>0.45</td>
+<td>337.6</td>
+<td>6.745</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc1386</td>
+<td>0.003052</td>
+<td>5.92</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>0.2627</td>
+<td>0.664</td>
+<td>0.39</td>
+<td>305.7</td>
+<td>8.003</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc5135</td>
+<td>0.013693</td>
+<td>16.86</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>0.0527</td>
+<td>0.201</td>
+<td>0.26</td>
+<td>175.1</td>
+<td>3.202</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ic5063</td>
+<td>0.011348</td>
+<td>5.87</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>0.1726</td>
+<td>0.727</td>
+<td>0.24</td>
+<td>421.3</td>
+<td>7.464</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>iras19542+1110</td>
+<td>0.06283</td>
+<td>6.18</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>0.216</td>
+<td>0.941</td>
+<td>0.23</td>
+<td>421.1</td>
+<td>9.662</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc7465</td>
+<td>0.006538</td>
+<td>5.47</td>
+<td>measured-upper-limit</td>
+<td>H40a</td>
+<td>HCO+10</td>
+<td>0.006</td>
+<td>0.044</td>
+<td>0.13</td>
+<td>317.2</td>
+<td>0.524</td>
+<td></td>
+<td>partial</td>
+<td>done</td>
+</tr>
+<tr>
+<td>irasf14348-1447</td>
+<td>0.08247</td>
+<td>6.82</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>0.0249</td>
+<td>0.203</td>
+<td>0.12</td>
+<td>404.2</td>
+<td>2.133</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ic5179</td>
+<td>0.011405</td>
+<td>19.39</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>-0.0167</td>
+<td>0.714</td>
+<td>-0.03</td>
+<td>313.4</td>
+<td>8.508</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc5643</td>
+<td>0.003999</td>
+<td>23.48</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>-0.1067</td>
+<td>0.613</td>
+<td>-0.17</td>
+<td>168.3</td>
+<td>9.97</td>
+<td></td>
+<td>partial</td>
+<td>done</td>
+</tr>
+<tr>
+<td>irasf18293-3413</td>
+<td>0.018176</td>
+<td>35.71</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>-0.1718</td>
+<td>0.576</td>
+<td>-0.3</td>
+<td>377.6</td>
+<td>6.254</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc7130</td>
+<td>0.016151</td>
+<td>16.71</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>-0.0933</td>
+<td>0.28</td>
+<td>-0.33</td>
+<td>160</td>
+<td>4.67</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>iras09022-3615</td>
+<td>0.05964</td>
+<td>11.64</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>-0.2286</td>
+<td>0.555</td>
+<td>-0.41</td>
+<td>597.5</td>
+<td>4.783</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>irasf12112+0305</td>
+<td>0.07268</td>
+<td>8.18</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>-0.3041</td>
+<td>0.606</td>
+<td>-0.5</td>
+<td>517.7</td>
+<td>5.611</td>
+<td></td>
+<td>partial</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc5728</td>
+<td>0.009186</td>
+<td>8.88</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>-0.2178</td>
+<td>0.317</td>
+<td>-0.69</td>
+<td>320.4</td>
+<td>3.731</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc3227</td>
+<td>0.003756</td>
+<td>8.42</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>-1.697</td>
+<td>1.468</td>
+<td>-1.15</td>
+<td>316.1</td>
+<td>17.408</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc5248</td>
+<td>0.003839</td>
+<td>20.91</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>-0.7307</td>
+<td>0.585</td>
+<td>-1.25</td>
+<td>147.9</td>
+<td>10.146</td>
+<td></td>
+<td>partial</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc4569</td>
+<td>-0.000784</td>
+<td>9.8</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>-0.3981</td>
+<td>0.256</td>
+<td>-1.55</td>
+<td>305.8</td>
+<td>3.085</td>
+<td></td>
+<td>partial</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc2369</td>
+<td>0.0108</td>
+<td>20.35</td>
+<td>measured-upper-limit</td>
+<td>H30a</td>
+<td>CO21</td>
+<td>-1.5092</td>
+<td>0.756</td>
+<td>-1.99</td>
+<td>503.2</td>
+<td>7.108</td>
+<td></td>
+<td>covered-unresolved</td>
+<td>done</td>
+</tr>
+<tr>
+<td>ngc5128</td>
+<td>0.00187</td>
+<td>213.29</td>
+<td>review</td>
+<td></td>
+<td>CS21</td>
+<td>nan</td>
+<td>nan</td>
+<td>nan</td>
+<td>nan</td>
+<td></td>
+<td></td>
+<td>partial</td>
+<td>user review: W20 pinned at ±600 bound (cap 600, line-stop 2991) — tracer</td>
+</tr>
+<tr>
+<td>ngc1313</td>
+<td>0.001568</td>
+<td>30.71</td>
+<td>B-mosaic</td>
+<td></td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>partial</td>
+<td>methodology-chapter exemplar only</td>
+</tr>
+<tr>
+<td>ngc3627</td>
+<td>0.0024</td>
+<td>66.31</td>
+<td>B-mosaic</td>
+<td></td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>partial</td>
+<td>methodology-chapter exemplar only</td>
+</tr>
+<tr>
+<td>ngc5236</td>
+<td>0.0017</td>
+<td>265.84</td>
+<td>B-mosaic</td>
+<td></td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>partial</td>
+<td>methodology-chapter exemplar only</td>
+</tr>
+<tr>
+<td>ngc7793</td>
+<td>0.000749</td>
+<td>18.14</td>
+<td>B-mosaic</td>
+<td></td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>partial</td>
+<td>methodology-chapter exemplar only</td>
+</tr>
+<tr>
+<td>NGC 6814</td>
+<td>0.0052</td>
+<td>6.53</td>
+<td>excluded (line out of band at true z)</td>
+<td>H40a</td>
+<td>CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.45</td>
+<td></td>
+<td>needs different archival data (wave-1 spws miss the line at true z)</td>
+</tr>
+<tr>
+<td>NGC 7552</td>
+<td>0.00529</td>
+<td>77.37</td>
+<td>excluded (line out of band at true z)</td>
+<td>H40a</td>
+<td>CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.48</td>
+<td></td>
+<td>needs different archival data (wave-1 spws miss the line at true z)</td>
+</tr>
+<tr>
+<td>ngc2903</td>
+<td>0.0018</td>
+<td>60.54</td>
+<td>excluded (user)</td>
+<td></td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>partial</td>
+<td>closed — see decisions.md</td>
+</tr>
+<tr>
+<td>ngc55</td>
+<td>0.00042</td>
+<td>77</td>
+<td>excluded (user)</td>
+<td></td>
+<td>CS21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>partial</td>
+<td>closed — see decisions.md</td>
+</tr>
+<tr>
+<td>CGCG 049-057</td>
+<td>0.01299</td>
+<td>21.89</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>CS21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.76</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>CGCG 436-030</td>
+<td>0.03141</td>
+<td>10.71</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.66</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>CGCG 448-020</td>
+<td>0.03606</td>
+<td>12.65</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.5</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>CGCG 453-062</td>
+<td>0.0251</td>
+<td>7.19</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>6.27</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>CGCG 468-002</td>
+<td>0.01679</td>
+<td>9.66</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.57</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>ESO 148-IG002</td>
+<td>0.04471</td>
+<td>10.94</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>4.64</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>ESO 173-G015</td>
+<td>0.01003</td>
+<td>81.44</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>CS21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.52</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>ESO 239-IG002</td>
+<td>0.04283</td>
+<td>7.24</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.37</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>ESO 264-G036</td>
+<td>0.02335</td>
+<td>6.07</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.51</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>ESO 267-G030</td>
+<td>0.01849</td>
+<td>5.61</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.5</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>ESO 286-IG019</td>
+<td>0.04316</td>
+<td>12.19</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.36</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>ESO 297-G011/012</td>
+<td>0.01714</td>
+<td>7.77</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.63</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>ESO 319-G022</td>
+<td>0.01635</td>
+<td>7.68</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.49</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>ESO 320-G030</td>
+<td>0.01078</td>
+<td>34.38</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.47</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>ESO 323-G077</td>
+<td>0.01493</td>
+<td>5.73</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.62</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>ESO 350-IG038</td>
+<td>0.02053</td>
+<td>6.88</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>6.08</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>ESO 467-G027</td>
+<td>0.0175</td>
+<td>5.58</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>13CO21+CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.95</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>ESO 5-G004</td>
+<td>0.00603</td>
+<td>7.48</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>1.47</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>ESO 507-G070</td>
+<td>0.0215</td>
+<td>13.04</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.49</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>ESO 557-G002</td>
+<td>0.02114</td>
+<td>7.42</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.5</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>ESO 602-G025</td>
+<td>0.02504</td>
+<td>5.42</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.16</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IC 0563/4</td>
+<td>0.02047</td>
+<td>5.26</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>13CO21+CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.47</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IC 0860</td>
+<td>0.01297</td>
+<td>18.61</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>CS21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.45</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IC 1623A/B</td>
+<td>0.02011</td>
+<td>22.93</td>
+<td>candidate</td>
+<td>H30a+H40a</td>
+<td>CO21+CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.85</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IC 2545</td>
+<td>0.03425</td>
+<td>9.79</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.97</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IC 4518A/B</td>
+<td>0.01573</td>
+<td>8.07</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.73</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IC 4734</td>
+<td>0.01605</td>
+<td>14.04</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.96</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>III Zw 035</td>
+<td>0.02754</td>
+<td>13.25</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.93</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IRAS 05442+1732</td>
+<td>0.01872</td>
+<td>10.02</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>13CO21+CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IRAS 08355-4944</td>
+<td>0.0259</td>
+<td>9.44</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.66</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IRAS 13120-5453</td>
+<td>0.03076</td>
+<td>41.11</td>
+<td>candidate</td>
+<td>H30a+H40a</td>
+<td>CO21+CS21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.43</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IRAS 17578-0400</td>
+<td>0.01324</td>
+<td>27.69</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>CS21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.63</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IRAS F01364-1042</td>
+<td>0.04843</td>
+<td>6.62</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.45</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IRAS F03359+1523</td>
+<td>0.03519</td>
+<td>5.97</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.33</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IRAS F05187-1017</td>
+<td>0.02827</td>
+<td>5.39</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>8.15</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IRAS F06076-2139</td>
+<td>0.03745</td>
+<td>6.43</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.66</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IRAS F06592-6313</td>
+<td>0.02296</td>
+<td>5.74</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.62</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IRAS F10173+0828</td>
+<td>0.04893</td>
+<td>5.61</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.33</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IRAS F10565+2448</td>
+<td>0.04312</td>
+<td>12.1</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>CS21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.53</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IRAS F16164-0746</td>
+<td>0.02715</td>
+<td>10.29</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.71</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IRAS F16399-0937</td>
+<td>0.02701</td>
+<td>8.42</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.69</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IRAS F17138-1017</td>
+<td>0.01734</td>
+<td>15.18</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.52</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>IRAS F22491-1808</td>
+<td>0.07729</td>
+<td>5.54</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.56</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>MCG -01-60-022</td>
+<td>0.02324</td>
+<td>5.39</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>6.27</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>MCG-03-34-064</td>
+<td>0.01719</td>
+<td>6.2</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.89</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 0034</td>
+<td>0.01978</td>
+<td>17.05</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>13CO21+CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.51</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 0300</td>
+<td>0.00047</td>
+<td>15.3</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>3.3</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 0628</td>
+<td>0.00218</td>
+<td>21.54</td>
+<td>candidate</td>
+<td>H30a+H40a</td>
+<td>CO21+CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>6.67</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 0877</td>
+<td>0.01292</td>
+<td>11.82</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.78</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 1068</td>
+<td>0.00335</td>
+<td>196.37</td>
+<td>candidate</td>
+<td>H30a+H40a</td>
+<td>CO21+CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.37</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 1097</td>
+<td>0.0043</td>
+<td>53.35</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.93</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 1266</td>
+<td>0.00732</td>
+<td>13.13</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.97</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 1365</td>
+<td>0.00546</td>
+<td>94.31</td>
+<td>candidate</td>
+<td>H30a+H40a</td>
+<td>13CO21+CO21+CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.27</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 1448</td>
+<td>0.00388</td>
+<td>10.32</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>9.27</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 1511</td>
+<td>0.00443</td>
+<td>25.38</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.7</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 1566</td>
+<td>0.00499</td>
+<td>22.53</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>6.8</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 1614</td>
+<td>0.01583</td>
+<td>32.12</td>
+<td>candidate</td>
+<td>H30a+H40a</td>
+<td>13CO21+CO21+CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.45</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 1672</td>
+<td>0.0045</td>
+<td>41.21</td>
+<td>candidate</td>
+<td>H30a+H40a</td>
+<td>CO21+CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 2623</td>
+<td>0.01847</td>
+<td>23.74</td>
+<td>candidate</td>
+<td>H30a+H40a</td>
+<td>13CO21+CO21+CS21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.5</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 2964</td>
+<td>0.00444</td>
+<td>12.07</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>8.57</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 3110</td>
+<td>0.01698</td>
+<td>11.28</td>
+<td>candidate</td>
+<td>H30a+H40a</td>
+<td>CO21+CS21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.53</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 3281</td>
+<td>0.01067</td>
+<td>6.73</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.5</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 3351</td>
+<td>0.00257</td>
+<td>19.66</td>
+<td>candidate</td>
+<td>H30a+H40a</td>
+<td>CO21+CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.4</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 3521</td>
+<td>0.00246</td>
+<td>49.19</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>9.48</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 3621</td>
+<td>0.00243</td>
+<td>29.32</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.23</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 4038/9</td>
+<td>0.00521</td>
+<td>45.16</td>
+<td>candidate</td>
+<td>H30a+H40a</td>
+<td>13CO21+CO21+CS21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.43</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 4254</td>
+<td>0.00802</td>
+<td>37.46</td>
+<td>candidate</td>
+<td>H30a+H40a</td>
+<td>CO21+CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>8.75</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 4298</td>
+<td>0.00381</td>
+<td>7.02</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>13CO21+CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>6.94</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 4303</td>
+<td>0.00524</td>
+<td>37.27</td>
+<td>candidate</td>
+<td>H30a+H40a</td>
+<td>CO21+CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.61</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 4321</td>
+<td>0.00524</td>
+<td>26</td>
+<td>candidate</td>
+<td>H30a+H40a</td>
+<td>CO21+CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>9.29</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 4383</td>
+<td>0.0057</td>
+<td>8.36</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>13CO21+CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>6.42</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 4388</td>
+<td>0.00842</td>
+<td>10.27</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>3.5</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 4418</td>
+<td>0.00702</td>
+<td>43.89</td>
+<td>candidate</td>
+<td>H30a+H40a</td>
+<td>CO21+CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.47</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 4501</td>
+<td>0.00762</td>
+<td>19.68</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>13CO21+CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.91</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 4532</td>
+<td>0.00669</td>
+<td>9.21</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>13CO21+CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.45</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 4536</td>
+<td>0.00601</td>
+<td>30.26</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>8.53</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 4568/7</td>
+<td>0.00755</td>
+<td>20.81</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>13CO21+CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.58</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 4579</td>
+<td>0.00507</td>
+<td>5.93</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>3.5</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 4631</td>
+<td>0.0021</td>
+<td>85.4</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>CS21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>1.22</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 4651</td>
+<td>0.00269</td>
+<td>5.6</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>13CO21+CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>6.7</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 4808</td>
+<td>0.0026</td>
+<td>6.92</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>13CO21+CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>8.27</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 5257/8</td>
+<td>0.02268</td>
+<td>10.73</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>8.3</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 5427</td>
+<td>0.00873</td>
+<td>10.24</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.92</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 6240</td>
+<td>0.02434</td>
+<td>22.94</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.64</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 6300</td>
+<td>0.0037</td>
+<td>16.72</td>
+<td>candidate</td>
+<td>H40a</td>
+<td>CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>9.82</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 6744</td>
+<td>0.00281</td>
+<td>18.92</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>12.43</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 6907</td>
+<td>0.01054</td>
+<td>14.14</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>13CO21+CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>18.87</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 6926</td>
+<td>0.01991</td>
+<td>7.09</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>13CO21+CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>9.11</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 7591</td>
+<td>0.01655</td>
+<td>7.87</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>13CO21+CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.9</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 7592</td>
+<td>0.02416</td>
+<td>8.05</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.35</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>NGC 7679</td>
+<td>0.01716</td>
+<td>7.4</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>13CO21+CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>7.71</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>UGC 03094</td>
+<td>0.02471</td>
+<td>6.35</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>6.74</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>UGC 08387</td>
+<td>0.02335</td>
+<td>17.04</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.61</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>UGC 09913</td>
+<td>0.01818</td>
+<td>104.09</td>
+<td>candidate</td>
+<td>H30a+H40a</td>
+<td>CO21+CS21+HCN10+HCO+10</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.41</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+<tr>
+<td>VV 340a</td>
+<td>0.0333</td>
+<td>6.95</td>
+<td>candidate</td>
+<td>H30a</td>
+<td>CO21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>0.39</td>
+<td></td>
+<td>download (~? GB selective-est) → wave onboard → frozen stage 1-4</td>
+</tr>
+</tbody>
+</table>
+
+    </article>    <aside class="page-toc">
+      <div class="page-toc-label">On this page</div>
+      <ul>        <li class="lvl-2"><a href="#where-the-rows-come-from">Where the rows come from</a></li>        <li class="lvl-2"><a href="#how-to-read-the-columns">How to read the columns</a></li>        <li class="lvl-2"><a href="#status-counts">Status counts</a></li>        <li class="lvl-2"><a href="#the-table">The table</a></li>      </ul>
+    </aside>  </div>
+
+  <script src="../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

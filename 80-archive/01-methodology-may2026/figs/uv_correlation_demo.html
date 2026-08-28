@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Why interferometric pixels are correlated</title>
+<style>
+  :root { color-scheme: light; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { font-family: Georgia, "Times New Roman", serif;
+         color: #222; padding: 0.7em 0.8em; font-size: 14px; }
+  .panels { display: grid; grid-template-columns: 1fr 1fr; gap: 1em; align-items: start; }
+  @media (max-width: 700px) { .panels { grid-template-columns: 1fr; } }
+  .panel h3 { margin: 0 0 0.3em; font-size: 0.98em; }
+  .panel .role { font-size: 0.82em; color: #666; margin-bottom: 0.35em; line-height: 1.4; }
+  .canvas-wrap { background: #fff; border: 1px solid #ddd; border-radius: 4px;
+                 overflow: hidden; position: relative;
+                 width: 280px; height: 280px; max-width: 100%;
+                 margin: 0 auto; }
+  canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+  .controls { margin: 1.2em 0 0.5em; }
+  .ctrl-row { display: flex; gap: 0.6em; align-items: center; flex-wrap: wrap;
+              font-family: ui-monospace, monospace; font-size: 0.95em; }
+  .controls input[type=range] { width: 60%; max-width: 420px; }
+  .readout { font-family: ui-monospace, monospace; font-size: 0.92em; line-height: 1.55;
+             background: #f5f5f5; padding: 0.5em 0.7em; border-radius: 4px;
+             margin-top: 0.6em; }
+  .readout .label { color: #666; }
+  .readout .big { font-size: 1.1em; font-weight: bold; color: #b91c1c; }
+  .verdict { background: #fef3c7; padding: 0.7em 0.9em; border-radius: 4px;
+             font-size: 0.92em; line-height: 1.5; margin-top: 1em; }
+</style>
+</head>
+<body>
+
+<div class="panels">
+  <div class="panel">
+    <h3>1. Antenna array</h3>
+    <div class="role">N antennas randomly placed on a circular patch
+    (mimicking an ALMA configuration).</div>
+    <div class="canvas-wrap"><canvas id="ant" width="200" height="200"></canvas></div>
+  </div>
+  <div class="panel">
+    <h3>2. u–v coverage</h3>
+    <div class="role">All baselines (antenna pair separations). Each
+    red dot is one sampled point in the Fourier plane — everything
+    else is unsampled.</div>
+    <div class="canvas-wrap"><canvas id="uv" width="200" height="200"></canvas></div>
+  </div>
+  <div class="panel">
+    <h3>3a. Synthesised beam <span style="font-weight:normal;color:#666;">(= inverse FFT of u–v)</span></h3>
+    <div class="role">The PSF of this telescope: a point source in
+    the sky looks like this in the image — central peak surrounded
+    by sidelobe rings. Contrast clipped (top 3 % saturated) so the
+    rings are visible; without clipping the central peak dominates
+    and the rings compress to near-white.</div>
+    <div class="canvas-wrap"><canvas id="beam" width="200" height="200"></canvas></div>
+  </div>
+  <div class="panel">
+    <h3>3b. Pure-noise dirty image (ALMA)</h3>
+    <div class="role">Independent complex Gaussian noise injected
+    <em>only at the sampled u–v points</em>, inverse-FFT'd to the
+    image plane. The noise comes out with visible blobs at the
+    beam scale.</div>
+    <div class="canvas-wrap"><canvas id="noise" width="200" height="200"></canvas></div>
+  </div>
+</div>
+
+<div class="panels" style="margin-top:1em;">
+  <div class="panel">
+    <h3>4. Pure white noise reference</h3>
+    <div class="role">Same 64×64 Gaussian noise field, but generated
+    <strong>directly in the image plane, no u–v sampling, no FFT</strong>
+    — every pixel an independent measurement. This is what 3b would
+    look like if ALMA sampled every u–v point. The contrast between
+    3b (blobs at beam scale) and 4 (no structure) is exactly what
+    "interferometric pixels are correlated" means.</div>
+    <div class="canvas-wrap"><canvas id="whitenoise" width="200" height="200"></canvas></div>
+  </div>
+  <div class="panel">
+    <h3>5. Noise + discrete residual outliers</h3>
+    <div class="role">Same ALMA noise as 3b, with a dozen
+    <strong>isolated outlier pixels</strong> sprinkled at random
+    positions (each 4–7σ noise amplitude). Pick a contamination
+    scenario below — each maps to a real failure mode that
+    produces non-Gaussian pixels in real ALMA data.</div>
+    <div style="margin: 0.5em 0; font-size: 0.83em; line-height: 1.55;">
+      <label style="display:block;">
+        <input type="radio" name="spike-mode" value="symmetric" checked />
+        <strong>Random ± outliers</strong> — CLEAN deconvolution
+        residuals (both peaks and negative bowls left when CLEAN
+        stops at its threshold)
+      </label>
+      <label style="display:block;">
+        <input type="radio" name="spike-mode" value="positive" />
+        <strong>All-positive outliers</strong> — incomplete
+        continuum subtraction / same-SPW companion-line
+        contamination (real positive emission leaking into the
+        noise window)
+      </label>
+      <label style="display:block;">
+        <input type="radio" name="spike-mode" value="negative" />
+        <strong>All-negative outliers</strong> — CLEAN's negative
+        bowl around bright extended sources / over-aggressive
+        baseline subtraction (real signal mistakenly removed)
+      </label>
+    </div>
+    <div class="canvas-wrap"><canvas id="sidelobe" width="200" height="200"></canvas></div>
+  </div>
+</div>
+
+<div style="margin-top:1.4em;">
+  <h3 style="margin:0 0 0.3em; font-size:1em;">6. Histograms (log y axis exposes tails) — well-behaved vs contaminated</h3>
+  <div style="font-size:0.85em; color:#666; margin-bottom:0.4em; line-height:1.5;">
+    Two histograms side by side, both with log y axis. <strong>Look at
+    |value| &gt; 3σ.</strong>
+    <em>Left (well-behaved)</em>: 3b and 4 sit on top of the Gaussian
+    reference all the way out — correlated noise has the same per-pixel
+    distribution as independent noise.
+    <em>Right (contaminated)</em>: panel 5 (off-source pixels only,
+    standardised by the <strong>pure-noise σ</strong> of 3b) clearly
+    overshoots the Gaussian beyond ~3σ — those extra pixels are
+    deterministic sidelobe ripples masquerading as noise.
+  </div>
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 0.6em;">
+    <div style="background:#fff; border:1px solid #ddd; border-radius:4px; padding:0.5em;">
+      <div style="font-size:0.85em; color:#444; margin-bottom:0.2em; font-weight:bold;">
+        Well-behaved: pure noise (synthetic)
+      </div>
+      <canvas id="hist-good" width="700" height="300"
+              style="display:block; width:100%; height:auto; image-rendering:auto;"></canvas>
+    </div>
+    <div style="background:#fff; border:1px solid #ddd; border-radius:4px; padding:0.5em;">
+      <div style="font-size:0.85em; color:#444; margin-bottom:0.2em; font-weight:bold;">
+        Contaminated: noise + residual sidelobes
+      </div>
+      <canvas id="hist-bad" width="700" height="300"
+              style="display:block; width:100%; height:auto; image-rendering:auto;"></canvas>
+    </div>
+  </div>
+  <div class="readout" style="margin-top:0.6em; font-size:0.9em;">
+    <span class="label">ALMA pure noise (3b):</span>
+    σ = <span id="r-std-alma">—</span> · excess kurtosis =
+    <span id="r-kurt-alma">—</span> (0 = Gaussian)
+    <br/>
+    <span class="label">White noise (4):</span>
+    σ = <span id="r-std-white">—</span> · excess kurtosis =
+    <span id="r-kurt-white">—</span>
+    <br/>
+    <span class="label">ALMA + discrete outliers (5):</span>
+    skewness = <span class="big" id="r-skew-side">—</span>
+    ·  excess kurtosis = <span class="big" id="r-kurt-side">—</span>
+    <br/>
+    <span class="label" style="font-size:0.85em;">
+    skewness &gt; 0 ⇒ right-leaning tail · skewness &lt; 0 ⇒ left-leaning tail ·
+    skewness ≈ 0 + kurtosis &gt; 0 ⇒ symmetric fat tail
+    </span>
+  </div>
+</div>
+
+<div class="readout" style="margin-top:1em;">
+  <span class="label">N antennas:</span> <span id="r-N">—</span>
+  &nbsp;·&nbsp;
+  <span class="label">N baselines (= u-v points):</span> <span id="r-B">—</span>
+  &nbsp;·&nbsp;
+  <span class="label">Equivalent beam FWHM:</span>
+  <span class="big" id="r-fwhm">—</span> px
+  <br/>
+  <span class="label">Beam solid angle:</span> <span id="r-area">—</span> px²
+  &nbsp;·&nbsp;
+  <span class="label">Total image pixels:</span> <span id="r-tot">—</span>
+  &nbsp;·&nbsp;
+  <span class="label">N independent samples in image:</span>
+  <span class="big" id="r-Nind">—</span>
+</div>
+
+<div class="controls">
+  <div class="ctrl-row">
+    <strong>Number of antennas:</strong>
+    <input type="range" id="N" min="3" max="40" step="1" value="12" />
+    <span id="N-val" style="min-width:2.5em; text-align:right;">12</span>
+    <button id="shuffle" type="button" style="margin-left:1em;">↻ shuffle antenna positions</button>
+  </div>
+  <div style="margin-top:0.3em; color:#666; font-size:0.88em;">
+    More antennas → more baselines → denser u–v sampling →
+    <strong>sharper beam</strong> →
+    <strong>smaller noise blobs (less per-pixel correlation)</strong>.
+    Few antennas → sparse u–v → fat beam → big correlated noise blobs.
+    The relationship between beam size and noise correlation length is
+    the central reason interferometric pixels aren't independent.
+  </div>
+</div>
+
+<div class="verdict" id="verdict">…</div>
+
+<script>
+"use strict";
+(function () {
+  const N_GRID = 64;   // FFT grid (power of 2 for radix-2 FFT)
+  const DISP   = 200;  // display canvas pixel size
+  const PIXEL  = DISP / N_GRID;
+
+  // ===== minimal 1D radix-2 FFT =====
+  // in-place, takes Float64Array re + im, length must be power of 2.
+  function fft1d(re, im, inverse) {
+    const n = re.length;
+    // bit-reversal permutation
+    let j = 0;
+    for (let i = 1; i < n; i++) {
+      let bit = n >> 1;
+      while (j & bit) { j ^= bit; bit >>= 1; }
+      j ^= bit;
+      if (i < j) {
+        let tr = re[i]; re[i] = re[j]; re[j] = tr;
+        let ti = im[i]; im[i] = im[j]; im[j] = ti;
+      }
+    }
+    // Cooley–Tukey
+    for (let len = 2; len <= n; len <<= 1) {
+      const ang = (inverse ? 2 : -2) * Math.PI / len;
+      const wlen_r = Math.cos(ang), wlen_i = Math.sin(ang);
+      for (let i = 0; i < n; i += len) {
+        let w_r = 1, w_i = 0;
+        for (let k = 0; k < len / 2; k++) {
+          const u_r = re[i + k],         u_i = im[i + k];
+          const v_r = re[i + k + len/2] * w_r - im[i + k + len/2] * w_i;
+          const v_i = re[i + k + len/2] * w_i + im[i + k + len/2] * w_r;
+          re[i + k]           = u_r + v_r;
+          im[i + k]           = u_i + v_i;
+          re[i + k + len/2]   = u_r - v_r;
+          im[i + k + len/2]   = u_i - v_i;
+          const nw_r = w_r * wlen_r - w_i * wlen_i;
+          const nw_i = w_r * wlen_i + w_i * wlen_r;
+          w_r = nw_r; w_i = nw_i;
+        }
+      }
+    }
+    if (inverse) {
+      for (let i = 0; i < n; i++) { re[i] /= n; im[i] /= n; }
+    }
+  }
+  // 2D FFT: apply 1D along rows, then along columns
+  function fft2d(re, im, n, inverse) {
+    const rowRe = new Float64Array(n);
+    const rowIm = new Float64Array(n);
+    for (let y = 0; y < n; y++) {
+      for (let x = 0; x < n; x++) { rowRe[x] = re[y*n+x]; rowIm[x] = im[y*n+x]; }
+      fft1d(rowRe, rowIm, inverse);
+      for (let x = 0; x < n; x++) { re[y*n+x] = rowRe[x]; im[y*n+x] = rowIm[x]; }
+    }
+    for (let x = 0; x < n; x++) {
+      for (let y = 0; y < n; y++) { rowRe[y] = re[y*n+x]; rowIm[y] = im[y*n+x]; }
+      fft1d(rowRe, rowIm, inverse);
+      for (let y = 0; y < n; y++) { re[y*n+x] = rowRe[y]; im[y*n+x] = rowIm[y]; }
+    }
+  }
+  // fftshift (move DC to centre)
+  function fftshift(a, n) {
+    const out = new Float64Array(n*n);
+    const h = n >> 1;
+    for (let y = 0; y < n; y++) {
+      for (let x = 0; x < n; x++) {
+        out[((y+h)%n)*n + (x+h)%n] = a[y*n+x];
+      }
+    }
+    return out;
+  }
+
+  // ===== seeded PRNG for reproducible antenna positions / noise =====
+  let prngState = 0;
+  function mulberry32() {
+    return function () {
+      prngState |= 0; prngState = (prngState + 0x6D2B79F5) | 0;
+      let t = Math.imul(prngState ^ (prngState >>> 15), 1 | prngState);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  // ===== antenna array generation =====
+  let antennas = [];   // each {x, y} in [-1, 1]
+  let antennaSeed = 42;
+  function makeAntennas(N, seed) {
+    prngState = seed;
+    const rnd = mulberry32();
+    const ant = [];
+    while (ant.length < N) {
+      const x = (rnd() * 2) - 1;
+      const y = (rnd() * 2) - 1;
+      if (x*x + y*y < 1) ant.push({ x, y });   // keep inside unit disk
+    }
+    return ant;
+  }
+
+  // ===== u-v sampling: all baselines (Δx, Δy) and their negatives =====
+  function uvFromAntennas(ant) {
+    const uv = [];
+    for (let i = 0; i < ant.length; i++) {
+      for (let j = i+1; j < ant.length; j++) {
+        uv.push({ u: ant[j].x - ant[i].x, v: ant[j].y - ant[i].y });
+        uv.push({ u: ant[i].x - ant[j].x, v: ant[i].y - ant[j].y });
+      }
+    }
+    return uv;
+  }
+
+  // ===== rasterise u-v to a binary mask on the N_GRID grid =====
+  function rasteriseUV(uv) {
+    const mask = new Uint8Array(N_GRID * N_GRID);
+    const halfN = N_GRID / 2;
+    // u-v range is [-2, +2]; map to [0, N_GRID]
+    for (const p of uv) {
+      const ix = Math.round((p.u / 2.2) * halfN + halfN);
+      const iy = Math.round((p.v / 2.2) * halfN + halfN);
+      if (ix >= 0 && ix < N_GRID && iy >= 0 && iy < N_GRID) {
+        mask[iy * N_GRID + ix] = 1;
+      }
+    }
+    return mask;
+  }
+
+  // ===== compute dirty beam = IFFT( uv_mask ) =====
+  function dirtyBeam(uvMask) {
+    const re = new Float64Array(N_GRID * N_GRID);
+    const im = new Float64Array(N_GRID * N_GRID);
+    for (let i = 0; i < re.length; i++) re[i] = uvMask[i];
+    // shift uv mask so DC is at index 0 before FFT
+    const shifted_re = fftshift(re, N_GRID);
+    const shifted_im = fftshift(im, N_GRID);
+    fft2d(shifted_re, shifted_im, N_GRID, true);  // inverse FFT
+    // back-shift for display
+    const out_re = fftshift(shifted_re, N_GRID);
+    // beam amplitude (real part only — the imaginary should be ~0 since
+    // the u-v mask is real and Hermitian-symmetric to numerical precision)
+    return out_re;
+  }
+
+  // ===== compute dirty image of noise =====
+  function dirtyNoiseImage(uvMask, seed) {
+    prngState = seed;
+    const rnd = mulberry32();
+    function randn() {
+      let u=0, v=0;
+      while (u===0) u = rnd();
+      while (v===0) v = rnd();
+      return Math.sqrt(-2*Math.log(u)) * Math.cos(2*Math.PI*v);
+    }
+    // place independent complex Gaussian noise only where mask=1
+    const re = new Float64Array(N_GRID * N_GRID);
+    const im = new Float64Array(N_GRID * N_GRID);
+    for (let i = 0; i < uvMask.length; i++) {
+      if (uvMask[i]) {
+        re[i] = randn();
+        im[i] = randn();
+      }
+    }
+    const shifted_re = fftshift(re, N_GRID);
+    const shifted_im = fftshift(im, N_GRID);
+    fft2d(shifted_re, shifted_im, N_GRID, true);
+    const out_re = fftshift(shifted_re, N_GRID);
+    return out_re;
+  }
+
+  // ===== pure white noise reference =====
+  // Same PRNG, same seed → reproducible. No u-v mask, no FFT — each pixel
+  // is an independent Gaussian draw. This is what a CCD-like detector
+  // (or interferometer with full u-v coverage) would see.
+  function whiteNoiseImage(seed) {
+    prngState = seed;
+    const rnd = mulberry32();
+    function randn() {
+      let u=0, v=0;
+      while (u===0) u = rnd();
+      while (v===0) v = rnd();
+      return Math.sqrt(-2*Math.log(u)) * Math.cos(2*Math.PI*v);
+    }
+    const out = new Float64Array(N_GRID * N_GRID);
+    for (let i = 0; i < out.length; i++) out[i] = randn();
+    return out;
+  }
+
+  // ===== dirty image with sparse residual outlier pixels =====
+  // Models the discrete contaminations that produce a true fat-tailed
+  // pixel histogram in real ALMA data:
+  //   - CLEAN deconvolution residuals that didn't quite cancel
+  //   - Bandpass spikes that survive baseline subtraction
+  //   - Companion-line contamination integrated into mom-0
+  //   - Single-baseline RFI residuals
+  // A small number (~12) of isolated pixels get a deterministic 4–7σ
+  // bump added on top of the pure ALMA noise. Bulk pixels stay
+  // Gaussian-noise-dominated; the few outliers create a clean fat-tail
+  // signature beyond ±3σ.
+  function dirtyNoiseWithSpikes(uvMask, seed, mode) {
+    // Start from the same pure ALMA dirty noise (so visual structure
+    // matches panel 3b, just with a few extra outlier pixels).
+    const base = dirtyNoiseImage(uvMask, seed);
+    let s2 = 0;
+    for (let i = 0; i < base.length; i++) s2 += base[i] * base[i];
+    const sig = Math.sqrt(s2 / base.length);
+    prngState = (seed + 991) | 0;
+    const rnd = mulberry32();
+    const N_SPIKES = 12;
+    const out = new Float64Array(base);
+    for (let k = 0; k < N_SPIKES; k++) {
+      const ix = Math.floor(rnd() * N_GRID);
+      const iy = Math.floor(rnd() * N_GRID);
+      let sign;
+      if      (mode === "positive") sign = +1;
+      else if (mode === "negative") sign = -1;
+      else                          sign = (rnd() < 0.5 ? +1 : -1);
+      const amp = (4 + 3 * rnd()) * sig * sign;
+      out[iy * N_GRID + ix] += amp;
+    }
+    return out;
+  }
+
+  // ===== std, skewness (3rd moment), excess kurtosis (4th moment − 3) =====
+  function moments(field) {
+    let n = 0, sum = 0;
+    for (let i = 0; i < field.length; i++) { sum += field[i]; n++; }
+    const mean = sum / n;
+    let s2 = 0, s3 = 0, s4 = 0;
+    for (let i = 0; i < field.length; i++) {
+      const d = field[i] - mean;
+      const d2 = d * d;
+      s2 += d2;
+      s3 += d2 * d;
+      s4 += d2 * d2;
+    }
+    const var_ = s2 / n;
+    const std  = Math.sqrt(var_);
+    const skew = (s3 / n) / Math.pow(var_, 1.5);   // 0 = symmetric
+    const kurt = (s4 / n) / (var_ * var_) - 3.0;   // 0 = Gaussian tails
+    return { mean, std, skew, kurt };
+  }
+
+  // ===== histogram of pixel values =====
+  function histogram(field, nbins, range) {
+    const [lo, hi] = range;
+    const h = new Float64Array(nbins);
+    const bw = (hi - lo) / nbins;
+    for (let i = 0; i < field.length; i++) {
+      const v = field[i];
+      if (v < lo || v >= hi) continue;
+      const k = Math.min(nbins - 1, Math.max(0, Math.floor((v - lo) / bw)));
+      h[k]++;
+    }
+    // normalise to PDF
+    const tot = field.length * bw;
+    for (let k = 0; k < nbins; k++) h[k] /= tot;
+    return { hist: h, lo, hi, bw };
+  }
+
+  // ===== draw histogram (three overlaid + Gaussian reference, log y) =====
+  function drawHistogram(canvas, traces) {
+    // traces = [{hist, color, label}, ...]  (each hist = {hist, lo, hi})
+    const W = canvas.width, H = canvas.height;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, W, H);
+
+    const pad = { l: 56, r: 14, t: 14, b: 36 };
+    const innerW = W - pad.l - pad.r, innerH = H - pad.t - pad.b;
+
+    const xlo = traces[0].hist.lo, xhi = traces[0].hist.hi;
+    // Log-y axis range: from ~1e-4 to a bit above the max bin
+    const yhi_lin = 1.0;     // standardised Gaussian peak ~ 0.4, well below 1
+    const ylo_lin = 1e-4;
+    const log10 = v => Math.log(Math.max(v, ylo_lin)) / Math.log(10);
+    const ylo_log = log10(ylo_lin), yhi_log = log10(yhi_lin);
+
+    const sx = v => pad.l + ((v - xlo) / (xhi - xlo)) * innerW;
+    const sy = p => pad.t + (1 - (log10(p) - ylo_log) / (yhi_log - ylo_log)) * innerH;
+
+    // gridlines (y at decades)
+    ctx.strokeStyle = "#eee"; ctx.lineWidth = 1;
+    for (let exp = -4; exp <= 0; exp++) {
+      const py = sy(Math.pow(10, exp));
+      ctx.beginPath();
+      ctx.moveTo(pad.l, py); ctx.lineTo(pad.l + innerW, py);
+      ctx.stroke();
+    }
+    // axes
+    ctx.strokeStyle = "#666"; ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, pad.t + innerH);
+    ctx.lineTo(pad.l + innerW, pad.t + innerH); ctx.stroke();
+
+    // x ticks
+    ctx.fillStyle = "#555"; ctx.font = "11px serif";
+    ctx.textAlign = "center";
+    const xticks = 9;
+    for (let i = 0; i <= xticks; i++) {
+      const v = xlo + (xhi - xlo) * i / xticks;
+      const px = sx(v);
+      ctx.beginPath();
+      ctx.moveTo(px, pad.t + innerH); ctx.lineTo(px, pad.t + innerH + 4);
+      ctx.stroke();
+      ctx.fillText(v.toFixed(0) + "σ", px, pad.t + innerH + 16);
+    }
+    ctx.fillText("pixel value (units of own σ)", pad.l + innerW / 2, H - 6);
+
+    // y tick labels (decades)
+    ctx.textAlign = "right";
+    for (let exp = -4; exp <= 0; exp++) {
+      const py = sy(Math.pow(10, exp));
+      ctx.fillText("10^" + exp, pad.l - 6, py + 3);
+    }
+    // y label
+    ctx.save();
+    ctx.translate(14, pad.t + innerH / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.textAlign = "center";
+    ctx.fillText("density (log)", 0, 0);
+    ctx.restore();
+
+    // Stepped polyline plot — outlines the histogram cleanly + faint fill.
+    function drawStep(hist, color, alpha) {
+      const bw = (hist.hi - hist.lo) / hist.hist.length;
+      // Build the outline path (steps along bin tops)
+      const pts = [];
+      for (let k = 0; k < hist.hist.length; k++) {
+        const x0 = hist.lo + k * bw;
+        const x1 = x0 + bw;
+        const v  = Math.max(hist.hist[k], 1e-10);
+        pts.push([sx(x0), sy(v)]);
+        pts.push([sx(x1), sy(v)]);
+      }
+      // fill underneath (closes down to bottom)
+      ctx.fillStyle = color;
+      ctx.globalAlpha = alpha * 0.55;
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0], pad.t + innerH);
+      for (const p of pts) ctx.lineTo(p[0], p[1]);
+      ctx.lineTo(pts[pts.length - 1][0], pad.t + innerH);
+      ctx.closePath();
+      ctx.fill();
+      // outline
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = color; ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0], pts[0][1]);
+      for (const p of pts) ctx.lineTo(p[0], p[1]);
+      ctx.stroke();
+    }
+    for (const t of traces) drawStep(t.hist, t.color, 1);
+
+    // standard Gaussian reference (μ=0, σ=1)
+    ctx.strokeStyle = "#000"; ctx.lineWidth = 1.4;
+    ctx.setLineDash([4, 3]);
+    ctx.beginPath();
+    const Ngrid = 400;
+    for (let i = 0; i <= Ngrid; i++) {
+      const v = xlo + (xhi - xlo) * i / Ngrid;
+      const p = (1 / Math.sqrt(2 * Math.PI)) * Math.exp(-0.5 * v * v);
+      if (p < ylo_lin) continue;
+      const x = sx(v), y = sy(p);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // legend
+    ctx.font = "11px serif";
+    ctx.textAlign = "left";
+    let ly = pad.t + 6;
+    for (const t of traces) {
+      ctx.fillStyle = t.color;
+      ctx.globalAlpha = 0.7;
+      ctx.fillRect(pad.l + 8, ly, 12, 8);
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = "#444";
+      ctx.fillText(t.label, pad.l + 24, ly + 7);
+      ly += 14;
+    }
+    ctx.fillStyle = "#000";
+    ctx.fillText("- - - standard Gaussian", pad.l + 8, ly + 7);
+  }
+
+  // ===== beam metrics via integral definition =====
+  // Noise correlation area = ∫|B|² / max(|B|)²  (standard antenna-pattern
+  // formula, robust to sidelobes, no integer-pixel quantization).
+  // For a Gaussian beam this reduces to π × FWHM² / (8·ln2).
+  function beamMetrics(beam) {
+    let peak = 0;
+    for (let i = 0; i < beam.length; i++) {
+      const a = Math.abs(beam[i]);
+      if (a > peak) peak = a;
+    }
+    if (peak <= 0) return { area: 0, fwhm_eq: 0, n_ind: 0 };
+    const peak2 = peak * peak;
+    let sumSq = 0;
+    for (let i = 0; i < beam.length; i++) {
+      sumSq += beam[i] * beam[i];
+    }
+    const area = sumSq / peak2;                  // beam solid angle in pixels²
+    // Equivalent Gaussian FWHM such that ∫G² = area · peak² for a Gaussian
+    // with peak = 1 → π × FWHM² / (8·ln 2) = area, hence:
+    const fwhm_eq = Math.sqrt(8 * Math.log(2) * area / Math.PI);
+    const n_ind = (N_GRID * N_GRID) / area;
+    return { area, fwhm_eq, n_ind };
+  }
+
+  // ===== canvas drawing =====
+  function drawAntennas(canvas, ant) {
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, DISP, DISP);
+    // circular dish outline
+    ctx.strokeStyle = "#ccc";
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.arc(DISP/2, DISP/2, DISP/2 - 4, 0, 2*Math.PI); ctx.stroke();
+    // antennas
+    ctx.fillStyle = "#16a34a";
+    for (const a of ant) {
+      const px = DISP/2 + a.x * (DISP/2 - 8);
+      const py = DISP/2 + a.y * (DISP/2 - 8);
+      ctx.beginPath(); ctx.arc(px, py, 3.5, 0, 2*Math.PI); ctx.fill();
+    }
+  }
+
+  function drawUV(canvas, uv) {
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, DISP, DISP);
+    // axes
+    ctx.strokeStyle = "#eee"; ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(DISP/2, 0); ctx.lineTo(DISP/2, DISP);
+    ctx.moveTo(0, DISP/2); ctx.lineTo(DISP, DISP/2);
+    ctx.stroke();
+    // u-v points
+    ctx.fillStyle = "rgba(220, 38, 38, 0.7)";
+    for (const p of uv) {
+      const px = DISP/2 + (p.u/2.2) * (DISP/2);
+      const py = DISP/2 + (p.v/2.2) * (DISP/2);
+      ctx.beginPath(); ctx.arc(px, py, 2, 0, 2*Math.PI); ctx.fill();
+    }
+  }
+
+  // Render a Float64Array N_GRID×N_GRID as a canvas image with diverging cmap.
+  // opts.vmaxFrac (0–1) clips vmax to a percentile of |field| — useful for
+  // beam-type fields whose central peak is so dominant that the low-amplitude
+  // sidelobe rings would otherwise compress to invisible.
+  function drawField(canvas, field, opts) {
+    opts = opts || {};
+    const ctx = canvas.getContext("2d");
+    canvas.width = N_GRID; canvas.height = N_GRID;
+    const img = ctx.createImageData(N_GRID, N_GRID);
+    let vmax;
+    let amax = 0;
+    for (let i = 0; i < field.length; i++) {
+      const a = Math.abs(field[i]);
+      if (a > amax) amax = a;
+    }
+    if (opts.vmax) {
+      vmax = opts.vmax;
+    } else if (opts.vmaxRel) {
+      // vmax = vmaxRel × max(|field|) — fraction of absolute peak
+      vmax = (amax || 1) * opts.vmaxRel;
+    } else if (opts.vmaxFrac) {
+      const abs = new Float64Array(field.length);
+      for (let i = 0; i < field.length; i++) abs[i] = Math.abs(field[i]);
+      const sorted = Array.from(abs).sort((a, b) => a - b);
+      vmax = sorted[Math.min(sorted.length - 1,
+                             Math.floor(sorted.length * opts.vmaxFrac))] || 1;
+    } else {
+      vmax = amax || 1;
+    }
+    for (let i = 0; i < field.length; i++) {
+      const v = field[i];
+      const t = Math.max(0, Math.min(1, (v + vmax) / (2 * vmax)));
+      let r, g, b;
+      if (t < 0.5) {
+        const s = t / 0.5;
+        r = Math.round(33 + (255-33)*s);
+        g = Math.round(102 + (255-102)*s);
+        b = Math.round(172 + (255-172)*s);
+      } else {
+        const s = (t - 0.5) / 0.5;
+        r = Math.round(255 + (178-255)*s);
+        g = Math.round(255 + (24-255)*s);
+        b = Math.round(255 + (43-255)*s);
+      }
+      const k = i * 4;
+      img.data[k] = r; img.data[k+1] = g; img.data[k+2] = b; img.data[k+3] = 255;
+    }
+    ctx.putImageData(img, 0, 0);
+  }
+
+  // ===== main update =====
+  const Ninput   = document.getElementById("N");
+  const Nval     = document.getElementById("N-val");
+  const shuffle  = document.getElementById("shuffle");
+  const antCanv  = document.getElementById("ant");
+  const uvCanv   = document.getElementById("uv");
+  const beamCanv = document.getElementById("beam");
+  const noiseCanv = document.getElementById("noise");
+  const whiteCanv = document.getElementById("whitenoise");
+  const sideCanv  = document.getElementById("sidelobe");
+  const verdict  = document.getElementById("verdict");
+
+  function update() {
+    const N = +Ninput.value;
+    Nval.textContent = N;
+    antennas = makeAntennas(N, antennaSeed);
+    const uv = uvFromAntennas(antennas);
+    const uvMask = rasteriseUV(uv);
+    const beam = dirtyBeam(uvMask);
+    const noise = dirtyNoiseImage(uvMask, antennaSeed + 17);
+
+    const white = whiteNoiseImage(antennaSeed + 17);
+    const modeEl = document.querySelector('input[name="spike-mode"]:checked');
+    const spikeMode = modeEl ? modeEl.value : "symmetric";
+    const side  = dirtyNoiseWithSpikes(uvMask, antennaSeed + 17, spikeMode);
+
+    drawAntennas(antCanv, antennas);
+    drawUV(uvCanv, uv);
+    drawField(beamCanv, beam, { vmaxRel: 0.2 });      // saturate vmax at 20% of peak → sidelobe rings stand out
+    drawField(noiseCanv, noise);                        // pure noise: keep default vmax
+    drawField(whiteCanv, white);
+    drawField(sideCanv,  side);                         // same colormap as 3b — outliers will pop as deep red/blue spots
+
+    // ===== histogram + moments =====
+    const momAlma  = moments(noise);
+    const momWhite = moments(white);
+    // No source-region mask needed any more — the outliers are sparse
+    // single pixels distributed across the field.
+    const momSide  = moments(side);
+
+    function standardise(arr, mean, std) {
+      const out = new Float64Array(arr.length);
+      const s = Math.max(std, 1e-12);
+      for (let i = 0; i < arr.length; i++) out[i] = (arr[i] - mean) / s;
+      return out;
+    }
+    const RANGE = [-7, +7];     // wide enough that sparse outliers in
+                                 // panel 5 land inside the histogram
+    const NBINS = 32;
+    // 3b + 4: standardise by own σ (both are pure noise, OK)
+    const histAlma  = histogram(standardise(noise, momAlma.mean,  momAlma.std),  NBINS, RANGE);
+    const histWhite = histogram(standardise(white, momWhite.mean, momWhite.std), NBINS, RANGE);
+    // 5: standardise by panel 3b's σ so the sparse outliers appear at
+    // their true multi-σ amplitude in the histogram tail (using panel 5's
+    // own slightly-inflated σ would shrink them toward the bulk).
+    const histSide  = histogram(standardise(side, momAlma.mean, momAlma.std), NBINS, RANGE);
+
+    drawHistogram(document.getElementById("hist-good"), [
+      { hist: histAlma,  color: "#dc2626", label: "3b ALMA pure noise" },
+      { hist: histWhite, color: "#3b82f6", label: "4 white noise" },
+    ]);
+    drawHistogram(document.getElementById("hist-bad"), [
+      { hist: histSide,  color: "#16a34a", label: "5 ALMA + sidelobes (off-source)" },
+    ]);
+
+    document.getElementById("r-std-alma").textContent    = momAlma.std.toExponential(2);
+    document.getElementById("r-kurt-alma").textContent   = momAlma.kurt.toFixed(2);
+    document.getElementById("r-std-white").textContent   = momWhite.std.toFixed(3);
+    document.getElementById("r-kurt-white").textContent  = momWhite.kurt.toFixed(2);
+    document.getElementById("r-skew-side").textContent   = momSide.skew.toFixed(2);
+    document.getElementById("r-kurt-side").textContent   = momSide.kurt.toFixed(2);
+
+    const m = beamMetrics(beam);
+
+    document.getElementById("r-N").textContent    = N;
+    document.getElementById("r-B").textContent    = uv.length;
+    document.getElementById("r-fwhm").textContent = m.fwhm_eq.toFixed(2);
+    document.getElementById("r-area").textContent = m.area.toFixed(1);
+    document.getElementById("r-tot").textContent  = (N_GRID * N_GRID).toLocaleString();
+    document.getElementById("r-Nind").textContent = m.n_ind.toFixed(0);
+
+    let v;
+    if (N <= 6) {
+      v = "Very sparse u–v: the beam is wide and full of sidelobes, " +
+          "and the noise image has big correlated blobs. Almost no " +
+          "useful image structure can be extracted from this configuration.";
+    } else if (N <= 14) {
+      v = "Moderate u–v coverage. The beam has a recognisable core but " +
+          "noticeable sidelobes; noise blobs in the image are still " +
+          "several pixels across — pixels are clearly not independent.";
+    } else if (N <= 25) {
+      v = "Reasonable u–v coverage. Beam core dominates; noise correlations " +
+          "extend to the beam scale (a few pixels). Adjacent pixels within " +
+          "one beam are essentially the same independent Fourier-noise sample.";
+    } else {
+      v = "Dense u–v coverage. The beam is sharp; noise blobs are small. " +
+          "Even so, pixels inside one beam remain correlated — that " +
+          "correlation length never shrinks below the beam.";
+    }
+    verdict.textContent = v;
+  }
+
+  Ninput.addEventListener("input", update);
+  shuffle.addEventListener("click", () => { antennaSeed = (antennaSeed * 7 + 11) % 9973; update(); });
+  document.querySelectorAll('input[name="spike-mode"]').forEach(r => {
+    r.addEventListener("change", update);
+  });
+  update();
+
+  // ===== iframe auto-resize (same pattern as the other widgets) =====
+  let lastReportedHeight = 0;
+  function reportHeight() {
+    const h = Math.ceil(document.documentElement.scrollHeight);
+    if (Math.abs(h - lastReportedHeight) <= 4) return;
+    lastReportedHeight = h;
+    parent.postMessage({ type: "uv-resize", height: h }, "*");
+  }
+  window.addEventListener("load", reportHeight);
+  window.addEventListener("resize", reportHeight);
+  window.addEventListener("load", function () {
+    [100, 300, 800, 2000].forEach(d => setTimeout(reportHeight, d));
+  });
+})();
+</script>
+</body>
+</html>

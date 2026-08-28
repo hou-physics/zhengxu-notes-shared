@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>/update-progress skill — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html">
+  <link rel="stylesheet" href="../../../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../../../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../../../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details >
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../../../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../../../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../../../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../../../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../../../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../../../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../../../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../../../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../../../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details open>
+        <summary>Archive</summary>        <ul>          <li><a href="../../../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../../../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../../../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../../../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../../../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details open>
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details open>
+        <summary>Skills</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+class="current">/update-progress skill</a></li>        </ul>      </details>        <details >
+        <summary>Code</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>/update-progress skill</h1>
+      <p>A narrow housekeeping skill: maintains <code>docs/progress.md</code> —
+the project's living state file that records what has been analysed,
+what is in progress, and what blocking issues are open. The skill is
+deliberately scoped to <strong>three operations</strong>, never more, so that
+<code>progress.md</code> cannot drift through partial edits.</p>
+<p><code>update-progress</code> is invoked automatically at the end of every
+successful <a href="02-analyze-galaxy.html"><code>/analyze-galaxy</code></a> run, and can
+also be invoked manually after a methodology change or to refresh the
+<em>Next Steps</em> checklist.</p>
+<h2 id="the-three-operations">The three operations</h2>
+<div class="compare"><div class="col"><p><strong>1. Status table</strong></p>
+<p>A markdown table at <code>## Status</code> listing each galaxy with its line, S/N,
+flux, reference comparison, and a status flag (<code>done</code> / <code>wip</code> /
+<code>blocked</code>). The skill either updates an existing row in place or
+appends a new row — never duplicates.</p>
+</div><div class="col"><p><strong>2. Issue Log</strong></p>
+<p>A reverse-chronological list under <code>## Issue Log</code>. New entries land at
+the top with a fixed schema (<em>symptom / root cause / fix / affected
+galaxies</em>). Once the log exceeds <strong>five entries</strong>, the oldest is moved
+to <code>docs/progress_archive.md</code>, preserving the full history while
+keeping <code>progress.md</code> short enough to read.</p>
+</div></div>
+<div class="compare"><div class="col"><p><strong>3. Next Steps cleanup</strong></p>
+<p>Each bullet under <code>## Next Steps</code> is checked against the just-updated
+Status table. If a target is now reached (e.g. <em>&quot;select 3–5 galaxies&quot;</em>
+once five new rows appear since the last update), the skill <strong>proposes</strong>
+striking the bullet — the user accepts or declines. Striking is never
+automatic.</p>
+</div><div class="col"><p><strong>Out of scope</strong></p>
+<p>The skill never rewrites the entire <code>progress.md</code>, never touches
+<code>docs/paper-notes/</code>, never modifies anything under <code>docs/rules/</code>, and
+never deletes Issue Log entries (only rotates them to archive).
+These constraints exist because the same file is also edited by hand
+between automated updates, and a full-rewrite skill would silently
+overwrite that work.</p>
+</div></div>
+<h2 id="inputs">Inputs</h2>
+<p>All inputs are optional. Without any, the skill reads <code>progress.md</code> and
+prints a dry-run of what <em>would</em> change.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Triggers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>galaxy</code>, <code>line</code>, <code>sn</code>, <code>flux</code>, <code>reference</code>, <code>status</code></td>
+<td>Status table update</td>
+</tr>
+<tr>
+<td><code>issue_title</code>, <code>issue_symptom</code>, <code>issue_cause</code>, <code>issue_fix</code>, <code>issue_affected</code></td>
+<td>Issue Log append (with auto-rotation)</td>
+</tr>
+<tr>
+<td><code>--after-rule-change</code></td>
+<td>Adds affected galaxies to the Recheck Queue (called from the conflict-protocol landing actions)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="how-its-wired-in">How it's wired in</h2>
+<p>There is no separate Python file. The skill is one markdown
+configuration that Claude Code reads at session start and exposes as
+the <code>/update-progress</code> slash command. Its behaviour — what to update,
+how to format the entries, which fields are mandatory — is captured
+declaratively in the skill file itself, not in code, so reviewing the
+skill is reviewing the entire behaviour.</p>
+<p>This is the simplest possible &quot;skill&quot;: no subagent, no Python helper,
+no external state. It works because all three operations are
+text-substitution patterns over a file with a stable section layout.</p>
+<h2 id="related-skills">Related skills</h2>
+<ul>
+<li><a href="02-analyze-galaxy.html"><code>/analyze-galaxy</code></a> invokes <code>/update-progress</code> automatically on success.</li>
+<li>The conflict protocol (<code>docs/rules/_conflict-protocol.md</code>) can
+invoke <code>/update-progress --after-rule-change</code> to register a
+Recheck Queue update.</li>
+</ul>
+
+    </article>    <aside class="page-toc">
+      <div class="page-toc-label">On this page</div>
+      <ul>        <li class="lvl-2"><a href="#the-three-operations">The three operations</a></li>        <li class="lvl-2"><a href="#inputs">Inputs</a></li>        <li class="lvl-2"><a href="#how-its-wired-in">How it&#39;s wired in</a></li>        <li class="lvl-2"><a href="#related-skills">Related skills</a></li>      </ul>
+    </aside>  </div>
+
+  <script src="../../../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

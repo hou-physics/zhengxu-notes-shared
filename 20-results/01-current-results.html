@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Current results (2026-08-28) — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/20-results/01-current-results.html">
+  <link rel="stylesheet" href="../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details >
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details open>
+        <summary>Results</summary>        <ul>          <li><a href="../20-results/01-current-results.html?v=1271e50.1787922657"
+class="current">Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details >
+        <summary>Archive</summary>        <ul>          <li><a href="../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details >
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details >
+        <summary>Code</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>Current results (2026-08-28)</h1>
+      <h1>Current results — snapshot 2026-08-28</h1>
+<p>All numbers below come from the frozen measurement procedure described
+in <strong>Survey pipeline</strong>, quoted on the thesis convention: <strong>every σ and
+S/N carries the global calibration factor 1.5</strong> (measured on the
+survey's own signal-free sources, pipeline Step 4), and the detection
+tiers are cut on that calibrated scale. The underlying tables are
+<code>result_v2/_uniform_batch/master_table.{csv,md}</code> and
+<code>result_v2/survey_registry.csv</code> in the master repository.</p>
+<p>Thesis status: the draft was trimmed and restructured on 2026-08-27
+(96 pages, main text lean, parameter details moved to an appendix); it
+compiles clean and passed three full-panel review rounds plus a blind
+old-vs-new comparison gate before the new version was adopted.</p>
+<h2 id="sample-status">Sample status</h2>
+<table>
+<thead>
+<tr>
+<th>status</th>
+<th>count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>measured — detected (S/N ≥ 5)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>measured — marginal (3–5)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>measured — upper limit (&lt; 3)</td>
+<td>33</td>
+</tr>
+<tr>
+<td>under review (width unmeasurable)</td>
+<td>1 (NGC 5128)</td>
+</tr>
+<tr>
+<td>mosaic-class disks (excluded by rule)</td>
+<td>4</td>
+</tr>
+<tr>
+<td>excluded by decision</td>
+<td>4</td>
+</tr>
+<tr>
+<td>candidates with usable archival data, queued</td>
+<td>95</td>
+</tr>
+</tbody>
+</table>
+<p>An earlier snapshot of this page (2026-08-08) reported 5 detections
+and 1 marginal — those were the same measurements on the uncalibrated
+scale. Nothing about the fluxes changed; the uncertainty calibration
+moved the tier boundaries.</p>
+<h2 id="the-bright-end-of-the-diagram">The bright end of the diagram</h2>
+<table>
+<thead>
+<tr>
+<th>galaxy</th>
+<th>tier</th>
+<th>line</th>
+<th>F [Jy km/s]</th>
+<th>S/N</th>
+<th>width [km/s]</th>
+<th>aperture [beams]</th>
+<th>noise per 10 km/s [mJy]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NGC 253</td>
+<td>detected</td>
+<td>H40α</td>
+<td>4.44 ± 0.22</td>
+<td>20.0</td>
+<td>265</td>
+<td>417</td>
+<td>2.9</td>
+</tr>
+<tr>
+<td>NGC 4945</td>
+<td>detected</td>
+<td>H30α</td>
+<td>8.67 ± 0.85</td>
+<td>10.2</td>
+<td>387</td>
+<td>267</td>
+<td>9.1</td>
+</tr>
+<tr>
+<td>NGC 3628</td>
+<td>marginal</td>
+<td>H30α</td>
+<td>1.52 ± 0.33</td>
+<td>4.6</td>
+<td>327</td>
+<td>120</td>
+<td>3.8</td>
+</tr>
+<tr>
+<td>He 2-10</td>
+<td>marginal</td>
+<td>H40α</td>
+<td>0.193 ± 0.053</td>
+<td>3.7</td>
+<td>100</td>
+<td>23</td>
+<td>1.1</td>
+</tr>
+<tr>
+<td>Circinus</td>
+<td>marginal</td>
+<td>H40α</td>
+<td>0.493 ± 0.143</td>
+<td>3.4</td>
+<td>299</td>
+<td>79</td>
+<td>1.7</td>
+</tr>
+<tr>
+<td>NGC 4826</td>
+<td>upper limit</td>
+<td>H30α</td>
+<td>1.96 ± 0.71</td>
+<td>2.8</td>
+<td>303</td>
+<td>6</td>
+<td>8.6</td>
+</tr>
+</tbody>
+</table>
+<p>The five line-bright sources (the two detections and three marginals)
+carry the bright-end statistics below. NGC 4826 is reported as an
+upper limit (calibrated S/N below 3) and is listed here for
+completeness only; it does not enter those statistics.</p>
+<h2 id="the-correlation-diagram">The correlation diagram</h2>
+<p>Current headline figure — 34 sources (the four without a usable
+Spitzer 8 μm map are excluded from the diagram, see below), infrared
+apportioned over the tracer aperture, literature distances for the
+nearby sources. Upper limits are drawn at their 3σ values with
+downward arrows:</p>
+<a href="./figs/correlation_thesis_v1.png" target="_blank">
+<img src="./figs/correlation_thesis_v1.png" alt="Correlation diagram"
+     style="max-width:560px;width:75%;display:block;margin:0.5em auto;"></a>
+<p><em>(click to open full size)</em></p>
+<p>Readable structure: the five line-bright sources scatter on both
+sides of the previous group fit (mean offset −0.12 dex, scatter
+0.80 dex, two of five below; individual offsets from +0.8 dex for
+NGC 4945 to −1.4 dex for Circinus). At low and
+intermediate luminosities the upper limits generally lie above the line — the
+archival data are simply not deep enough there. At the high-luminosity
+end the situation reverses: among the nine distant ultraluminous
+systems, several 3σ limits fall below the extrapolation of the
+relation — the uniform survey's first genuinely new statement, and the
+bright end's first millimetre recombination-line constraints.</p>
+<h2 id="galaxies-without-a-spitzer-8-μm-map">Galaxies without a Spitzer 8 μm map</h2>
+<p>Four galaxies of the older sample have no usable Spitzer 8 μm map:
+<strong>NGC 1386, NGC 4569, NGC 7465, NGC 7582</strong> (the gap for NGC 7465 is
+the same one already documented in Bittner 2022). All four are upper
+limits.</p>
+<p>Since the infrared axis is apportioned by the 8 μm fraction inside the
+tracer aperture, these four have no x-coordinate on the same footing
+as the rest. The thesis convention is strict: <strong>they are excluded from
+the correlation diagram entirely and remain in every table</strong>. Mixing
+two area definitions silently is exactly the error (aperture mixing)
+that displaced the first version of this diagram, so no fallback
+scaling is drawn.</p>
+<p>This gap cannot grow: since August 2026 the sample-selection criteria
+require Spitzer 8 μm coverage, so all 95 queued candidates have the
+map, and the exclusion remains a legacy of four early targets only.</p>
+<h2 id="notable-individual-cases-each-fully-logged-in-docsdecisionsmd">Notable individual cases (each fully logged in <code>docs/decisions.md</code>)</h2>
+<ul>
+<li><strong>NGC 3628</strong>: its previous apparent offset from the relation is
+resolved chiefly by the <strong>8 μm saturation repair</strong> (its aperture
+fraction rises from 4.2% to 15.5% once the saturated nucleus is
+repaired — the very artifact Bittner suspected in 2022); the
+distance also moves from the 11.9 Mpc flow value to the adopted
+9.7 Mpc (Tully–Fisher). With both, it sits on the relation.</li>
+<li><strong>IRAS 19542+1110</strong>: rescued from &quot;no tracer detected&quot; — the catalog
+redshift was wrong by 530 km/s; re-measured from our own CO line,
+now a normal upper limit.</li>
+<li><strong>NGC 5128 (Centaurus A)</strong>: the width of its weak CS tracer does not
+converge (the measured flux flipped sign as the trial window grew),
+so the source reports <em>no number</em> rather than an arbitrary one. Off
+the plot, under review.</li>
+<li><strong>NGC 55</strong>: tracer genuinely below the data's sensitivity (nearby
+dwarf, dense-gas line); excluded by decision.</li>
+<li><strong>NGC 5253</strong>: the survey-grade archival dataset yields an upper
+limit consistent with the published ALMA detection (which rests on a
+deeper long-baseline configuration outside the survey's beam
+window) — the survey's cleanest example that most upper limits are
+statements about archival depth, not about the galaxies.</li>
+</ul>
+
+    </article>    <aside class="page-toc">
+      <div class="page-toc-label">On this page</div>
+      <ul>        <li class="lvl-2"><a href="#sample-status">Sample status</a></li>        <li class="lvl-2"><a href="#the-bright-end-of-the-diagram">The bright end of the diagram</a></li>        <li class="lvl-2"><a href="#the-correlation-diagram">The correlation diagram</a></li>        <li class="lvl-2"><a href="#galaxies-without-a-spitzer-8-μm-map">Galaxies without a Spitzer 8 μm map</a></li>        <li class="lvl-2"><a href="#notable-individual-cases-each-fully-logged-in-docsdecisionsmd">Notable individual cases (each fully logged in docs/decisions.md)</a></li>      </ul>
+    </aside>  </div>
+
+  <script src="../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

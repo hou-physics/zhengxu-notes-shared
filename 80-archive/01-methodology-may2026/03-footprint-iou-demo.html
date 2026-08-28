@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Footprint and IoU — tried, then dropped — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/80-archive/01-methodology-may2026/03-footprint-iou-demo.html">
+  <link rel="stylesheet" href="../../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details >
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details open>
+        <summary>Archive</summary>        <ul>          <li><a href="../../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details open>
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+class="current">Footprint and IoU — tried, then dropped</a></li>          <li><a href="../../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details >
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details >
+        <summary>Code</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>Footprint and IoU — tried, then dropped</h1>
+      <p><em>A short retrospective on two diagnostics that were on the page until
+2026-05-23 and have since been removed from the active methodology.
+Kept here for historical context; not load-bearing for any number the
+pipeline currently reports.</em></p>
+<h2 id="co-3σ-footprint">CO 3σ footprint</h2>
+<p>The footprint was the set of pixels where the CO moment-<span class="math inline">$0$</span>, smoothed
+to a <span class="math inline">$1''$</span> reference scale, exceeds <span class="math inline">$3\sigma$</span>. The pipeline used to
+AND every candidate scan mask with this region so that the optimiser
+could not place a mask outside where CO emission was physically
+confirmed. It was introduced in late April 2026 to fix two specific
+incidents (NGC 7793: a <span class="math inline">$1250$</span>-beam mask absorbing primary-beam edge
+noise; NGC 1313: a single-beam noise hotspot).</p>
+<p>A separate rule was tightened the same week: <strong>the spatial mask must
+come from an independent strong tracer (CO), not from the HRL cube
+itself.</strong> That rule already eliminates the most violent failure mode
+this kind of constraint exists to prevent — self-masking, where the
+optimiser would otherwise pick HRL noise spikes as both signal and
+mask. Once self-masking is forbidden by construction and the scan
+picks the smoothing-and-threshold combination that maximises S/N, the
+optimal mask sits inside the would-be footprint anyway. The
+footprint AND-step turned out to change the verdict on zero galaxies
+in the 32-source sample. Removed on 2026-05-23.</p>
+<h2 id="iou">IoU</h2>
+<p>IoU was the ratio of the scan mask area to the footprint area
+(equivalent, under the mask-inside-footprint constraint, to the
+fraction of the footprint the mask actually fills). It was reported
+in every per-galaxy summary as a morphology label and a selector-bias
+filter. In practice it changed the verdict on four sources in the
+marginal-S/N band (NGC 7582, NGC 5643, NGC 1377, IRAS F18293-3413),
+all of which were independently caught by the per-galaxy null and the
+fixed-envelope diagnostic. Removed on 2026-05-23 along with the
+footprint.</p>
+<h2 id="the-actual-lesson">The actual lesson</h2>
+<p>Defending these two steps — and especially constructing an
+interactive demo to make the footprint look load-bearing —
+illustrated a pattern worth recording: a methodology accumulates
+overlapping safeguards, and each safeguard accumulates a defence,
+even when the underlying failure mode has been ruled out by a
+different rule. Going forward the project's default stance is
+<strong>subtraction</strong> — a new step has to name the galaxies whose verdict
+it would change vs. the existing pipeline, and a step that survives
+only as belt-and-suspenders for something already prevented should
+be dropped. The mask-from-CO rule, the per-galaxy null test, the
+fixed-envelope diagnostic, the baseline-residual diagnostic, and the
+canonical ellipse-CoG flux are the load-bearing pieces; the
+footprint AND-step and the IoU column are not.</p>
+
+    </article>    <aside class="page-toc">
+      <div class="page-toc-label">On this page</div>
+      <ul>        <li class="lvl-2"><a href="#co-3σ-footprint">CO 3σ footprint</a></li>        <li class="lvl-2"><a href="#iou">IoU</a></li>        <li class="lvl-2"><a href="#the-actual-lesson">The actual lesson</a></li>      </ul>
+    </aside>  </div>
+
+  <script src="../../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Curve of growth — two aperture methods on a real source — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/80-archive/01-methodology-may2026/04-curve-of-growth-demo.html">
+  <link rel="stylesheet" href="../../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details >
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details open>
+        <summary>Archive</summary>        <ul>          <li><a href="../../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details open>
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+class="current">Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details >
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details >
+        <summary>Code</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>Curve of growth — two aperture methods on a real source</h1>
+      <p><em>Companion to the <a href="./02-method-evolution.html">method-evolution page</a>
+and the <a href="./03-footprint-iou-demo.html">retrospective on the dropped footprint + IoU diagnostics</a>.
+Once a
+mask has been chosen for a detection, the next question is <strong>how much
+flux is inside it</strong>, and how the answer changes as the mask grows.
+The classical tool for this is the <strong>curve of growth (CoG)</strong>: cumulative
+flux integrated over a monotonically growing aperture, plotted against
+some &quot;size&quot; parameter. A real source produces a CoG that rises and
+plateaus; a noise pickup produces a CoG that keeps drifting.</em></p>
+<h2 id="two-ways-to-grow-an-aperture">Two ways to grow an aperture</h2>
+<p>The pipeline has tried two different &quot;growth&quot; definitions, and they
+disagree on what the right flux estimator is. The demo below puts both
+side-by-side on the same source.</p>
+<p><strong>Method A — σ-dilation.</strong> Start at a very high <span class="math inline">$\sigma$</span> threshold on
+the smoothed strong-tracer mom-<span class="math inline">$0$</span> map (a tiny mask, only the brightest
+peak). Lower <span class="math inline">$\sigma$</span> in steps. At each step keep only the largest
+connected component, and integrate the HRL flux over that mask.
+The &quot;size&quot; parameter is the threshold <span class="math inline">$\sigma$</span> itself; the mask shape
+is <strong>data-driven</strong> and follows the real CO morphology.</p>
+<p><strong>Method B — Ellipse aperture.</strong> Fit an ellipse to the bright seed once,
+then <strong>scale it</strong> monotonically. The &quot;size&quot; parameter is the semi-major
+axis <span class="math inline">$a$</span> in arcsec; the mask shape is <strong>fixed in geometry</strong>, independent
+of where inside the aperture the emission actually lives.</p>
+<p>The ellipse is generated entirely by <code>numpy</code> / <code>scipy</code>:</p>
+<ol>
+<li><strong>Seed pixels</strong> = pixels where the <span class="math inline">$1''$</span>-smoothed CO mom-<span class="math inline">$0$</span>
+exceeds <span class="math inline">$6\,\sigma_\text{CO}$</span>. This selects the brightest core of the
+strong-tracer footprint.</li>
+<li><strong>Centroid</strong> = intensity-weighted mean of the seed pixel <span class="math inline">$(x, y)$</span>
+positions, with the smoothed-CO value as weight.</li>
+<li><strong>Major / minor axes + position angle</strong> = eigenvectors of the
+intensity-weighted covariance matrix of the seed positions
+(<code>numpy.cov(..., aweights=...)</code> → <code>numpy.linalg.eigh(...)</code>). The
+eigenvalues give <span class="math inline">$a_0^2$</span> and <span class="math inline">$b_0^2$</span> (the moment-of-inertia widths);
+the eigenvector for the larger eigenvalue is the major axis, whose
+angle to the <span class="math inline">$+x$</span> axis is the position angle <span class="math inline">$\theta$</span>.</li>
+<li><strong>Scaling</strong> = the slider just multiplies <span class="math inline">$a_0$</span> and <span class="math inline">$b_0$</span> by a common
+factor; the shape (axis ratio <span class="math inline">$b/a$</span>, position angle <span class="math inline">$\theta$</span>, centre)
+never changes during the sweep.</li>
+</ol>
+<p>This is exactly the &quot;intensity-weighted PCA&quot; used by the canonical
+<span class="math inline">$\mathcal{F}_\text{clean}$</span> recipe (see method-evolution §8). It is the
+simplest principled way to get a single uniform aperture from the data
+without any human hand-tuning, but as the demo below makes visible, the
+choice of <em>weights</em> and <em>seed threshold</em> matter: a <span class="math inline">$6\,\sigma$</span> seed
+threshold picks up only the brightest core and ignores any extended
+elongation, so the resulting PA can disagree with what the σ-dilated
+mask traces out at lower thresholds.</p>
+<p>The pipeline currently uses Method A for the dilation-CoG baseline-
+residual diagnostic (<code>baseline_diag.py</code>, 2026-05-17), and an ellipse-
+plus-spatial-null variant of Method B for the canonical truth flux
+<span class="math inline">$\mathcal{F}_\text{clean}$</span> on confirmed detections. The demo below
+uses the <strong>naive</strong> (no spatial-null subtraction) version of Method B
+so the noise pickup behaviour at large aperture is visible.</p>
+<h2 id="the-demo">The demo</h2>
+<p>The widget below is a self-contained page. Each panel shows the
+H<span class="math inline">$30\alpha$</span> moment-<span class="math inline">$0$</span> of <strong>NGC 4945</strong> (the brightest control detection
+in the sample, <span class="math inline">$\mathrm{S/N} = 23.5$</span>) with a <strong>diverging colormap</strong>
+centred on zero — red = positive integrated line, blue = negative
+noise, white = zero baseline. Below the image, a slider sweeps the
+size parameter, and a curve-of-growth mini-plot below each panel shows
+<span class="math inline">$F$</span> versus the size parameter, with the current value highlighted.</p>
+<p>The two sliders are independent. Drag both and compare:</p>
+<ul>
+<li>where does each method's CoG <strong>peak</strong>, and at what flux value?</li>
+<li>where does the <strong>aperture S/N</strong> peak relative to the flux peak?
+(Hint: it peaks at a <em>smaller</em> aperture — at some point each
+extra beam of aperture adds more noise than signal.)</li>
+<li>how does each method <strong>respond to noise</strong> at large aperture?</li>
+<li>which method gives a flux that agrees with Toma (2024)? The reference
+measurement on this source is <span class="math inline">$9.27$</span> Jy·km/s (deep data). Integrated over
+the <strong>full line window</strong> (<span class="math inline">$\pm 16$</span> channels <span class="math inline">$\approx 333$</span> km/s, the same
+window the pipeline uses for its reported flux), both methods here peak at
+<span class="math inline">$\sim 8.7$</span> Jy·km/s — agreeing with Toma to within ALMA's <span class="math inline">$\sim 10\%$</span>
+absolute flux calibration.</li>
+</ul>
+<p>The S/N values shown here are computed against an off-source noise
+<span class="math inline">$\sigma$</span> measured directly from the cropped mom-<span class="math inline">$0$</span> map (post-baseline
+subtraction), so they are systematically <strong>higher</strong> than the
+catalogue S/N which uses the more conservative pipeline noise
+definition (per-channel <span class="math inline">$\sigma$</span> over line-free channels with ENBW
+correction). The <strong>shape</strong> of the curves — peak location, plateau,
+decline — is the part to read off; the absolute amplitude is
+illustrative.</p>
+<iframe id="cog-iframe" src="./figs/cog_demo.html" width="100%" height="1100"
+        style="border:1px solid #ddd;border-radius:4px;display:block;"
+        scrolling="no"
+        title="Curve-of-growth demo"></iframe>
+<script>
+// The iframe announces its natural height via postMessage; resize the
+// frame so its content fits without any inner scrollbar. The initial
+// height attribute above is a fallback that is generous enough to show
+// the whole widget if postMessage never arrives.
+window.addEventListener("message", function (e) {
+  if (!e.data || e.data.type !== "cog-resize") return;
+  var f = document.getElementById("cog-iframe");
+  if (f && typeof e.data.height === "number") {
+    f.style.height = (e.data.height + 4) + "px";
+  }
+});
+</script>
+<h2 id="what-to-read-off-the-two-curves">What to read off the two curves</h2>
+<p><strong>Method A — σ-dilation.</strong> As <span class="math inline">$\sigma$</span> drops from <span class="math inline">$32$</span> down to about
+<span class="math inline">$5$</span>, the mask grows from the brightest single beam outward along the
+CO morphology and the CoG rises smoothly — each newly-admitted pixel
+sits in a region where CO emission is statistically present, so the
+integrand has a positive mean. The CoG <strong>peaks near
+<span class="math inline">$\sigma \approx 6$</span></strong> at <span class="math inline">$F \approx 8.7$</span> Jy·km/s (in agreement with
+Toma's <span class="math inline">$9.27$</span>); <strong>lowering <span class="math inline">$\sigma$</span> further pulls the flux back down</strong>,
+because the smoothed-CO statistic
+between <span class="math inline">$2\sigma$</span> and <span class="math inline">$3\sigma$</span> admits the noise basin around the disk
+where the HRL pixels are net-negative. This is the empirical reason
+the scan's <span class="math inline">$\sigma$</span>-threshold grid stops at <span class="math inline">$3\sigma$</span> on its lower
+end — going below admits the noise basin and starts eating cumulative
+flux. The nominal &quot;detection flux&quot; the pipeline reports is the
+peak/plateau value, not the integral at <span class="math inline">$\sigma = 2$</span>.</p>
+<p><strong>Method B — Ellipse aperture.</strong> Watch what happens when the slider
+goes past <span class="math inline">$a \approx 6 \text{ arcsec}$</span>: the curve <strong>stops rising and starts
+to fall</strong>. This is the canonical failure mode of a naive growing-
+aperture CoG: as the aperture extends beyond the source, it begins
+including off-source pixels whose mean is zero on average but is
+finite for any single realisation; for NGC 4945 those pixels happen
+to be slightly net-negative, so the cumulative flux drops back down.
+The peak of the curve is roughly where the aperture matches the source
+extent, and this is the flux estimator one would quote from this
+method — but <strong>its absolute value is corrupted by the local
+background</strong>, and the appropriate fix is to subtract a same-aperture
+flux measured at <span class="math inline">$K$</span> random spatial-null positions (the canonical
+<span class="math inline">$\mathcal{F}_\text{clean}$</span> recipe shipped 2026-05-17).</p>
+<h2 id="why-we-have-both">Why we have both</h2>
+<p>Neither method is &quot;right&quot; alone:</p>
+<ul>
+<li>Method A's plateau is robust <strong>only when the source is one connected
+bright region</strong>. On a galaxy where the bright CO is split into
+several disconnected pieces (a face-on barred spiral, an interacting
+pair), Method A's connected-component filter picks only the brightest
+piece and silently drops the rest.</li>
+<li>Method B's fitted ellipse is reproducible across the sample and
+yields a defensible <em>systematic</em> uncertainty when paired with a
+background-subtraction step (next paragraph). On its own — as the
+demo above shows — it is biased by the local sky once the aperture
+grows past the source.</li>
+</ul>
+<p>The canonical recipe pairs Method B with <strong>random-position spatial
+null subtraction</strong>: in addition to the source CoG, the pipeline
+computes the same growth curve at <span class="math inline">$K = 16$</span> random spatial positions
+across the cube (avoiding the source itself) and averages them into
+a &quot;background CoG&quot;. The clean flux estimator is</p>
+<div class="math block">
+<p>$$
+F_\text{clean}(a) \;=\; F_\text{source}(a) - \big\langle F_\text{null}(a)\big\rangle_{K=16},
+$$</p>
+
+</div>
+<p>with the per-scale spread <span class="math inline">$\sigma_{F_\text{clean}}(a) = \text{std}\,F_\text{null}(a)$</span>
+giving a non-parametric uncertainty on the corrected CoG. The peak of
+<span class="math inline">$F_\text{clean}(a)$</span> is the number reported in the detection catalogue;
+the demo above shows only <span class="math inline">$F_\text{source}(a)$</span> (no subtraction), which
+is why it dips after the maximum.</p>
+<p>Method A serves a complementary role as the <strong>dilation-CoG</strong>
+baseline-residual diagnostic: integrating cumulatively as the mask
+grows tests whether the per-channel baseline subtraction has left a
+flat or a sloped residual. A real source produces a CoG that climbs
+to a plateau; a baseline-residual signature produces a CoG that keeps
+drifting after the source has been captured.</p>
+
+    </article>    <aside class="page-toc">
+      <div class="page-toc-label">On this page</div>
+      <ul>        <li class="lvl-2"><a href="#two-ways-to-grow-an-aperture">Two ways to grow an aperture</a></li>        <li class="lvl-2"><a href="#the-demo">The demo</a></li>        <li class="lvl-2"><a href="#what-to-read-off-the-two-curves">What to read off the two curves</a></li>        <li class="lvl-2"><a href="#why-we-have-both">Why we have both</a></li>      </ul>
+    </aside>  </div>
+
+  <script src="../../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

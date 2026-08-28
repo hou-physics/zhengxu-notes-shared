@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Step 6 — The correlation diagram — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/10-survey-pipeline/07-correlation-plot.html">
+  <link rel="stylesheet" href="../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details open>
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+class="current">Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details >
+        <summary>Archive</summary>        <ul>          <li><a href="../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details >
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details >
+        <summary>Code</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>Step 6 — The correlation diagram</h1>
+      <h1>Step 6 — The correlation diagram</h1>
+<p><strong>Script</strong>: <code>_step3/uniform_batch_stage4_plot.py</code>.</p>
+<h2 id="axes">Axes</h2>
+<ul>
+<li>
+<p><strong>y</strong>: recombination-line luminosity, multiplied by n⁶ — the group's
+convention for placing different lines (H30α, H40α) on one scale.
+The physical basis: a recombination line's intensity falls as the
+quantum level n to the −6th power (Gordon &amp; Sorochenko 2002), so
+multiplying by n⁶ removes the level dependence; H40α points then
+interleave with H30α points instead of sitting 5.6× low. Our
+implementation reproduces the group's previous plotted values to
+0.05 dex (checked by numerically inverting Lau's published NGC 3628
+entry).</p>
+</li>
+<li>
+<p><strong>x</strong>: total infrared luminosity, scaled to a matching aperture
+(previous page).</p>
+</li>
+<li>
+<p>Distances as described in Step 5d — literature values for the nearby
+sources, Hubble flow for the distant ones.</p>
+</li>
+</ul>
+<h2 id="markers">Markers</h2>
+<ul>
+<li>Colour/shape encodes the line species (double-coded for colour-vision
+accessibility).</li>
+<li>Detections: filled symbol ± 1σ bars (calibrated). Marginals:
+semi-transparent.</li>
+<li>Upper limits: open symbol drawn <strong>at the 3σ value</strong> with a
+<strong>downward arrow</strong> — the graphical statement &quot;the true value lies
+anywhere below here&quot;. The symbol carries no error bar of its own:
+the 3σ position already is the uncertainty statement. (Until
+2026-08-26 the limits were drawn at the measured flux instead; the
+change makes the plotted points the same 3σ values the text and the
+tables quote.)</li>
+<li>x-errors: IRAS flux-error propagation, plus the 0.2 dex apportioning
+systematic (Lau's measured value) for every source, since every
+x-coordinate is apportioned by the 8 μm fraction.</li>
+</ul>
+<h2 id="historical-overlay">Historical overlay</h2>
+<p>The plot carries the group's previous results (Lau 2019, Bittner 2022,
+Bădescu) and the Bittner 2022 linear fit, so every new point is
+immediately comparable with the lineage. (The historical points are
+currently digitized from the published figure; replacing them with
+tabulated values is queued.)</p>
+<h2 id="the-apportioning-decision-settled-2026-08-21">The apportioning decision (settled 2026-08-21)</h2>
+<p><strong>The thesis apportions the infrared over the tracer aperture itself</strong>
+(the predecessors' method, Step 5c Option B), so both axes refer to
+the same region. The evidence that settled it: with the field-of-view
+aperture the five line-bright sources sit one-sidedly 0.80 dex below
+the historical relation — an aperture-mismatch artefact, not physics —
+while with the tracer aperture they scatter on both sides (mean
+−0.12 dex; NGC 4826, reported as an upper limit, is not part of this
+statistic). The four sources without a usable 8 μm map are excluded
+from the diagram and remain in the tables; 34 of the 38 measured
+sources are plotted.</p>
+<p>A previously considered third presentation (converting both axes to
+star-formation rates, as in Bădescu's thesis) was examined and dropped
+(2026-08-08): it adds a conversion layer without adding information.</p>
+
+    </article>    <aside class="page-toc">
+      <div class="page-toc-label">On this page</div>
+      <ul>        <li class="lvl-2"><a href="#axes">Axes</a></li>        <li class="lvl-2"><a href="#markers">Markers</a></li>        <li class="lvl-2"><a href="#historical-overlay">Historical overlay</a></li>        <li class="lvl-2"><a href="#the-apportioning-decision-settled-2026-08-21">The apportioning decision (settled 2026-08-21)</a></li>      </ul>
+    </aside>  </div>
+
+  <script src="../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>/alma-query skill — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html">
+  <link rel="stylesheet" href="../../../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../../../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../../../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details >
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../../../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../../../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../../../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../../../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../../../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../../../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../../../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../../../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../../../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details open>
+        <summary>Archive</summary>        <ul>          <li><a href="../../../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../../../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../../../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../../../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../../../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details open>
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details open>
+        <summary>Skills</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+class="current">/alma-query skill</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details >
+        <summary>Code</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>/alma-query skill</h1>
+      <p>The <code>/alma-query</code> skill encapsulates the per-galaxy archive query
+documented in §2 of the <em>Data selection</em> methodology into a single
+parameterised command. Every galaxy in the final sample passed through
+this skill; the call signature, ranking rubric, and downstream products
+are kept consistent across the project so that the selection is
+reproducible.</p>
+<h2 id="what-it-does-one-line-at-a-time">What it does, one line at a time</h2>
+<ol>
+<li><strong>Resolve</strong> the galaxy name with NED (no manual coordinate entry).</li>
+<li><strong>Cone-search</strong> the ALMA archive within <span class="math inline">$60''$</span> of the resolved
+position.</li>
+<li><strong>Line filter</strong> — keep only observations whose SPWs jointly cover a
+weak HRL (<span class="math inline">$\text{H}n\alpha$</span>, <span class="math inline">$n \in \{27\text{–}32,\;39\text{–}42\}$</span>)
+and a same-band strong tracer (CO(2-1) / CO(1-0) / HCN(3-2) /
+HCO<span class="math inline">$^+$</span>(3-2), or one of the multi-line pairs HCN(4-3), HCN(2-1),
+CS(2-1)).</li>
+<li><strong>Geometric hard filter</strong> — reject sources outside
+<span class="math inline">$i \geq 47^\circ$</span>, <span class="math inline">$15 \leq \text{beam}_\text{pc} \leq 150$</span>,
+<span class="math inline">$D \leq 50$</span> Mpc, <span class="math inline">$\delta \leq +40^\circ$</span>. Dwarf BCG sources
+(HyperLeda MType = Irr / I0, or undefined <code>logR25</code>) bypass the
+inclination criterion.</li>
+<li><strong>Sensitivity threshold</strong> — drop observations with
+<span class="math inline">$\text{rms}_{10\,\text{km/s}} > 30$</span> mJy (configurable via
+<code>--sens-limit-mjy</code>).</li>
+<li><strong>Rank</strong> by sensitivity; within a <span class="math inline">$1.5\times$</span> tie, prefer
+single-pointing over mosaic; within a remaining tie, prefer the
+newer project (descending observation year).</li>
+<li><strong>Pick the cheapest product tier</strong> that is actually available — see
+<em>Product tier selection</em> below.</li>
+<li><strong>Emit</strong> a Markdown selection report and, optionally
+(<code>--write-script</code>), a self-contained <code>step-1_download.py</code> script.</li>
+</ol>
+<p>The skill never starts a download — the user reviews the report, then
+runs the script manually.</p>
+<h2 id="product-tier-selection-scenarios-a-b-c">Product tier selection (Scenarios A / B / C)</h2>
+<p>The ALMA archive offers each observation in up to three forms, in
+ascending order of pre-processing already completed:</p>
+<div class="compare"><div class="col"><p><strong>Scenario C — ASDM</strong></p>
+<p>Raw archive package as recorded at the telescope. 50–100+ GB per source.
+Must be calibrated via the project's <code>scriptForPI</code> before any imaging is
+possible. Used only when both A and B are unavailable; <strong>none of the
+32 sources in the final sample took this path</strong>.</p>
+</div><div class="col"><p><strong>Scenario A — MS</strong></p>
+<p>Pipeline-calibrated visibility data, not yet imaged. Several hours of
+local CASA work per source (<code>uvcontsub</code> → <code>tclean</code>). 10–50 GB
+intermediate disk per source. Used when the published pipeline cube is
+missing, mis-cleaned, or methodologically inconsistent with the rest of
+the sample. Templates: <code>step1_uvcontsub.py</code> and <code>step2_imaging.py</code>.</p>
+<hr />
+<p><strong>Scenario B — FITS pbcor cube</strong></p>
+<p>Pipeline-imaged data cube, primary-beam-corrected, ready for direct
+analysis. ~MB to a few GB depending on field size. <strong>All 32 sources in
+the final sample were analysed via this tier</strong>, to keep the pipeline
+uniform and within the thesis time budget.</p>
+</div></div>
+<p>The auto-pick examines the URLs returned by <code>Alma.get_data_info(mousid)</code>
+and classifies each into a tier by filename pattern:</p>
+<table>
+<thead>
+<tr>
+<th>Filename pattern</th>
+<th>Tier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>*.asdm.sdm</code></td>
+<td>C (ASDM) — checked first to beat the MS regex</td>
+</tr>
+<tr>
+<td><code>*.cube.I.pbcor.fits</code></td>
+<td>B (FITS)</td>
+</tr>
+<tr>
+<td><code>*.ms.tar</code> or <code>*calibrated.tar</code></td>
+<td>A (MS)</td>
+</tr>
+</tbody>
+</table>
+<p>The cheapest available tier wins, with B preferred over A preferred
+over C. <code>--force-tier FITS|MS|ASDM</code> overrides the pick — used for
+methodology consistency checks (NGC 4418 was probed at MS to estimate
+the cost of full re-imaging; NGC 1097 likewise).</p>
+<p><code>step-1_download.py</code> is emitted with the chosen tier baked in. The
+Scenario B template pulls the pbcor cube and the primary-beam cube,
+then reconstructs the non-pbcor cube as <code>pbcor × pb</code> (ARI-L only
+publishes pbcor + PB, not the raw <code>non-pbcor</code>). The Scenario A template
+pulls the calibrated MS tar and stops there — the user runs CASA
+manually afterwards. Scenario C is not auto-emitted; the user runs the
+project's <code>scriptForPI</code> by hand.</p>
+<h2 id="inputs-and-outputs">Inputs and outputs</h2>
+<div class="compare"><div class="col"><p><strong>Inputs</strong></p>
+<ul>
+<li><code>galaxy</code> — positional, single source name</li>
+<li><code>--batch &lt;file_or_csv&gt;</code> — multi-source variant</li>
+<li><code>--weak &lt;line&gt;</code> — weak HRL line name (default <code>H30a</code>)</li>
+<li><code>--strong &lt;line[,line,…]&gt;</code> — strong tracer names (default per band)</li>
+<li><code>--write-script</code> — also emit the download script</li>
+<li><code>--force-tier {FITS,MS,ASDM}</code> — override the auto-picked tier</li>
+<li><code>--sens-limit-mjy &lt;float&gt;</code> — pre-filter threshold</li>
+<li><code>--pointing-max-arcsec &lt;float&gt;</code> — PB-edge tolerance</li>
+</ul>
+</div><div class="col"><p><strong>Outputs</strong></p>
+<ul>
+<li><code>results/{GALAXY}/download_query.md</code> — latest report</li>
+<li><code>results/{GALAXY}/download_query_history/query_{ts}.md</code> — history</li>
+<li><code>master_thesis/my_code/{galaxy}_analyse_code/step-1_download.py</code> —
+download script (only with <code>--write-script</code>)</li>
+<li><code>download_urls.txt</code> — fallback URL list, written by the download
+script at run time for <code>wget -c -i</code> resume of large downloads</li>
+</ul>
+</div></div>
+<h2 id="cli-flags-reference">CLI flags reference</h2>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Purpose</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>galaxy</code> (positional)</td>
+<td>Single galaxy name</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--batch</code></td>
+<td>CSV list, or path to <code>target-list.md</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--weak</code></td>
+<td>Weak HRL line name</td>
+<td><code>H30a</code></td>
+</tr>
+<tr>
+<td><code>--strong</code></td>
+<td>Comma-separated strong tracer names</td>
+<td>band-based default</td>
+</tr>
+<tr>
+<td><code>--write-script</code></td>
+<td>Also emit <code>step-1_download.py</code></td>
+<td>off</td>
+</tr>
+<tr>
+<td><code>--force-tier</code></td>
+<td>Override the scenario pick (<code>FITS</code> / <code>MS</code> / <code>ASDM</code>)</td>
+<td>auto</td>
+</tr>
+<tr>
+<td><code>--sens-limit-mjy</code></td>
+<td>Pre-filter on <code>sensitivity_10kms</code> (mJy)</td>
+<td>20.0 (project uses 30)</td>
+</tr>
+<tr>
+<td><code>--pointing-max-arcsec</code></td>
+<td>Reject candidates whose pointing centre is farther than this from the NED coordinate. Widen (e.g. 30) for sources where the nucleus lies near the primary-beam edge (NGC 7793); note that the effective rms at the source position is PB-attenuated relative to the archive-reported rms.</td>
+<td>15.0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="common-invocations">Common invocations</h2>
+<pre><code class="language-bash"># Query a single galaxy; print the report only
+/alma-query NGC6810
+
+# Explicit weak + strong line pair
+/alma-query NGC6810 --weak H30a --strong CO21,HCN32
+
+# Also emit the download script
+/alma-query NGC6810 --write-script
+
+# Force re-imaging from MS (methodological consistency check)
+/alma-query NGC6810 --write-script --force-tier MS
+
+# Batch from the project's target list (filtered automatically)
+/alma-query --batch docs/target-list.md
+
+# Batch from an explicit comma list
+/alma-query --batch &quot;NGC6810,NGC7130,NGC3227&quot;
+</code></pre>
+<h2 id="what-the-skill-does-not-do">What the skill does NOT do</h2>
+<ul>
+<li><strong>Execute the download itself</strong> — <code>--write-script</code> <em>emits</em> a
+ready-to-run <code>step-1_download.py</code> (which is what the download
+script note documents), but the skill never invokes it. The user
+reviews the selection report first, then runs the emitted script
+manually. This separation exists so that a misclassified product
+tier or stale archive entry can be caught before tens of GB of
+download time is committed.</li>
+<li><strong>Re-image from MS automatically</strong> — for Scenario A the user runs
+<code>step1_uvcontsub.py</code> + <code>step2_imaging.py</code> by hand. Reasoning: tclean
+parameter choices (cell size, weighting, threshold) need
+per-galaxy judgement.</li>
+<li><strong>Calibrate ASDM</strong> — Scenario C requires manual CASA calibration via
+each project's <code>scriptForPI</code>.</li>
+<li><strong>Merge multiple projects</strong> — by design (β rule: prefer single-project
+solutions, so a detection cannot be attributed to inter-project
+flux-scale differences).</li>
+<li><strong>Silently auto-resolve unverified redshifts</strong> — NED resolution
+failures are flagged in the report with <code>⚠️ UNVERIFIED</code> instead of
+being filled in from a fallback.</li>
+</ul>
+<h2 id="why-a-skill-rather-than-ad-hoc-browsing">Why a skill rather than ad-hoc browsing</h2>
+<p>Three reasons:</p>
+<ol>
+<li><strong>Reproducibility.</strong> Every selection is the deterministic output of
+the same code path; re-running on a different date with the same
+archive snapshot gives bit-identical reports. This is what allows
+the methodology section to claim &quot;32 sources were selected by the
+same procedure&quot; without a footnote per galaxy.</li>
+<li><strong>Cost.</strong> A typical query takes 20–60 s end-to-end. Browsing the
+ALMA web interface for the same information takes 5–10 minutes per
+source and is impossible to audit afterwards.</li>
+<li><strong>Selection-bias control.</strong> The hard filter encodes empirical
+failure modes (face-on dilution, long-baseline resolve-out, distance
+<span class="math inline">$1/D^2$</span> suppression, ALMA <span class="math inline">$\delta > +40^\circ$</span> horizon) that were
+discovered only after analysing the first <span class="math inline">$\sim 27$</span> galaxies. Once
+encoded, the same filter is applied to every subsequent candidate
+without exception — including retroactive checks of earlier picks.</li>
+</ol>
+<h2 id="provenance-trail">Provenance trail</h2>
+<p>Each report carries the exact ALMA archive snapshot timestamp, the
+weak/strong line names, the filter settings used, and the rank order.
+Reports are version-controlled in the project repository, so any
+detection or non-detection in the final sample can be traced back to
+the report that selected it.</p>
+
+    </article>    <aside class="page-toc">
+      <div class="page-toc-label">On this page</div>
+      <ul>        <li class="lvl-2"><a href="#what-it-does-one-line-at-a-time">What it does, one line at a time</a></li>        <li class="lvl-2"><a href="#product-tier-selection-scenarios-a-b-c">Product tier selection (Scenarios A / B / C)</a></li>        <li class="lvl-2"><a href="#inputs-and-outputs">Inputs and outputs</a></li>        <li class="lvl-2"><a href="#cli-flags-reference">CLI flags reference</a></li>        <li class="lvl-2"><a href="#common-invocations">Common invocations</a></li>        <li class="lvl-2"><a href="#what-the-skill-does-not-do">What the skill does NOT do</a></li>        <li class="lvl-2"><a href="#why-a-skill-rather-than-ad-hoc-browsing">Why a skill rather than ad-hoc browsing</a></li>        <li class="lvl-2"><a href="#provenance-trail">Provenance trail</a></li>      </ul>
+    </aside>  </div>
+
+  <script src="../../../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

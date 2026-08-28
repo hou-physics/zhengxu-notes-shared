@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>step2_imaging.py (Scenario A only) — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html">
+  <link rel="stylesheet" href="../../../../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../../../../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../../../../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details >
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../../../../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../../../../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../../../../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../../../../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../../../../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../../../../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../../../../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../../../../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../../../../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details open>
+        <summary>Archive</summary>        <ul>          <li><a href="../../../../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../../../../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../../../../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../../../../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../../../../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details open>
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details open>
+        <summary>Code</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details open>
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+class="current">step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>step2_imaging.py (Scenario A only)</h1>
+      <p>Combined-cube <code>tclean</code> imaging in CASA: produces one cube covering both
+CO(2-1) and H30α so that the strong-tracer mask aligns pixel-for-pixel
+with the HRL data. Only used when re-imaging from MS is justified
+(Scenario A); for the 32 sources in the final sample, the pipeline
+product was used directly and this step was skipped.</p>
+<p>Key parameters (matched to literature pipelines):
+<code>weighting='natural'</code> for maximum sensitivity,
+<code>width='10 km/s'</code>, <code>restfreq='230.538 GHz'</code> (CO reference frame),
+<code>niter=10000</code>, <code>threshold='3 mJy'</code>,
+<code>usemask='auto-multithresh'</code>,
+<code>restoringbeam='common'</code> so the cube has a single uniform beam.</p>
+<pre><code class="language-python">##############################################################################
+# Step 2: Combined Cube Imaging (CO + H30α)
+#
+# Usage: run inside CASA 6.6
+#   cd /Volumes/HOU/NGC_3628/ALMA_data/2013.1.00087.S/.../manual_calibration
+#   casa --nologger --nogui
+#   execfile('/path/to/step2_imaging.py')
+#
+# Strategy: produce a single combined cube containing both CO(2-1) and
+# H30α
+#   - avoids grid-mismatch problems between separate cubes
+#   - the CO mask transfers to H30α with pixel-exact alignment
+#   - velocity range: -1500 to +1500 km/s (CO rest frequency as reference)
+#
+# References:
+#   - the previous tclean parameter set (context document)
+#   - Ada's parameters in proc-commands.py
+#   - David Lau, thesis Section 2.2.1
+##############################################################################
+
+import os
+import time
+
+# ============================================================================
+# Configuration
+# ============================================================================
+
+vis = 'NGC3628_concatenated.ms.contsub'
+# tclean output goes to local SSD (avoids macOS ._sidecar issues on the
+# external drive)
+local_workdir = os.path.expanduser('~/tclean_tmp/NGC3628')
+final_workdir = '/Volumes/HouAstro/master/master_thesis/work_dir/NGC3628'
+workdir = final_workdir  # plots and logs still live on the external drive
+
+if not os.path.exists(local_workdir):
+    os.makedirs(local_workdir)
+
+imagename = os.path.join(local_workdir, 'NGC3628_CO_H30alpha_v5')
+
+# Sanity-check input
+if not os.path.exists(vis):
+    print(&quot;ERROR: {} not found!&quot;.format(vis))
+    print(&quot;Run step1_uvcontsub.py first.&quot;)
+    import sys; sys.exit(1)
+
+# Make sure the working directory exists
+if not os.path.exists(workdir):
+    os.makedirs(workdir)
+
+print(&quot;=&quot;*70)
+print(&quot;  Step 2: Combined Cube Imaging&quot;)
+print(&quot;=&quot;*70)
+print(&quot;&quot;)
+print(&quot;Input:  {}&quot;.format(vis))
+print(&quot;Output: {}&quot;.format(imagename))
+print(&quot;&quot;)
+
+# ============================================================================
+# Clean up any previous output
+# ============================================================================
+for ext in ['.image', '.model', '.residual', '.pb', '.psf', '.sumwt',
+            '.mask', '.fits']:
+    old = imagename + ext
+    if os.path.exists(old):
+        print(&quot;removing previous {}&quot;.format(os.path.basename(old)))
+        os.system('rm -rf ' + old)
+
+# ============================================================================
+# tclean parameter notes
+# ============================================================================
+#
+# Velocity range design:
+#   NGC 3628 systemic velocity ~830 km/s (z = 0.002772)
+#   CO rest frequency  = 230.538 GHz
+#   H30α rest frequency = 231.901 GHz
+#
+#   In the CO rest frame,
+#   v(H30α) ≈ c × (230.538 - 231.901 × (1 - 0.002772)) / 230.538
+#          ≈ c × (230.538 - 231.258) / 230.538
+#          ≈ -937 km/s (relative to CO)
+#
+#   So the cube needs to cover:
+#   - CO   around +700 .. +1000 km/s  (systemic velocity region)
+#   - H30α around  -900 ..  -600 km/s
+#
+#   The range -1500 to +1500 km/s comfortably covers both lines.
+#
+# Imaging parameters:
+#   - specmode='cube':          spectral cube
+#   - width='10km/s':           10 km/s per channel (matches Ada)
+#   - nchan=300:                covers 3000 km/s
+#   - restfreq='230.538GHz':    CO rest frequency as reference
+#   - outframe='LSRK':          standard reference frame
+#   - weighting='natural':      max sensitivity / recover extended
+#                               emission (matches Ada / David)
+#   - niter=10000, threshold='3mJy':  Ada / David working values
+#   - deconvolver='hogbom':     standard point-source deconvolver
+#   - usemask='auto-multithresh':  CASA adaptive automask (close to
+#                                  interactive in practice)
+#   - pbcor=True:               emit the pbcor cube directly
+#
+# ============================================================================
+
+print(&quot;starting tclean ...&quot;)
+print(&quot;(1-3 hours depending on machine)&quot;)
+print(&quot;&quot;)
+
+t_start = time.time()
+
+tclean(
+    vis         = vis,
+    imagename   = imagename,
+    field       = 'NGC_3628',
+    spw         = '0,1,4,5',         # SPWs containing CO and H30α
+    specmode    = 'cube',
+    start       = '-1500km/s',
+    width       = '10km/s',
+    nchan       = 300,
+    restfreq    = '230.538GHz',       # CO(2-1) rest frequency
+    outframe    = 'LSRK',
+    veltype     = 'optical',
+    imsize      = [512, 512],
+    cell        = '0.2arcsec',
+    weighting   = 'natural',           # matches Ada / David, max sensitivity
+    deconvolver = 'hogbom',
+    niter       = 10000,              # matches Ada / David (was 100000, over-cleaning)
+    threshold   = '3mJy',             # avoid over-cleaning
+    usemask     = 'auto-multithresh', # adaptive automask, replaces interactive
+    interactive = False,
+    pbcor       = True,               # emit pbcor cube directly
+    restoringbeam = 'common'          # single beam across the cube, eases analysis
+)
+
+t_end = time.time()
+elapsed = (t_end - t_start) / 60.0
+
+print(&quot;&quot;)
+print(&quot;tclean finished in {:.1f} min&quot;.format(elapsed))
+print(&quot;&quot;)
+
+# ============================================================================
+# Export FITS
+# ============================================================================
+
+if os.path.exists(imagename + '.image'):
+    print(&quot;exporting FITS files ...&quot;)
+    # In CASA 6.x with tclean(pbcor=True) the outputs are:
+    #   .image       -&gt; always non-pbcor (raw Jy/beam)
+    #   .image.pbcor -&gt; the true pbcor cube
+    #   .pb          -&gt; primary-beam response
+    # So the pbcor FITS must be exported from .image.pbcor!
+
+    # Export the pbcor cube (used for flux integration)
+    fitsname = imagename + '_pbcor.fits'
+    exportfits(
+        imagename = imagename + '.image.pbcor',
+        fitsimage = fitsname,
+        overwrite = True
+    )
+    print(&quot;FITS (pbcor):     {}&quot;.format(fitsname))
+
+    # Also export the non-pbcor cube (used to build the mask)
+    fitsname_nonpbcor = imagename + '_nonpbcor.fits'
+    exportfits(
+        imagename = imagename + '.image',
+        fitsimage = fitsname_nonpbcor,
+        overwrite = True
+    )
+    print(&quot;FITS (non-pbcor): {}&quot;.format(fitsname_nonpbcor))
+
+    # Export the PB response (used to generate the non-pbcor mask)
+    if os.path.exists(imagename + '.pb'):
+        pb_fitsname = imagename + '_pb.fits'
+        exportfits(
+            imagename = imagename + '.pb',
+            fitsimage = pb_fitsname,
+            overwrite = True
+        )
+        print(&quot;PB FITS:          {}&quot;.format(pb_fitsname))
+    else:
+        print(&quot;WARNING: .pb image not found!&quot;)
+
+    # Copy FITS to the external drive
+    import shutil
+    for src in [fitsname, fitsname_nonpbcor, pb_fitsname]:
+        if os.path.exists(src):
+            dst = os.path.join(final_workdir, os.path.basename(src))
+            shutil.copy2(src, dst)
+            print(&quot;copied to: {}&quot;.format(dst))
+
+    # Print beam info
+    print(&quot;&quot;)
+    print(&quot;--- Beam information ---&quot;)
+    header = imhead(imagename + '.image', mode='list')
+    try:
+        bmaj = header['beammajor']
+        bmin = header['beamminor']
+        bpa = header['beampa']
+        print(&quot;  Beam major: {:.3f} {}&quot;.format(bmaj['value'], bmaj['unit']))
+        print(&quot;  Beam minor: {:.3f} {}&quot;.format(bmin['value'], bmin['unit']))
+        print(&quot;  Beam PA:    {:.1f} {}&quot;.format(bpa['value'], bpa['unit']))
+    except:
+        print(&quot;  (per-plane beams; using a common beam)&quot;)
+        try:
+            pbeams = header['perplanebeams']
+            median_beam = pbeams.get('median area beam', pbeams.get('*0', {}))
+            print(&quot;  Median / first beam: {}&quot;.format(median_beam))
+        except:
+            print(&quot;  Could not read beam info; check manually with imhead&quot;)
+
+    # Print basic image statistics
+    print(&quot;&quot;)
+    print(&quot;--- Image statistics ---&quot;)
+    stats = imstat(imagename + '.image')
+    print(&quot;  Max: {:.6f} Jy/beam&quot;.format(stats['max'][0]))
+    print(&quot;  Min: {:.6f} Jy/beam&quot;.format(stats['min'][0]))
+    print(&quot;  RMS: {:.6f} Jy/beam&quot;.format(stats['rms'][0]))
+
+else:
+    print(&quot;ERROR: image was not created!&quot;)
+
+print(&quot;&quot;)
+print(&quot;=&quot;*70)
+print(&quot;  Step 2 finished&quot;)
+print(&quot;=&quot;*70)
+print(&quot;&quot;)
+print(&quot;Next steps:&quot;)
+print(&quot;  1. Inspect cube quality in CARTA: {}&quot;.format(imagename + '.fits'))
+print(&quot;  2. Check that:&quot;)
+print(&quot;     - the CO signal is clear (around channel 209-254)&quot;)
+print(&quot;     - the H30α region is clean (around channel 43-79)&quot;)
+print(&quot;     - line-free channels have uniform noise&quot;)
+print(&quot;     - there are no black spots or stripe artifacts&quot;)
+print(&quot;  3. The output is three FITS files:&quot;)
+print(&quot;     - *_pbcor.fits:    pbcor cube (used for flux integration)&quot;)
+print(&quot;     - *_nonpbcor.fits: non-pbcor cube (used to build the mask)&quot;)
+print(&quot;     - *_pb.fits:       PB response&quot;)
+print(&quot;  4. Once quality is confirmed, run step3_analyze.py&quot;)
+</code></pre>
+
+    </article>  </div>
+
+  <script src="../../../../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

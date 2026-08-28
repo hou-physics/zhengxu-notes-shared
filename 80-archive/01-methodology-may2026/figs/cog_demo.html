@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Curve of growth — two methods</title>
+<style>
+  :root { color-scheme: light; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body { font-family: Georgia, "Times New Roman", serif;
+         color: #222; padding: 0.6em 0.8em; font-size: 14px; }
+  .panels { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4em; }
+  @media (max-width: 760px) { .panels { grid-template-columns: 1fr; } }
+  .panel h3 { margin: 0 0 0.3em; font-size: 1.05em; }
+  .canvas-wrap { position: relative; line-height: 0; }
+  .canvas-wrap img { width: 100%; height: auto; display: block;
+                     border: 1px solid #ddd; border-radius: 4px; }
+  .canvas-wrap svg.overlay { position: absolute; top: 0; left: 0;
+                             width: 100%; height: 100%; pointer-events: none; }
+  .controls { margin: 0.6em 0 0.3em; }
+  .controls input[type=range] { width: 100%; }
+  .readout { font-family: ui-monospace, "SF Mono", Consolas, monospace;
+             font-size: 0.95em; line-height: 1.5;
+             background: #f5f5f5; padding: 0.45em 0.6em; border-radius: 4px; }
+  .readout .big { font-size: 1.15em; font-weight: bold; color: #b91c1c; }
+  .readout .label { color: #666; }
+  .cog-plot { width: 100%; height: 200px;
+              border: 1px solid #ddd; border-radius: 4px; background: #fafafa;
+              margin-top: 0.5em; display: block; }
+  .legend-line { stroke: #16a34a; stroke-width: 2; fill: none; }
+  .legend-pt   { fill: #b91c1c; stroke: #fff; stroke-width: 1.5; }
+  .axis-line   { stroke: #666; stroke-width: 1; }
+  .axis-tick   { stroke: #999; stroke-width: 1; }
+  .axis-label  { fill: #555; font-size: 10px; font-family: serif; }
+  .grid-line   { stroke: #e5e5e5; stroke-width: 1; }
+</style>
+</head>
+<body>
+<div class="panels">
+  <div class="panel" id="panel-A">
+    <h3>Method A — σ-dilation mask</h3>
+    <div class="canvas-wrap">
+      <img src="cog_bg_NGC4945.png" id="bg-A" alt="NGC 4945 H30α moment-0" />
+      <svg class="overlay" id="overlay-A" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+    <div class="controls">
+      <input type="range" id="slider-A" min="0" max="29" value="29" step="1" />
+    </div>
+    <div class="readout">
+      <span class="label">σ threshold:</span>
+      <span class="big">σ = <span id="val-A-sigma">—</span> × σ<sub>CO</sub></span>
+      &nbsp;·&nbsp; <span class="label">N<sub>pix</sub>:</span> <span id="val-A-npix">—</span><br/>
+      <span class="label">cumulative flux:</span>
+      <span class="big">F = <span id="val-A-flux">—</span> Jy·km/s</span>
+      &nbsp;·&nbsp; <span class="label">aperture S/N:</span>
+      <span class="big">S/N = <span id="val-A-sn">—</span></span>
+    </div>
+    <svg class="cog-plot" id="plot-A"></svg>
+  </div>
+
+  <div class="panel" id="panel-B">
+    <h3>Method B — Ellipse aperture</h3>
+    <div class="canvas-wrap">
+      <img src="cog_bg_NGC4945.png" id="bg-B" alt="NGC 4945 H30α moment-0" />
+      <svg class="overlay" id="overlay-B" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+    <div class="controls">
+      <input type="range" id="slider-B" min="0" max="29" value="9" step="1" />
+    </div>
+    <div class="readout">
+      <span class="label">semi-major axis:</span>
+      <span class="big">a = <span id="val-B-a">—</span>″</span>
+      &nbsp;·&nbsp; <span class="label">N<sub>pix</sub>:</span> <span id="val-B-npix">—</span><br/>
+      <span class="label">cumulative flux:</span>
+      <span class="big">F = <span id="val-B-flux">—</span> Jy·km/s</span>
+      &nbsp;·&nbsp; <span class="label">aperture S/N:</span>
+      <span class="big">S/N = <span id="val-B-sn">—</span></span>
+    </div>
+    <svg class="cog-plot" id="plot-B"></svg>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+(async function () {
+  const resp = await fetch("cog_data.json?t=" + Date.now());  // cache-bust: always fetch fresh data
+  if (!resp.ok) { document.body.insertAdjacentHTML("afterbegin",
+      "<p style='color:#b91c1c'>cog_data.json not found.</p>"); return; }
+  const data = await resp.json();
+
+  const bg = data.background;
+  const pngW = bg.png_w_px, pngH = bg.png_h_px;
+  const axL = bg.ax_left, axW = bg.ax_width;
+  const axB = bg.ax_bottom, axH = bg.ax_height;
+  const axTopSvg = pngH - (axB + axH);     // SVG y-coord of axes top edge
+  const halfW = bg.data_half_w_arcsec;
+  const halfH = bg.data_half_h_arcsec;
+
+  // arcsec → SVG-pixel coords (within the overlay's viewBox = png dimensions)
+  const xPx = ax => axL + (ax + halfW) / (2 * halfW) * axW;
+  const yPx = ay => axTopSvg + (halfH - ay) / (2 * halfH) * axH;
+
+  /* ---------- Method A — σ-dilation polygon outline ---------- */
+  const A = data.method_A;
+  const overlayA = document.getElementById("overlay-A");
+  overlayA.setAttribute("viewBox", `0 0 ${pngW} ${pngH}`);
+
+  function renderA(i) {
+    const step = A.steps[i];
+    document.getElementById("val-A-sigma").textContent = step.sigma.toFixed(1);
+    document.getElementById("val-A-npix").textContent  = step.npix.toLocaleString();
+    document.getElementById("val-A-flux").textContent  = step.flux_jykms.toFixed(3);
+    document.getElementById("val-A-sn").textContent    = (step.sn || 0).toFixed(1);
+    // clear overlay
+    overlayA.innerHTML = "";
+    for (const poly of (step.contour || [])) {
+      if (poly.length < 3) continue;
+      const d = poly.map(([x, y], k) =>
+        (k === 0 ? "M " : "L ") + xPx(x).toFixed(2) + "," + yPx(y).toFixed(2)
+      ).join(" ") + " Z";
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", d);
+      path.setAttribute("fill", "rgba(34,197,94,0.10)");
+      path.setAttribute("stroke", "#16a34a");
+      path.setAttribute("stroke-width", "2.5");
+      path.setAttribute("vector-effect", "non-scaling-stroke");
+      overlayA.appendChild(path);
+    }
+    plotCoG("plot-A", A.steps, i, "sigma", "σ threshold (× σ_CO)",
+            true /* reversed x for A */);
+  }
+
+  /* ---------- Method B — ellipse aperture ---------- */
+  const B = data.method_B;
+  const overlayB = document.getElementById("overlay-B");
+  overlayB.setAttribute("viewBox", `0 0 ${pngW} ${pngH}`);
+
+  function renderB(i) {
+    const step = B.steps[i];
+    document.getElementById("val-B-a").textContent     = step.a_arcsec.toFixed(2);
+    document.getElementById("val-B-npix").textContent  = step.npix.toLocaleString();
+    document.getElementById("val-B-flux").textContent  = step.flux_jykms.toFixed(3);
+    document.getElementById("val-B-sn").textContent    = (step.sn || 0).toFixed(1);
+    overlayB.innerHTML = "";
+    // ellipse centred at B.centre_arcsec, axes a×b, PA = B.pa_deg.
+    const [cx_a, cy_a] = B.centre_arcsec;
+    const a_px_x = (step.a_arcsec / (2 * halfW)) * axW;  // SVG-px scale
+    const b_px_x = (step.b_arcsec / (2 * halfW)) * axW;
+    // pixel scale: SVG-x px per arcsec = axW / (2*halfW)
+    // The y direction has the same physical scale (pix_arcsec_y = pix_arcsec)
+    // but SVG y increases downward; with our arcsec convention (y up = north),
+    // a rotation by PA about the centre needs PA negated.
+    const el = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+    el.setAttribute("cx", xPx(cx_a).toFixed(2));
+    el.setAttribute("cy", yPx(cy_a).toFixed(2));
+    el.setAttribute("rx", a_px_x.toFixed(2));
+    el.setAttribute("ry", b_px_x.toFixed(2));
+    // PA was measured by intensity-weighted PCA in the same image-pixel
+    // frame the SVG overlay uses (y-axis points down in both), so the
+    // angle goes directly into rotate() with no sign flip. The earlier
+    // "-B.pa_deg" introduced a mirror reflection that put the major axis
+    // perpendicular to the σ-mask elongation.
+    el.setAttribute("transform",
+      `rotate(${B.pa_deg} ${xPx(cx_a).toFixed(2)} ${yPx(cy_a).toFixed(2)})`);
+    el.setAttribute("fill", "rgba(34,197,94,0.10)");
+    el.setAttribute("stroke", "#16a34a");
+    el.setAttribute("stroke-width", "2.5");
+    el.setAttribute("vector-effect", "non-scaling-stroke");
+    overlayB.appendChild(el);
+    plotCoG("plot-B", B.steps, i, "a_arcsec", "semi-major axis a (arcsec)",
+            false);
+  }
+
+  /* ---------- Curve-of-growth mini-plot (shared) ---------- */
+  function plotCoG(svgId, steps, current_i, xKey, xLabel, reverseX) {
+    const svg = document.getElementById(svgId);
+    const rect = svg.getBoundingClientRect();
+    const W = Math.max(300, rect.width), H = Math.max(160, rect.height);
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.innerHTML = "";
+
+    const pad = { l: 50, r: 14, t: 10, b: 30 };
+    const innerW = W - pad.l - pad.r, innerH = H - pad.t - pad.b;
+
+    const xs = steps.map(s => s[xKey]);
+    const ys = steps.map(s => s.flux_jykms);
+    let xmin = Math.min(...xs), xmax = Math.max(...xs);
+    let ymin = Math.min(0, Math.min(...ys));
+    let ymax = Math.max(...ys) * 1.08;
+    if (ymax === ymin) ymax = ymin + 1;
+    const sx = v => {
+      const t = (v - xmin) / (xmax - xmin || 1);
+      return pad.l + (reverseX ? (1 - t) : t) * innerW;
+    };
+    const sy = v => pad.t + (1 - (v - ymin) / (ymax - ymin)) * innerH;
+
+    // grid + zero baseline
+    if (ymin < 0 && ymax > 0) {
+      const y0 = sy(0);
+      svg.insertAdjacentHTML("beforeend",
+        `<line class="grid-line" x1="${pad.l}" x2="${pad.l + innerW}" y1="${y0}" y2="${y0}" stroke-dasharray="3 3"/>`);
+    }
+    // axes
+    svg.insertAdjacentHTML("beforeend",
+      `<line class="axis-line" x1="${pad.l}" x2="${pad.l + innerW}" y1="${pad.t + innerH}" y2="${pad.t + innerH}"/>` +
+      `<line class="axis-line" x1="${pad.l}" x2="${pad.l}" y1="${pad.t}" y2="${pad.t + innerH}"/>`
+    );
+    // x ticks: 5 evenly spaced
+    for (let k = 0; k <= 4; k++) {
+      const v = xmin + (xmax - xmin) * k / 4;
+      const px = sx(v);
+      svg.insertAdjacentHTML("beforeend",
+        `<line class="axis-tick" x1="${px}" x2="${px}" y1="${pad.t + innerH}" y2="${pad.t + innerH + 4}"/>` +
+        `<text class="axis-label" x="${px}" y="${pad.t + innerH + 15}" text-anchor="middle">${v.toFixed(v < 10 ? 1 : 0)}</text>`
+      );
+    }
+    // y ticks: 4 evenly spaced
+    for (let k = 0; k <= 3; k++) {
+      const v = ymin + (ymax - ymin) * k / 3;
+      const py = sy(v);
+      svg.insertAdjacentHTML("beforeend",
+        `<line class="axis-tick" x1="${pad.l - 4}" x2="${pad.l}" y1="${py}" y2="${py}"/>` +
+        `<text class="axis-label" x="${pad.l - 6}" y="${py + 3}" text-anchor="end">${v.toFixed(2)}</text>`
+      );
+    }
+    // axis labels
+    svg.insertAdjacentHTML("beforeend",
+      `<text class="axis-label" x="${pad.l + innerW / 2}" y="${H - 6}" text-anchor="middle">${xLabel}</text>` +
+      `<text class="axis-label" x="${12}" y="${pad.t + innerH / 2}" text-anchor="middle" transform="rotate(-90 12 ${pad.t + innerH / 2})">cumulative F (Jy·km/s)</text>`
+    );
+    // curve
+    const d = steps.map((s, k) =>
+      (k === 0 ? "M " : "L ") + sx(s[xKey]).toFixed(2) + "," + sy(s.flux_jykms).toFixed(2)
+    ).join(" ");
+    svg.insertAdjacentHTML("beforeend",
+      `<path class="legend-line" d="${d}"/>`);
+    // current point
+    const cur = steps[current_i];
+    svg.insertAdjacentHTML("beforeend",
+      `<circle class="legend-pt" cx="${sx(cur[xKey])}" cy="${sy(cur.flux_jykms)}" r="5"/>`);
+  }
+
+  /* ---------- Wire up sliders ---------- */
+  const sliderA = document.getElementById("slider-A");
+  const sliderB = document.getElementById("slider-B");
+  sliderA.setAttribute("max", String(A.steps.length - 1));
+  sliderB.setAttribute("max", String(B.steps.length - 1));
+  sliderA.addEventListener("input", () => renderA(+sliderA.value));
+  sliderB.addEventListener("input", () => renderB(+sliderB.value));
+
+  // First draw — and re-draw after image load so the SVG viewBox matches the
+  // image's actual rendered dimensions.
+  function firstDraw() { renderA(+sliderA.value); renderB(+sliderB.value); }
+  firstDraw();
+  document.getElementById("bg-A").addEventListener("load", firstDraw);
+  window.addEventListener("resize", firstDraw);
+
+  // ---- Tell the parent page how tall we actually need to be, so the
+  // ---- enclosing <iframe> can size itself and the user doesn't have to
+  // ---- scroll inside it.
+  // ----
+  // ---- The earlier ResizeObserver version had a feedback loop (parent
+  // ---- grows iframe → ResizeObserver fires → iframe posts again).
+  // ---- The fix here: (a) the 4-px threshold guard discards repeated
+  // ---- postMessages when scrollHeight hasn't actually changed, so
+  // ---- window.resize is safe to listen to. (b) we sample at multiple
+  // ---- well-defined moments after load so late layout shifts (font
+  // ---- decode, image decode, CoG SVG render) are caught.
+  let lastReportedHeight = 0;
+  function reportHeight() {
+    const h = Math.ceil(document.documentElement.scrollHeight);
+    if (Math.abs(h - lastReportedHeight) <= 4) return;
+    lastReportedHeight = h;
+    parent.postMessage({ type: "cog-resize", height: h }, "*");
+  }
+  window.addEventListener("load", reportHeight);
+  window.addEventListener("resize", reportHeight);  // catches browser zoom
+  document.getElementById("bg-A").addEventListener("load", reportHeight);
+  document.getElementById("bg-B").addEventListener("load", reportHeight);
+  // Re-poll a few times after load to catch late layout shifts (font /
+  // image decode, SVG axis rendering). The threshold guard makes each
+  // poll a no-op if nothing changed.
+  window.addEventListener("load", function () {
+    [100, 300, 800, 2000].forEach(function (d) {
+      setTimeout(reportHeight, d);
+    });
+  });
+})();
+</script>
+</body>
+</html>

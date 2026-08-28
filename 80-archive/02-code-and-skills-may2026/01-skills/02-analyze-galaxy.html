@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>/analyze-galaxy skill — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html">
+  <link rel="stylesheet" href="../../../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../../../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../../../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details >
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../../../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../../../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../../../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../../../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../../../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../../../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../../../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../../../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../../../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details open>
+        <summary>Archive</summary>        <ul>          <li><a href="../../../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../../../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../../../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../../../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../../../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details open>
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details open>
+        <summary>Skills</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+class="current">/analyze-galaxy skill</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details >
+        <summary>Code</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>/analyze-galaxy skill</h1>
+      <p>Given a galaxy name, <code>/analyze-galaxy</code> resolves the inputs (redshift,
+FITS paths, line, strong tracer), runs the pre-flight cube-coverage
+check, writes a per-galaxy <code>step3_analyze.py</code> config, runs the
+analysis, and returns a fixed-format ≤ 800 token summary. Every clean
+detection and non-detection in the final sample came out of this
+skill; the per-galaxy variation lives in the config file it emits,
+not in the analysis logic, which is identical across the sample.</p>
+<p>The skill is <strong>split between a main agent and a subagent</strong>. The main
+agent does cheap argument resolution and the cube pre-flight (≤ 300
+tokens). The subagent does the actual analysis work, which involves
+reading several rule files and writing the config (~8000 tokens), and
+returns only the short summary to the main session.</p>
+<h2 id="invocation-patterns">Invocation patterns</h2>
+<pre><code class="language-bash"># Auto-detect everything (line, strong, FITS paths) from
+# docs/target-list.md + the canonical work_dir/ symlinks
+/analyze-galaxy NGC6810
+
+# Override the HRL (multiple HRLs present in the cube)
+/analyze-galaxy NGC6810 line=H30a
+
+# Override the default strong tracer
+/analyze-galaxy NGC6810 strong=HCN32
+
+# Legacy single-cube override (NGC 3628-style, where HRL and CO
+# live in the same custom-imaged cube and the canonical symlink
+# convention doesn't apply)
+/analyze-galaxy NGC3628 line=H30a z=0.00281 \
+  fits_pbcor=master_thesis/work_dir/NGC3628/NGC3628_H30a_v1_pbcor.fits \
+  fits_nonpbcor=master_thesis/work_dir/NGC3628/NGC3628_H30a_v1_nonpbcor.fits
+</code></pre>
+<h2 id="what-the-main-agent-resolves-before-spawning-the-subagent">What the main agent resolves before spawning the subagent</h2>
+<div class="compare"><div class="col"><p><strong>From the project filesystem</strong></p>
+<ul>
+<li><span class="math inline">$z$</span> from <code>docs/target-list.md</code> (Tables A + B). If blank, stop with a
+pointer back to <code>/alma-query</code>.</li>
+<li>HRL line name from the same row, or by globbing
+<code>work_dir/{GALAXY}/{GALAXY}_H*_pbcor.fits</code> if exactly one match.</li>
+<li>Strong-tracer default by band (Band 6 → CO(2-1), Band 7 → CO(3-2),
+Band 3 → CO(1-0)).</li>
+<li>FITS paths via the canonical symlinks
+<code>{GALAXY}_{line}_{pbcor|nonpbcor}.fits</code> and the matching CO files.</li>
+<li>Per-galaxy override row from <code>docs/rules/exceptions.md</code>, if present.</li>
+</ul>
+</div><div class="col"><p><strong>Pre-flight cube check</strong></p>
+<p>For both the HRL and the strong-tracer cube, the agent opens the FITS
+header and verifies that the observed line frequency
+<span class="math inline">$\nu_\text{obs} = \nu_\text{rest} / (1 + z)$</span> falls inside the cube's
+spectral range. If either misses, the agent stops and returns a
+<em>Conflict Report</em> per <code>docs/rules/_conflict-protocol.md</code> instead of
+proceeding. This catches mis-tagged SPWs and stale symlinks before any
+analysis code runs.</p>
+</div></div>
+<h2 id="what-the-subagent-does">What the subagent does</h2>
+<p>The subagent is briefed with three sections:</p>
+<ol>
+<li><strong>Domain context</strong>: cube units (Jy/beam), pbcor vs. non-pbcor
+conventions, the mandatory rule that the spatial mask comes from a
+strong tracer (not the HRL itself), frequency / velocity
+conversions, sanity heuristics (S/N &gt; 50 → continuum unsubtracted;
+flux &gt; 10× published → systematic error).</li>
+<li><strong>Task</strong>: write the per-galaxy <code>step3_analyze.py</code> config that
+instantiates <code>AnalysisConfig</code> (signal region, noise region,
+velocity windows, mask-component mode) and runs <code>analyze()</code>.</li>
+<li><strong>Hard rules</strong>: never self-mask the HRL; never modify <code>_step3/</code>;
+always include audit comments above each <code>SkyRegion</code> call
+explaining the geometric choice; return verbatim on conflict.</li>
+</ol>
+<p>The subagent does not decide rule conflicts. Any contradiction between
+the data and a rule (strong tracer missing, beam mismatch beyond the
+template, anomalously high S/N) produces a <em>Conflict Report</em> that
+lands on the main session for the user to resolve.</p>
+<h2 id="return-format-800-tokens">Return format (≤ 800 tokens)</h2>
+<p>On success:</p>
+<pre><code>Galaxy: {GALAXY}  Line: {LINE}
+S/N: &lt;value&gt;  Flux: &lt;value&gt; Jy·km/s  Width: &lt;value&gt; km/s  Nbeam: &lt;value&gt;
+vs Reference: &lt;name&gt; &lt;value&gt; (&lt;pct_diff&gt;%) [✅/⚠️ or N/A if first]
+Script: master_thesis/my_code/{galaxy_lower}_analyse_code/step3_analyze.py
+Results: results/{GALAXY}/ (summary.md, plots/, tables/)
+Sanity check: &lt;one sentence&gt;
+</code></pre>
+<p>On conflict: the verbatim conflict block from
+<code>docs/rules/_conflict-protocol.md</code>, requiring an explicit user
+decision (a / b / c) before any further action.</p>
+<h2 id="token-economy">Token economy</h2>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Tokens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Main-agent argument resolution + pre-flight</td>
+<td>~300</td>
+</tr>
+<tr>
+<td>Subagent execution (rule files + reasoning + config writing)</td>
+<td>~8000</td>
+</tr>
+<tr>
+<td>Subagent → main return summary</td>
+<td>≤ 800</td>
+</tr>
+<tr>
+<td><strong>Net main session cost per galaxy</strong></td>
+<td><strong>~1100</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Without the skill, the same workflow would consume ~9000 tokens per
+galaxy in the main session. The split lets the main session sustain
+30–40 galaxy analyses per chat before hitting context limits.</p>
+<h2 id="why-a-skill-rather-than-a-script">Why a skill rather than a script</h2>
+<p>A standalone Python script could do most of the orchestration. The
+skill form adds three things that mattered in practice:</p>
+<ol>
+<li><strong>Pre-flight termination</strong>: a Python script that finds the strong
+tracer missing would proceed to crash, write a half-result, or
+silently fall back to self-masking. The skill agent stops cleanly
+with a Conflict Report.</li>
+<li><strong>Audit comments</strong>: the agent is instructed to write a short
+rationale above each <code>SkyRegion</code> call, citing NED centre / CO
+moment-0 peak / specific geometric considerations. This rationale
+then surfaces in the auto-generated <code>summary.md</code> and supports
+later debugging.</li>
+<li><strong>Hooks</strong>: success automatically invokes <a href="03-update-progress.html"><code>/update-progress</code></a>
+to refresh the Status table without further user prompts.</li>
+</ol>
+<h2 id="related-code">Related code</h2>
+<ul>
+<li>Per-galaxy config: <a href="../../02-code/03-analyze-galaxy/01-step3_analyze.html"><code>step3_analyze.py</code></a></li>
+<li>Analysis package: <a href="../../02-code/03-analyze-galaxy/02-step3-package/01-analyze.html"><code>Step3 package</code></a></li>
+</ul>
+
+    </article>    <aside class="page-toc">
+      <div class="page-toc-label">On this page</div>
+      <ul>        <li class="lvl-2"><a href="#invocation-patterns">Invocation patterns</a></li>        <li class="lvl-2"><a href="#what-the-main-agent-resolves-before-spawning-the-subagent">What the main agent resolves before spawning the subagent</a></li>        <li class="lvl-2"><a href="#what-the-subagent-does">What the subagent does</a></li>        <li class="lvl-2"><a href="#return-format-800-tokens">Return format (≤ 800 tokens)</a></li>        <li class="lvl-2"><a href="#token-economy">Token economy</a></li>        <li class="lvl-2"><a href="#why-a-skill-rather-than-a-script">Why a skill rather than a script</a></li>        <li class="lvl-2"><a href="#related-code">Related code</a></li>      </ul>
+    </aside>  </div>
+
+  <script src="../../../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

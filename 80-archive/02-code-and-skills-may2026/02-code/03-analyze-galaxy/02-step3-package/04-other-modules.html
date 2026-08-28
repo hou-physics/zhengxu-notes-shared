@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Other modules (referenced, not embedded) — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html">
+  <link rel="stylesheet" href="../../../../../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../../../../../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../../../../../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details >
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../../../../../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../../../../../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../../../../../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../../../../../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../../../../../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../../../../../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../../../../../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../../../../../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../../../../../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details open>
+        <summary>Archive</summary>        <ul>          <li><a href="../../../../../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../../../../../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../../../../../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../../../../../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../../../../../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details open>
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details open>
+        <summary>Code</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details open>
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details open>
+        <summary>Step3 package</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+class="current">Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../../../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>Other modules (referenced, not embedded)</h1>
+      <p>The full <code>_step3/</code> Python package contains additional modules that the
+three central files <a href="01-analyze.html"><code>analyze.py</code></a>,
+<a href="02-config.html"><code>config.py</code></a>, and <a href="03-mask.html"><code>mask.py</code></a> import.
+They are smaller, narrower in scope, and largely self-explanatory from
+their docstrings — listed here for completeness rather than embedded
+verbatim.</p>
+<h2 id="production-modules">Production modules</h2>
+<p>These are imported into the live pipeline and run for every galaxy in
+the final sample.</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Role</th>
+<th>What it provides</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cube_io.py</code></td>
+<td>FITS cube I/O</td>
+<td>Memory-mapped loading of HRL, CO, and PB cubes; WCS parsing; beam-area arithmetic; the streaming PB-cutoff masker that writes the per-cutoff scratch cubes used by the pipeline</td>
+</tr>
+<tr>
+<td><code>flux.py</code></td>
+<td>Flux + S/N</td>
+<td>Moment-0 collapse, in-mask spectrum extraction, line-free noise estimation, baseline subtraction (degree from <code>AnalysisConfig.baseline_degree</code>), final S/N calculation</td>
+</tr>
+<tr>
+<td><code>baseline_diag.py</code></td>
+<td>Baseline residual diagnostic</td>
+<td>Per-pixel baseline-residual measurement along the dilation-CoG mask sequence. Implements the residual subtraction shipped 2026-05-17. Used both for diagnostic plots and for the production residual subtraction along the integration sequence</td>
+</tr>
+<tr>
+<td><code>geometry.py</code></td>
+<td>Sky → pixel geometry</td>
+<td>Conversion between sky coordinates (<code>SkyRegion</code>) and pixel boxes in cube WCS frames; used by <code>analyze.py</code> to translate the hand-picked signal/noise regions onto the reprojected grid</td>
+</tr>
+<tr>
+<td><code>known_lines.py</code></td>
+<td>Line frequency catalogue</td>
+<td>Rest-frequency table for H<span class="math inline">$n\alpha$</span> (<span class="math inline">$n \in \{27\text{–}32, 39\text{–}42\}$</span>), CO(2-1), CS(2-1), HCN transitions, plus the <code>match_line_in_cube()</code> helper used to identify which configured line falls in each SPW (called by <code>step-1_download.py</code>)</td>
+</tr>
+<tr>
+<td><code>plots.py</code></td>
+<td>Diagnostic figures</td>
+<td>Four-panel moment-0 / mask / spectrum / scan-heatmap figures emitted at the end of every <code>analyze()</code> run; consumes <code>AnalysisResult</code> and writes into <code>output_dir/plots/</code></td>
+</tr>
+<tr>
+<td><code>plot_style.py</code></td>
+<td>Publication style</td>
+<td>Centralised matplotlib <code>rcParams</code> and CMasher colormap picks; called once at the top of <code>plots.py</code>. Keeps every figure consistent with the thesis style</td>
+</tr>
+</tbody>
+</table>
+<h2 id="diagnostic-runner-wrappers">Diagnostic runner wrappers</h2>
+<p>Thin scripts that produce baseline-diagnostic plots over the validation
+sample without re-running the full <code>analyze()</code> loop. Useful when
+inspecting residual structure across multiple galaxies at once.</p>
+<ul>
+<li><code>baseline_diag_runner.py</code></li>
+<li><code>baseline_diag_run_v1.py</code> (the production v1 invoker)</li>
+<li><code>replot.py</code> (regenerates plots from the per-galaxy <code>*_plot_cache.pkl</code>)</li>
+</ul>
+<h2 id="experimental-proof-of-concept">Experimental / proof-of-concept</h2>
+<p>Modules retained as a record of explored alternatives. None of them are
+in the production code path; they are kept for reproducibility of the
+design decisions documented in the methodology.</p>
+<ul>
+<li><strong>CoG (curve-of-growth) variants</strong>: <code>cog_clean_detection_poc.py</code>,
+<code>sthresh_high_res_cog.py</code>, <code>ellipse_cog_poc.py</code>,
+<code>ellipse_cog_spatial_null.py</code>, <code>ellipse_cog_with_baseline_subtraction.py</code>,
+<code>ellipse_cog_nondetection_validation.py</code> — explored elliptical-aperture
+curve-of-growth flux extraction; superseded by the
+scan + mask-integration approach in production.</li>
+<li><strong>Auto-region exploration</strong>: <code>auto_regions_poc.py</code>,
+<code>audit_auto_vs_manual.py</code>, <code>viz_auto_vs_manual.py</code> — automated
+signal/noise box selection. Available behind
+<code>AnalysisConfig.signal_region_mode = &quot;dilated_footprint&quot;</code> /
+<code>noise_region_mode = &quot;auto&quot;</code>, kept off by default for the final
+sample so the published box-mode results stay unchanged.</li>
+<li><strong>Null-test variants</strong>: <code>nondet_spatial_null.py</code>,
+<code>matched_null_test.py</code>, <code>circinus_spatial_null_scale3.py</code> —
+earlier null-test methodologies (see <em>Methodology</em> §X.4 in the
+thesis draft for the supersession history).</li>
+<li><strong>Baseline-residual POC</strong>: <code>baseline_residual_poc.py</code> — the
+prototype that shipped as production <code>baseline_diag.py</code>.</li>
+<li><strong>Per-galaxy validation overlays</strong>: <code>ngc4945_sf1_test.py</code>,
+<code>he2-10_co_hrl_overlay.py</code>, <code>ngc5253_x1a_co_hrl_overlay.py</code>,
+<code>ngc7793_full_fov.py</code>, <code>ngc7793_mom0_overlay.py</code> — one-off
+cross-check overlays generated during methodology development; not
+generic.</li>
+<li><strong>Didactic</strong>: <code>didactic_clean_shortspacing.py</code> — pedagogical
+demonstration of CLEAN with short-spacing recovery.</li>
+</ul>
+<h2 id="how-to-access-the-source">How to access the source</h2>
+<p>The full package source lives in the private project repository at
+<code>master_thesis/my_code/_step3/</code>. The three central files reproduced
+verbatim on the preceding pages are what the methodology text refers
+to; the modules listed on this page can be requested or inspected on
+demand.</p>
+
+    </article>    <aside class="page-toc">
+      <div class="page-toc-label">On this page</div>
+      <ul>        <li class="lvl-2"><a href="#production-modules">Production modules</a></li>        <li class="lvl-2"><a href="#diagnostic-runner-wrappers">Diagnostic runner wrappers</a></li>        <li class="lvl-2"><a href="#experimental-proof-of-concept">Experimental / proof-of-concept</a></li>        <li class="lvl-2"><a href="#how-to-access-the-source">How to access the source</a></li>      </ul>
+    </aside>  </div>
+
+  <script src="../../../../../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

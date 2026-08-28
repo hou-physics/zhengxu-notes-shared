@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Step 2 — Getting the ALMA data — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/10-survey-pipeline/03-data-and-redshifts.html">
+  <link rel="stylesheet" href="../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details open>
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+class="current">Step 2 — Getting the ALMA data</a></li>          <li><a href="../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details >
+        <summary>Archive</summary>        <ul>          <li><a href="../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details >
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details >
+        <summary>Code</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>Step 2 — Getting the ALMA data</h1>
+      <h1>Step 2 — Getting the ALMA data</h1>
+<p>Everything the survey measures comes out of ALMA archival data. This
+page describes what we actually download, why exactly those files, and
+how a fresh download becomes a ready-to-process target.</p>
+<h2 id="2a-querying-the-archive-per-target">2a. Querying the archive per target</h2>
+<p><strong>Tool</strong>: the <code>/alma-query</code> package
+(<code>.claude/skills/alma-query/</code>, Python, built on <code>astroquery.alma</code>) —
+the project's own archive-search machinery, developed through the
+detection era and still the front door for every target.</p>
+<p>For a galaxy it:</p>
+<ol>
+<li>resolves the coordinates and redshift;</li>
+<li>cone-searches the ALMA Science Archive for all public observations;</li>
+<li>parses each observation's <strong>frequency windows</strong>
+(<code>frequency_support</code>) and keeps those covering a redshifted
+recombination line <strong>plus</strong> a bright tracer line;</li>
+<li>applies the archive-metadata filters (single pointing only:
+<code>is_mosaic = False</code>);</li>
+<li>ranks the surviving observations (beam size, sensitivity, same-window
+line pairs) and writes a per-target download script
+(<code>step-1_download.py</code> / <code>download_urls.txt</code>) — large downloads are
+run by hand, by policy, so disk budget stays under human control.</li>
+</ol>
+<h2 id="2b-what-is-downloaded-and-what-is-deliberately-not">2b. What is downloaded — and what is deliberately not</h2>
+<p>An ALMA archive entry contains many products. We download exactly two
+kinds of files per spectral window:</p>
+<table>
+<thead>
+<tr>
+<th>file</th>
+<th>what it is</th>
+<th>why we need it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>*.cube.I.pbcor.fits</code></td>
+<td>the calibrated spectral <strong>image cube</strong>, primary-beam corrected — true sky fluxes at every position and velocity</td>
+<td>all flux measurements</td>
+</tr>
+<tr>
+<td><code>*.pb.fits.gz</code></td>
+<td>the <strong>primary-beam response map</strong> — the telescope's sensitivity pattern across the field of view</td>
+<td>to undo/redo the correction (below) and to know where the data ends</td>
+</tr>
+</tbody>
+</table>
+<p>Not downloaded: raw visibilities and calibration tables (tens of times
+larger; only needed if we re-image ourselves — see Step 3), and
+continuum/auxiliary images. This &quot;selective diet&quot; is 3–50× smaller than
+the full tarballs (e.g. NGC 2369: 1024 GB → 21 GB) and is what made a
+16-target batch (~345 GB) feasible.
+<strong>Script</strong>: <code>target_list_build/wave1_selective_sizes.py</code> computes the
+per-target sizes; <code>wave1_downloads.py</code> writes the download kits.</p>
+<p>Why the primary-beam map matters: the <em>pbcor</em> cube has correct fluxes
+but spatially varying noise (the correction amplifies the map edges);
+multiplying it by the primary-beam map recovers a <strong>flat-noise</strong> view
+of the same data. The pipeline uses each form where it is the right
+tool — flat-noise for thresholding (aperture construction), pbcor for
+flux integration.</p>
+<h2 id="2c-organizing-a-target-canonical-names">2c. Organizing a target: canonical names</h2>
+<p>Raw product filenames are long member/spw strings. Onboarding
+(<strong>script</strong>: <code>target_list_build/wave1_onboard.py</code>) reads every cube's
+frequency range from its header, identifies which lines fall in band at
+the galaxy's redshift, and applies a fixed pairing rule (no judgment
+calls):</p>
+<ol>
+<li>prefer a dataset containing <strong>both</strong> the recombination line and a
+tracer (identical calibration and pointing);</li>
+<li>among candidates, the sharpest recombination-line beam within
+0.3″–8″;</li>
+<li>tracer preference: CO(2-1) &gt; CO(1-0) &gt; CS(2-1) &gt; HCO⁺(1-0) &gt;
+HCN(1-0) &gt; ¹³CO(2-1) — brightest first;</li>
+<li>calibrator-field images that ship in some tarballs (quasar
+pointings, <code>_ph</code>/<code>_bp</code> in the filename) are excluded by rule —
+an early run paired two galaxies onto quasar fields before this
+filter existed.</li>
+</ol>
+<p>The chosen cubes get canonical symlinks —
+<code>work_dir/{GALAXY}/{GALAXY}_{line}_pbcor.fits</code> etc. — so every
+downstream script addresses any galaxy the same way. A per-target
+manifest records what was chosen and why.</p>
+<h2 id="2d-redshift-verification-the-trace-back-rule">2d. Redshift verification (the trace-back rule)</h2>
+<p>The catalog redshift has one job: place the lines inside the receiver
+band. The <em>measurement</em> redshift is re-derived from our own data — the
+tracer line's centre in the cube — accurate to a few km/s.</p>
+<p>Why this is a rule and not paranoia — a real case. <strong>IRAS 19542+1110</strong>
+first returned &quot;no tracer detected&quot; although literature CO detections
+exist. The full-band spectrum showed CO(2-1) at overwhelming
+significance, 530 km/s away from the catalog prediction: the catalog
+value (a 1995 optical measurement, copied forward by later papers) was
+simply wrong. Re-deriving the redshift from our own line rescued the
+target. Hence:</p>
+<blockquote>
+<p><strong>Every &quot;no tracer detected&quot; outcome triggers a trace-back</strong>: plot
+the full-band spectrum. Line elsewhere → wrong catalog redshift →
+re-derive from our own data and re-run. Genuinely no line → human
+decision (NGC 55, a dwarf whose CS line is below the data's
+sensitivity, was excluded this way).</p>
+</blockquote>
+<p>Redshift provenance (catalog vs. measured-from-own-CO) is recorded per
+target in the download manifest.</p>
+
+    </article>    <aside class="page-toc">
+      <div class="page-toc-label">On this page</div>
+      <ul>        <li class="lvl-2"><a href="#2a-querying-the-archive-per-target">2a. Querying the archive per target</a></li>        <li class="lvl-2"><a href="#2b-what-is-downloaded-and-what-is-deliberately-not">2b. What is downloaded — and what is deliberately not</a></li>        <li class="lvl-2"><a href="#2c-organizing-a-target-canonical-names">2c. Organizing a target: canonical names</a></li>        <li class="lvl-2"><a href="#2d-redshift-verification-the-trace-back-rule">2d. Redshift verification (the trace-back rule)</a></li>      </ul>
+    </aside>  </div>
+
+  <script src="../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

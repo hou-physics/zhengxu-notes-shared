@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Step 5 — Infrared side and distances — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/10-survey-pipeline/06-infrared-and-distances.html">
+  <link rel="stylesheet" href="../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details open>
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+class="current">Step 5 — Infrared side and distances</a></li>          <li><a href="../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details >
+        <summary>Archive</summary>        <ul>          <li><a href="../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details >
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details >
+        <summary>Code</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>Step 5 — Infrared side and distances</h1>
+      <h1>Step 5 — Infrared side and distances</h1>
+<p><strong>Script</strong>: <code>_step3/uniform_batch_stage3_ir.py</code> (+
+<code>uniform_batch_iras_errors.py</code> for uncertainties). Everything here is
+fetched automatically by coordinates — no manual catalog lookups.</p>
+<h2 id="4a-total-infrared-luminosity-whole-galaxy">4a. Total infrared luminosity (whole galaxy)</h2>
+<p><strong>Source</strong>: the IRAS Revised Bright Galaxy Sample (total-galaxy
+four-band photometry — the right photometry for galaxies that extend
+over many IRAS beams); the Point/Faint Source Catalogs serve only as
+the fallback for the four sources without a usable RBGS entry
+(Circinus fails its galactic-latitude cut, NGC 5408 lies below its
+flux limit, He 2-10 is absent, IC 4687 is blended with its
+interacting pair). Flux densities at 12, 25, 60,
+100 μm with published uncertainties. Combined into the total infrared
+luminosity TIR (8–1000 μm) with the standard Sanders &amp; Mirabel (1996)
+formula; uncertainties propagated following Lau (2019, Appendix D).
+Star-formation rates, where quoted, use log SFR = log L_TIR − 43.41
+(Murphy et al. 2011).</p>
+<h2 id="4b-infrared-size-and-coverage-check">4b. Infrared size and coverage check</h2>
+<p>The ALMA field of view is a small circle; the galaxy's infrared
+emission may be larger. To know whether the infrared and the line
+measurements can be compared at all, each galaxy gets:</p>
+<ul>
+<li>a WISE 12 μm and 22 μm cutout (SkyView service, all-sky — this is the
+guaranteed floor; every target has WISE);</li>
+<li>a background-subtracted <strong>curve of growth</strong> (cumulative flux in
+growing circles) → R50/R90, the radii containing 50%/90% of the
+light;</li>
+<li>a <strong>coverage verdict</strong> measured against an in-sample point-source
+standard (IRAS 17208−0014, at 183 Mpc necessarily unresolved): if the
+source's light is as concentrated as the instrument's own point
+response, it is &quot;covered-unresolved&quot;; otherwise &quot;covered&quot; or
+&quot;partial&quot; depending on how much falls inside the ALMA field of view.</li>
+</ul>
+<p>The 22 μm image sizes carry a caveat: the public WISE Atlas images are
+smoothed to ~17″ resolution, so compact galaxies hit that floor —
+flagged &quot;unresolved&quot;, never quoted as real sizes.</p>
+<h2 id="4c-scaling-the-infrared-to-a-matching-area-option-a-and-option-b">4c. Scaling the infrared to a matching area: Option A and Option B</h2>
+<p>The line flux comes from a small nuclear aperture; IRAS measures the
+whole galaxy. Before the two can share a diagram, the whole-galaxy
+infrared value must be scaled down to an area that matches the line
+measurement. Two complete procedures exist in the pipeline. Both start
+from the same IRAS total; they differ only in <strong>which area</strong> the total
+is scaled to and <strong>which image</strong> provides the spatial information.
+<strong>The choice is settled (2026-08-21): the thesis uses Option B
+throughout</strong> — both axes then refer to the same region. Option A is
+retained as the coverage cross-check.</p>
+<h3 id="option-a-scaling-to-the-alma-field-of-view">Option A — scaling to the ALMA field of view</h3>
+<p>The area is the telescope's field of view for the observation (the
+primary-beam circle, 30″ to 60″ for our data). Steps, per galaxy:</p>
+<ol>
+<li>Take the WISE 22 μm cutout and its background-subtracted curve of
+growth (the same products as the coverage check of 4b).</li>
+<li>Compare the enclosed-light profile with that of the in-sample
+point-source standard, so that instrument blur is accounted for.</li>
+<li>The scaling factor is the fraction of the galaxy's infrared light
+enclosed within the primary-beam radius, capped at one. For sources
+classified &quot;covered&quot; the factor is one by construction.</li>
+<li>Aperture-matched value = factor × the IRAS total. Sources with a
+partial factor carry an additional 0.2 dex systematic uncertainty
+(the group's measured apportioning scatter).</li>
+</ol>
+<p>Character of Option A: it is available for <strong>every</strong> source (WISE is
+all-sky), but the area it matches is the field of view, which is
+larger than the CO aperture where the line is actually measured. The
+match to the line measurement is therefore approximate.</p>
+<h3 id="option-b-scaling-to-the-co-aperture-itself-the-predecessors-method">Option B — scaling to the CO aperture itself (the predecessors' method)</h3>
+<p>The area is the CO aperture, the exact region of the line
+measurement. This is the method of Lau (2019, his eq. 2.8) and
+Bittner (2022, her eq. 5.4), with one repair added by this work.
+Steps, per galaxy:</p>
+<ol>
+<li>Retrieve the Spitzer 8 μm science mosaics for the field, both the
+deep exposure and the short exposure taken alongside it.</li>
+<li><strong>Repair the saturation.</strong> The deep mosaics are saturated on bright
+nuclei, exactly where the CO apertures sit, which silently biases
+the aperture fraction low. Saturated pixels, plus a 3-pixel rim
+where the detector response is already nonlinear, are replaced by
+the short-exposure values; every repair is validated by the
+deep-to-short flux ratio on bright unsaturated pixels (median ratio
+1.00, and within 0.91 to 1.08 wherever the check passes; patches
+off by more than 10% are flagged, IRAS F05189-2524 the furthest at 0.56).
+Bittner suspected exactly this
+problem for NGC 3628 but did not correct it; with the repair her
+outlier moves back onto the relation.</li>
+<li>Reproject the CO aperture from the ALMA pixel grid onto the 8 μm
+image grid (a world-coordinate transformation).</li>
+<li>The scaling factor is the background-subtracted 8 μm flux inside
+the reprojected aperture divided by the whole-galaxy 8 μm total
+(from a surface-brightness-truncated curve of growth).</li>
+<li>Aperture-matched value = factor × the IRAS total.</li>
+</ol>
+<p>Character of Option B: both axes of the diagram then refer to the
+same region, which is what the underlying physical question (ionizing
+photons versus star formation in the same place) requires. Its price:
+it assumes the 8 μm emission traces the total infrared spatially
+(documented to fail at the extremes, e.g. very extended disks and
+AGN-dominated nuclei), and it needs an 8 μm map, which four legacy
+sources lack (NGC 1386, NGC 4569, NGC 7465, NGC 7582); those four are
+excluded from the correlation diagram — no mixed apertures — and
+remain in every table.</p>
+<h3 id="what-the-data-say-about-the-choice">What the data say about the choice</h3>
+<p>With Option A the five line-bright sources (the two detections and
+three marginals) sit on average 0.80 dex below the previous group
+fit, four of five below: a one-sided offset, traced to the area
+mismatch between the axes. With Option B they scatter on both sides
+of the fit (mean −0.12 dex, scatter 0.80 dex, two of five below,
+individual offsets from +0.8 to −1.4 dex), statistically
+indistinguishable from the previous results. (Earlier snapshots of
+this page quoted six-source values −0.03/0.71 that included
+NGC 4826; the thesis reports that source as an upper limit and keeps
+it out of this statistic. The pre-repair IRAS-photometry numbers
+−0.61/+0.07 appeared in still earlier snapshots.)</p>
+<h3 id="why-only-the-8-μm-data-can-carry-the-aperture-method">Why only the 8 μm data can carry the aperture method</h3>
+<p>The scaling above requires the infrared image to <strong>resolve the CO
+aperture</strong>: if the instrument's point-spread function (PSF, the blur
+disk of the telescope) is larger than the aperture, then &quot;the fraction
+of light inside the aperture&quot; no longer measures the galaxy's light
+distribution, it measures the blur itself. The rule of thumb is that
+the PSF must be comfortably smaller than the aperture diameter.</p>
+<p>Our measured CO apertures have <strong>equivalent radii of 0.4″ to 13.3″
+(median 3.1″)</strong>, i.e. typical diameters of about 6″ (computed from the
+aperture areas in the master results table). Against that scale, the
+available infrared datasets compare as follows:</p>
+<table>
+<thead>
+<tr>
+<th>dataset</th>
+<th>band(s)</th>
+<th>angular resolution</th>
+<th>resolves a ~6″ aperture?</th>
+<th>role in this survey</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IRAS catalog</td>
+<td>12 / 25 / 60 / 100 μm</td>
+<td>≈ 0.5′ to 2′ (band dependent)</td>
+<td>no, by a factor 5 to 60</td>
+<td>whole-galaxy TIR total only</td>
+</tr>
+<tr>
+<td>WISE W3</td>
+<td>12 μm</td>
+<td>6.5″ (instrument PSF)</td>
+<td>no, PSF ≈ aperture (a point source already spills half its light outside a 6″ region)</td>
+<td>backup for the coverage check when W4 fails (used e.g. for NGC 3628)</td>
+</tr>
+<tr>
+<td>WISE W4</td>
+<td>22 μm</td>
+<td>12″ instrument; ≈ 17″ half-light in the Atlas coadds we use (our own measurement)</td>
+<td>no</td>
+<td>field-of-view coverage check only, a far easier task: the ALMA field (30–60″) is 2–4× larger than the blur. Chosen over the sharper W3 for physics, not resolution: 22 μm traces the warm star-formation-heated dust that follows the total infrared</td>
+</tr>
+<tr>
+<td>Spitzer MIPS</td>
+<td>24 μm</td>
+<td>≈ 6″</td>
+<td>marginal, PSF ≈ aperture</td>
+<td>fallback candidate only, not used</td>
+</tr>
+<tr>
+<td><strong>Spitzer IRAC (SEIP)</strong></td>
+<td><strong>8 μm</strong></td>
+<td><strong>≈ 2″</strong></td>
+<td><strong>yes, ~3× smaller than the median aperture</strong></td>
+<td><strong>the apportioning template</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Herschel (PACS, ≈ 6″ to 11″ at 70–160 μm) sits in the same marginal
+class as MIPS and its archival coverage is incomplete for our sample;
+it is not used.</p>
+<p>So the chain of instruments is matched to the chain of scales: IRAS
+measures the whole galaxy (it cannot do anything else), WISE is just
+sharp enough to resolve the 30–60″ ALMA field of view for the
+coverage check, and only the 2″ Spitzer 8 μm imaging can resolve the
+CO aperture itself, which is why the contour-aperture scaling exists
+in the 8 μm band and in no other. This is also why 8 μm coverage is a
+hard requirement in the sample selection (Step 1).</p>
+<p>One honest boundary of the method: for the most distant, most compact
+sources the aperture radius approaches 2″, where even the 8 μm PSF is
+at its limit. There the source and the aperture are both essentially
+point-like, the enclosed fraction saturates toward one, and the
+scaling degrades gracefully rather than silently.</p>
+<h2 id="4d-distances">4d. Distances</h2>
+<p>Luminosity = flux × 4πD², so every luminosity needs a distance.</p>
+<ul>
+<li><strong>Distant sources (recession velocity ≥ 3500 km/s, 14 galaxies)</strong>:
+Hubble-flow distance D = cz/H₀ (H₀ = 70). At these velocities the
+galaxy's own peculiar motion (a few hundred km/s) is a &lt; 10% effect.</li>
+<li><strong>Nearby sources (25 galaxies)</strong>: the Hubble-flow estimate can be
+wrong by a factor of ~2 (Centaurus A: 7.8 vs. true 3.8 Mpc) or
+undefined (NGC 4569 is blueshifted). For these, every published
+redshift-independent distance was harvested from <strong>NED-D</strong> (361
+measurements) and one value adopted per galaxy by a fixed rule: the
+median of the best-ranked method, ranked
+<strong>TRGB &gt; Cepheids &gt; SBF &gt; SNIa &gt; Tully–Fisher</strong> (TRGB = tip of the
+red giant branch, the most reliable of these). Adopted values with
+method, number of measurements and reference:
+<code>result_v2/_uniform_batch/adopted_distances.csv</code>; full audit trail:
+<code>distance_candidates.csv</code>. Scripts:
+<code>_step3/distance_table_fetch.py</code> + <code>distance_adopt.py</code>.</li>
+</ul>
+<p>Two consequences worth knowing: the largest distance revision in the
+sample is NGC 4945 (8.05 → 3.65 Mpc, TRGB), and NGC 3628 moves from
+its flow value of 11.9 Mpc to the adopted 9.7 Mpc (Tully–Fisher) —
+though its landing <em>on</em> the historical relation is chiefly the 8 μm
+saturation repair above, not the distance. NGC 4569, blueshifted and
+therefore without a flow distance, carries its literature distance
+(17.0 Mpc) in the tables; it stays off the correlation diagram for
+lack of an 8 μm map.</p>
+
+    </article>    <aside class="page-toc">
+      <div class="page-toc-label">On this page</div>
+      <ul>        <li class="lvl-2"><a href="#4a-total-infrared-luminosity-whole-galaxy">4a. Total infrared luminosity (whole galaxy)</a></li>        <li class="lvl-2"><a href="#4b-infrared-size-and-coverage-check">4b. Infrared size and coverage check</a></li>        <li class="lvl-2"><a href="#4c-scaling-the-infrared-to-a-matching-area-option-a-and-option-b">4c. Scaling the infrared to a matching area: Option A and Option B</a></li>        <li class="lvl-3"><a href="#option-a-scaling-to-the-alma-field-of-view">Option A — scaling to the ALMA field of view</a></li>        <li class="lvl-3"><a href="#option-b-scaling-to-the-co-aperture-itself-the-predecessors-method">Option B — scaling to the CO aperture itself (the predecessors&#39; method)</a></li>        <li class="lvl-3"><a href="#what-the-data-say-about-the-choice">What the data say about the choice</a></li>        <li class="lvl-3"><a href="#why-only-the-8-μm-data-can-carry-the-aperture-method">Why only the 8 μm data can carry the aperture method</a></li>        <li class="lvl-2"><a href="#4d-distances">4d. Distances</a></li>      </ul>
+    </aside>  </div>
+
+  <script src="../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

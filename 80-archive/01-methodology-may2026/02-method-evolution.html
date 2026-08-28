@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Method evolution (April–May 2026) — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/80-archive/01-methodology-may2026/02-method-evolution.html">
+  <link rel="stylesheet" href="../../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details >
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details open>
+        <summary>Archive</summary>        <ul>          <li><a href="../../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details open>
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+class="current">Method evolution (April–May 2026)</a></li>          <li><a href="../../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details >
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details >
+        <summary>Code</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>Method evolution (April–May 2026)</h1>
+      <p><em>Snapshot 2026-05-22, prepared for Prof. F. Bertoldi.</em></p>
+<p>This page traces how the H<span class="math inline">$n\alpha$</span> detection method evolved from
+mid-April to mid-May 2026 — six weeks during which the pipeline went
+from a hand-tuned single-galaxy script to a per-source-class framework
+covering 32 archival galaxies. Each step below marks <strong>a concrete
+failure mode the data forced us to confront</strong> and the methodological
+response. Numbers and galaxy lists are summarised only where they
+illustrate the change; the underlying issue log is in the private
+notebook.</p>
+<h2 id="1-calibration-on-a-single-galaxy-early-april">1. Calibration on a single galaxy (early April)</h2>
+<p>The pipeline started as a hand-tuned analysis of NGC 3628 — H30<span class="math inline">$\alpha$</span>
+in a single ALMA cube, with a manually-drawn signal box and a velocity
+window coupled to the CO FWHM (<code>FWHM × vthresh</code>).</p>
+<p>Two findings from this period changed the methodology rather than just
+the code:</p>
+<ol>
+<li><strong>Briggs vs. natural weighting changes the apparent CO line width</strong>
+(NGC 3628 CO FWHM <span class="math inline">$160 \to 240$</span> km/s when re-imaged from the same
+visibilities). Any velocity-window rule tied to the CO FWHM was
+therefore <em>implicitly</em> tied to the imaging choice. The velocity
+window was replaced by an absolute width scan over <span class="math inline">$60$</span>–<span class="math inline">$500$</span> km/s
+in <span class="math inline">$20$</span> km/s steps — <span class="math inline">$23$</span> widths, independent of the strong-tracer
+imaging.</li>
+<li><strong>Baseline subtraction at the <span class="math inline">$\sim 0.5$</span> Jy·km/s level matters on
+weak sources.</strong> The legacy &quot;no baseline subtraction&quot; path
+overestimated NGC 3628 by exactly that amount. Per-channel baseline
+subtraction (median over <span class="math inline">$\sigma$</span>-clipped noise channels, matching
+the Ada (2022) / Bittner (2022) recipe) was adopted as the default
+before any line integration.</li>
+</ol>
+<p><strong>Take-away</strong>: the scan parameters and the imaging products must be
+<strong>decoupled</strong>. Anything that secretly depended on a weighting choice
+was a methodology landmine.</p>
+<h2 id="2-from-one-galaxy-to-the-archive-2124-april">2. From one galaxy to the archive (21–24 April)</h2>
+<p>ALMA archive products do not look like our custom-imaged NGC 3628 cube.
+The HRL and the strong-tracer line typically sit in separate per-SPW
+FITS files, often at different angular resolutions and pixel scales.
+The pipeline was extended to a <strong>dual-cube</strong> mode: the strong-tracer
+cube is convolved to the common beam, the resulting mask is reprojected
+onto the HRL grid via <code>reproject_interp</code>, and the flux is then
+integrated on the HRL cube with the transferred mask. The single-cube
+case degenerates to identity operations.</p>
+<p>Two methodology rules were tightened in this batch:</p>
+<ul>
+<li><strong>Self-masking is forbidden.</strong> A first NGC 6810 run had silently used
+the HRL cube itself as the mask source (because the CO line was in a
+different SPW that wasn't being loaded). The result was a spurious
+<span class="math inline">$\mathrm{S/N} = 2.36$</span> &quot;detection&quot;. The rule is now explicit: the
+spatial mask must come from an <em>independent</em> strong tracer
+(CO(2-1) / CO(1-0) / HCN / HCO+ / CS) in the same observation, and
+the pipeline raises a hard error if the HRL and strong-tracer FITS
+headers fail a coverage check.</li>
+<li><strong>The flux convention is fixed at the source.</strong> Mask is built from
+the strong-tracer <em>non-pbcor</em> cube (uniform noise across the
+primary-beam footprint); the HRL line flux is integrated on the
+<em>pbcor</em> cube. Mixing the two has <span class="math inline">$20$</span>–<span class="math inline">$80\%$</span> flux consequences on
+any non-trivial primary-beam taper.</li>
+</ul>
+<h2 id="3-the-selector-bias-problem-2425-april">3. The selector-bias problem (24–25 April)</h2>
+<p>The headline detection statistic is the maximum signal-to-noise ratio
+over an <span class="math inline">$\sim 828$</span>-combination scan: <span class="math inline">$3$</span> spatial-smoothing kernels
+<span class="math inline">$\times$</span> <span class="math inline">$12$</span> spatial thresholds (<span class="math inline">$3$</span>–<span class="math inline">$32\,\sigma$</span> in logspace plus a
+dense <span class="math inline">$14$</span>–<span class="math inline">$19\,\sigma$</span> over-sampling) <span class="math inline">$\times$</span> <span class="math inline">$23$</span> velocity widths
+(<span class="math inline">$60$</span>–<span class="math inline">$500$</span> km/s in <span class="math inline">$20$</span> km/s steps). Two well-documented failure modes
+showed that this &quot;max-S/N over a scan grid&quot; statistic is <strong>statistically
+meaningless on cubes that do not contain a real source</strong>, and one
+exposed the same problem on a real source:</p>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Mode</th>
+<th>Why max-S/N misled</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NGC 7793</td>
+<td>Off-pointing, diffuse CO</td>
+<td>Mask grew to <span class="math inline">$1250$</span> beams at the lowest <span class="math inline">$\sigma$</span> threshold, integrating primary-beam edge noise — the optimiser preferred a huge sub-threshold envelope to a small clean one</td>
+</tr>
+<tr>
+<td>NGC 5253 native <span class="math inline">$0.19''$</span></td>
+<td>Source IS real</td>
+<td>CO footprint <span class="math inline">$\sigma_\text{unsmoothed}$</span> was <span class="math inline">$\sim 0.3\times$</span> source peak — the <span class="math inline">$3\sigma$</span> footprint fragmented into <span class="math inline">$142$</span> components, and the connected-component filter kept only a <span class="math inline">$4$</span>-beam fragment, missing the real source</td>
+</tr>
+</tbody>
+</table>
+<p>The response was <strong>three independent diagnostics</strong> that any non-detection
+must now also pass — they do not replace the scan, but they expose its
+failures:</p>
+<ol>
+<li><strong>CO footprint hard constraint.</strong> Every candidate mask in the scan
+is AND-ed with the physically confirmed CO footprint
+<span class="math inline">$\{\text{CO mom-0} > 3\sigma\}$</span>, <em>smoothed to a fixed <span class="math inline">$1''$</span> scale
+first</em> so the noise reference is per resolution element rather than
+per pixel. The smoothing fix recovered NGC 5253 native from
+<span class="math inline">$\mathrm{S/N}\,{=}\,{-}0.26$</span> to <span class="math inline">$\mathrm{S/N}\,{=}\,9.4$</span> at <span class="math inline">$0.19''$</span>
+beam. <em>(The AND-step was retired on 23 May 2026 — see §9. The
+smoothed-CO <span class="math inline">$> 3\sigma$</span> region is still where the scan-best mask
+gets defined; the change is that it is no longer additionally
+clipped against a fixed reference scale.)</em></li>
+<li><strong>Fixed-envelope diagnostic.</strong> A parallel measurement at the
+<em>default</em> mask (<span class="math inline">$3 \times \text{bmaj}$</span> smoothing, <span class="math inline">$3\sigma$</span>
+threshold, <span class="math inline">$W = 333$</span> km/s). A genuine detection produces consistent
+sign and amplitude between the scan-optimised and fixed-envelope
+numbers; a selector-bias non-detection produces a sign flip — the
+classical fingerprint of a <span class="math inline">$\max$</span>-over-grid noise pickup.</li>
+<li><strong>IoU(mask, CO footprint) as morphology label.</strong> IoU
+(intersection-over-union) is the standard image-segmentation overlap
+metric, <span class="math inline">$\text{IoU}(A, B) = |A \cap B| / |A \cup B| \in [0, 1]$</span>.
+Because the scan mask is hard-constrained to lie inside the CO
+footprint (<span class="math inline">$A \subseteq B$</span>), the intersection is just <span class="math inline">$A$</span> and the
+union is just <span class="math inline">$B$</span>, so IoU here reduces to the <strong>fill fraction</strong> of
+the footprint: how much of the physical CO footprint does the
+detected mask actually occupy? Four quadrants in (S/N, IoU) sort the
+sample cleanly: high IoU + high S/N = extended detection (NGC 253,
+IoU <span class="math inline">$\sim 0.57$</span>), low IoU + high S/N = compact-nuclear detection
+(NGC 3628, IoU <span class="math inline">$\sim 0.03$</span>), high IoU + low S/N = extended weak
+non-detection (M83, IoU <span class="math inline">$\sim 0.78$</span>), low IoU + low S/N =
+selector-bias non-detection (NGC 7582, IoU <span class="math inline">$\sim 0.09$</span>).
+<em>(IoU was retired as a catalogue column on 23 May 2026 — see §9. In
+practice it changed the verdict on only four marginal galaxies that
+the per-galaxy null + fixed-envelope diagnostic also caught.)</em></li>
+</ol>
+<h2 id="4-two-complementary-null-tests-22-april-13-may">4. Two complementary null tests (22 April → 13 May)</h2>
+<p>Two independent null statistics are now run on every candidate
+detection.</p>
+<p>The <strong>sample-wide null</strong> (<span class="math inline">$P_{95}^{\text{all}}$</span>) calibrates the
+&quot;effective <span class="math inline">$3\sigma$</span>&quot; of the scan after the look-elsewhere penalty.
+Each galaxy contributes the scan-best <span class="math inline">$\mathrm{S/N}$</span> measured at
+<span class="math inline">$\sim 16$</span> line-free velocity offsets (with the strong-tracer mask and
+noise box held fixed); the <span class="math inline">$95^\text{th}$</span> percentile of those values
+over the threshold-group sample is the effective <span class="math inline">$3\sigma$</span>. Post-fix
+this sits at <span class="math inline">$P_{95}^{\text{all}} \approx 1.5$</span> (see §6 for the factor-
+of-two correction).</p>
+<p>The <strong>per-galaxy null</strong> (<span class="math inline">$P_{95}^{\text{gal}}$</span>) does the same procedure
+within a single cube. It is the only diagnostic that detects
+<em>galaxy-specific</em> contamination — bandpass residuals at a particular
+SPW, continuum knots persisting across velocity offsets, or
+short-spacing artefacts. NGC 5135 (H30<span class="math inline">$\alpha$</span>) is the worked example:
+its scan-best <span class="math inline">$5.64\,\sigma$</span> passed every other diagnostic, but the
+per-galaxy null revealed two contamination families (a
+velocity-independent compact continuum knot at offsets <span class="math inline">$-300$</span> to
+<span class="math inline">$-406$</span> km/s, and a smoothly drifting baseline residual at <span class="math inline">$+300$</span> to
+<span class="math inline">$+522$</span> km/s), each generating <span class="math inline">$5$</span>–<span class="math inline">$6\,\sigma$</span> off-line peaks. The
+classification standard adopted is a <strong>dual-tier criterion</strong> on the
+per-galaxy null: a source is a <strong>clean detection</strong> when
+<span class="math inline">$\mathrm{S/N} \geq 2 \times P_{95}^{\text{gal}}$</span> <em>and</em> visually
+identifiable in the moment-<span class="math inline">$0$</span> map, <strong>tentative</strong> when
+<span class="math inline">$\mathrm{S/N} \geq P_{95}^{\text{gal}}$</span> but below the <span class="math inline">$2\times$</span> margin,
+and <strong>non-detection</strong> otherwise. The factor of two is the empirical
+margin above which the per-galaxy null + fixed-envelope diagnostic
+have never disagreed on any source we have inspected by eye.</p>
+<h3 id="why-we-quote-p95-not-a-gaussian-3σ">Why we quote P95, not a Gaussian 3σ</h3>
+<p>The &quot;effective <span class="math inline">$3\sigma$</span>&quot; terminology is loose — strict Gaussian
+<span class="math inline">$3\sigma$</span> corresponds to a false-positive rate of <span class="math inline">$0.27\%$</span>, but our
+scan-best <span class="math inline">$\mathrm{S/N}$</span> does not follow Gaussian statistics, for two
+independent reasons:</p>
+<ol>
+<li><strong>Pixel-level Gaussianity is broken by the imaging.</strong> ALMA does
+not measure pixels directly; it measures visibilities in the
+<span class="math inline">$(u, v)$</span> plane, and the image is the inverse Fourier transform
+of those visibilities. Pixels within one synthesised beam are
+<em>not</em> independent samples — they are the same Fourier-noise
+sample spread across pixels by the beam. Treating each pixel as
+an independent measurement under-estimates the noise by
+<span class="math inline">$\sqrt{\text{beam area in pixels}}$</span>, typically a factor of
+<span class="math inline">$\sim 6$</span>.</li>
+<li><strong>The pixel histogram is contaminated by systematics that have
+non-Gaussian tails.</strong> Companion lines in the same SPW (the
+Circinus SO + H<span class="math inline">$50\beta$</span> event), incomplete continuum subtraction,
+CLEAN over-subtraction (negative bowls around bright extended
+sources), bandpass artefacts — these contributions are
+deterministic and sparse. They produce true non-Gaussian tails
+(excess kurtosis <span class="math inline">$>0$</span>) and, when one-sided, asymmetric tails
+(non-zero skewness).</li>
+</ol>
+<p>The per-galaxy null test handles both problems empirically: by re-running
+the scan at line-free velocity offsets, it samples the actual noise
+distribution under the actual scan procedure on this specific cube. The
+<span class="math inline">$95^\text{th}$</span> percentile of those measurements is therefore the
+&quot;empirical equivalent of <span class="math inline">$3\sigma$</span>&quot; — not a textbook Gaussian threshold,
+but exactly the threshold our data warrants.</p>
+<p>The widget below makes both points tangible. The top half (antenna
+array → <span class="math inline">$u$</span>–<span class="math inline">$v$</span> coverage → synthesised beam → dirty image) shows
+<strong>why pixels are correlated</strong>: sparser <span class="math inline">$u$</span>–<span class="math inline">$v$</span> coverage produces a
+wider beam, which produces larger noise blobs and stronger correlation
+between neighbouring pixels. The bottom half (white-noise reference,
+contamination scenarios, pixel-value histograms) shows that
+<strong>correlation is not the same as non-Gaussianity</strong> — correlated noise
+still has a Gaussian marginal distribution, while sparse outliers from
+real systematics produce fat tails that <em>no</em> correlation-aware
+threshold would catch by itself.</p>
+<iframe id="uv-iframe" src="./figs/uv_correlation_demo.html" width="100%" height="1700"
+        style="border:1px solid #ddd;border-radius:4px;display:block;"
+        scrolling="no"
+        title="u–v sampling + noise correlation + non-Gaussian tail demo"></iframe>
+<script>
+window.addEventListener("message", function (e) {
+  if (!e.data || e.data.type !== "uv-resize") return;
+  var f = document.getElementById("uv-iframe");
+  if (f && typeof e.data.height === "number") {
+    f.style.height = (e.data.height + 4) + "px";
+  }
+});
+</script>
+<h2 id="5-sample-selection-priors-and-the-multi-line-search-1-may">5. Sample-selection priors and the multi-line search (1 May)</h2>
+<p>After 27 galaxies had been processed (9 detections, 17 non-detections),
+the empirical regime was clear enough to bake into the archive query:</p>
+<ul>
+<li><strong>Inclination</strong> <span class="math inline">$i \geq 47^\circ$</span> — no detection has ever been
+observed below this in the sample, consistent with line-of-sight
+emission-measure suppression for face-on disks.</li>
+<li><strong>Beam size</strong> <span class="math inline">$\theta_\text{beam} \cdot D \in [15, 150]$</span> pc — outside
+this range we are either resolving out the diffuse component (large
+<span class="math inline">$\theta_\text{beam}\,D$</span>, e.g. NGC 5248 at <span class="math inline">$25\,\text{pc}$</span> per beam in a
+<span class="math inline">$10\,\text{kpc}$</span> disk) or filtering out the extended emission
+altogether (small <span class="math inline">$\theta_\text{beam}\,D$</span>, e.g. NGC 2903 at <span class="math inline">$5\,\text{pc}$</span>
+per beam through long-baseline-only configs).</li>
+<li><strong>Distance</strong> <span class="math inline">$D \leq 50$</span> Mpc — the <span class="math inline">$1/D^2$</span> flux dilution overwhelms
+archival sensitivity beyond this even for true LIRGs.</li>
+</ul>
+<p>A complementary change opened a new line pair: the original query was
+restricted to H30<span class="math inline">$\alpha$</span> + CO(2-1) in Band 6, but the same observation
+geometry exists in Band 3 with H40<span class="math inline">$\alpha$</span> + CS(2-1) (line separation
+<span class="math inline">$1.04$</span> GHz inside a single <span class="math inline">$1.875$</span> GHz SPW). <strong>Both new detections from
+the second half of the campaign — Hen 2-10 and Circinus — entered
+through this Band 3 channel.</strong> The original Band-6-only query would
+have missed them entirely.</p>
+<h2 id="6-selector-bias-inside-the-null-itself-circinus-13-may">6. Selector bias inside the null itself — Circinus (13 May)</h2>
+<p>Circinus' first per-galaxy null gave <span class="math inline">$P_{95}^{\text{gal}} = 10.20$</span>,
+making the real-line <span class="math inline">$\mathrm{S/N}\,{=}\,10.43$</span> look marginal. The
+investigation surfaced two compounding flaws in the null procedure.</p>
+<p><strong>Flaw 1 — re-scanning at every offset injects selection bias.</strong> The
+original null re-ran the full <span class="math inline">$828$</span>-combination scan at every velocity
+offset and reported its <span class="math inline">$\max\,\mathrm{S/N}$</span>. Mathematically this is
+&quot;the largest of <span class="math inline">$\sim 10^3$</span> correlated noise samples&quot;, with an expected
+upward bias of <span class="math inline">$\sqrt{2 \ln N} \sim 4\sigma$</span> on pure noise. Fix: lock
+the scan-best <span class="math inline">$(s_*, t_*, W_*)$</span> from the <em>real-line</em> offset and sample
+only the velocity-offset axis. Circinus <span class="math inline">$P_{95}^{\text{gal}}$</span> dropped
+<span class="math inline">$10.20 \to 4.88$</span>.</p>
+<p><strong>Flaw 2 — same-SPW companion lines were being counted as null
+noise.</strong> Circinus' SPW3 also contains H50<span class="math inline">$\beta$</span> at <span class="math inline">$\Delta v = +612$</span>
+km/s and SO (<span class="math inline">$N_J = 2_3 \to 1_2$</span>) at <span class="math inline">$+839$</span> km/s; the latter is
+<em>brighter</em> than the H40<span class="math inline">$\alpha$</span> line. The original <span class="math inline">$\pm 300$</span> km/s
+science-zone exclusion only protected the primary HRL. Fix: a curated
+catalogue of <span class="math inline">$\sim 50$</span> rest frequencies is now subtracted from the
+available offset axis on every cube; offsets that fall on any
+known line zone are excluded. Circinus
+<span class="math inline">$P_{95}^{\text{gal}}$</span> dropped further to <span class="math inline">$1.12$</span> — Gaussian-noise-
+consistent.</p>
+<p>Two <strong>bonus serendipitous detections</strong> from the corrected procedure on
+the same Circinus cube: SO (<span class="math inline">$2_3\,\text{–}\,1_2$</span>) at
+<span class="math inline">$\mathrm{S/N}\,{\approx}\,16$</span> (spatially-resolved cross-validation of
+the single-dish measurement by Costagliola+ 2011) and H50<span class="math inline">$\beta$</span> at
+<span class="math inline">$\mathrm{S/N}\,{=}\,3.0$</span>, with a flux ratio
+<span class="math inline">$F(\mathrm{H}50\beta) / F(\mathrm{H}40\alpha) = 0.18$</span> within a factor
+<span class="math inline">$1.5$</span> of the Storey &amp; Hummer 1995 LTE prediction.</p>
+<p>The same correction propagated to the sample-wide null: the original
+<span class="math inline">$P_{95}^{\text{all}} = 3.08$</span> was inflated by <span class="math inline">$\sim 2\times$</span> from
+Flaw 1 alone. The corrected value is <span class="math inline">$\approx 1.5$</span>.</p>
+<h2 id="7-a-pre-registration-attempt-and-why-it-was-rolled-back-14-may">7. A pre-registration attempt — and why it was rolled back (14 May)</h2>
+<p>After the Circinus correction, a single-hypothesis recipe was locked
+in: a fixed mask geometry (smoothing <span class="math inline">$1 \times \text{bmaj}$</span>, threshold
+<span class="math inline">$3\sigma$</span>, connected-component policy per host class), a fixed integration
+window (<span class="math inline">$1 \times$</span> FWHM of the mask-integrated line), and a single
+analytic <span class="math inline">$\mathrm{S/N} = F / \sigma_\text{int}$</span>. The intent was to
+remove the residual scan-induced look-elsewhere penalty entirely and
+quote a clean, scan-free significance.</p>
+<p>Within a few hours of running the locked recipe against the validation
+set, four known-real detections broke:</p>
+<table>
+<thead>
+<tr>
+<th>Galaxy</th>
+<th>Old <span class="math inline">$\mathrm{S/N}$</span></th>
+<th>Locked-recipe <span class="math inline">$\mathrm{S/N}$</span></th>
+<th>Failure mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hen 2-10</td>
+<td><span class="math inline">$7.89$</span></td>
+<td>mask construction failed</td>
+<td>Default <span class="math inline">$3\sigma$</span> threshold returned no connected component on the compact CS(2-1) footprint</td>
+</tr>
+<tr>
+<td>NGC 5253 X1a</td>
+<td><span class="math inline">$9.4$</span>, flux <span class="math inline">$0.787$</span> Jy·km/s</td>
+<td><span class="math inline">$-$</span>, flux <span class="math inline">$0.052$</span> Jy·km/s</td>
+<td>Strong-tracer mask spanned only <span class="math inline">$2.6$</span> beams; FWHM collapsed to <span class="math inline">$18$</span> km/s, <span class="math inline">$15\times$</span> flux loss</td>
+</tr>
+<tr>
+<td>NGC 3628</td>
+<td><span class="math inline">$15.81$</span></td>
+<td><span class="math inline">$4.46$</span></td>
+<td>Locked mask captured the inner <span class="math inline">$\sim 1$</span> beam only, missing the disk-rotation flux</td>
+</tr>
+<tr>
+<td>NGC 3627</td>
+<td><span class="math inline">$4.42$</span></td>
+<td><span class="math inline">$0.96$</span></td>
+<td>Locked <span class="math inline">$1\times$</span>-FWHM window missed the actual mask-integrated line width</td>
+</tr>
+</tbody>
+</table>
+<p>The rollback the same day was explicit: a single recipe cannot
+simultaneously handle compact-nuclear sources (NGC 5253 X1a:
+sub-arcsec, <span class="math inline">$< 100$</span> pc emission region), dwarf compact starbursts
+(Hen 2-10: a default <span class="math inline">$3\sigma$</span> threshold on its CS(2-1) footprint does
+not even return a connected component), and well-resolved extended
+disks (NGC 3628: ordered rotation across the integration window, so a
+fixed-width window inevitably misses flux). The scan framework was
+restored, and the recipe code is retained only as a diagnostic
+comparison.</p>
+<p>The lesson — recorded so it does not have to be re-learned — is that
+pre-registration is only legitimate <strong>after</strong> the recipe survives an
+independent validation set. Locking a recipe before that point trades a
+real selection-bias problem for a worse recipe-induced power-loss
+problem.</p>
+<h2 id="8-per-class-tooling-and-the-canonical-flux-17-may-present">8. Per-class tooling and the canonical flux (17 May → present)</h2>
+<p>The current framework explicitly drops the &quot;one universal pipeline&quot;
+goal in favour of a <strong>divide-and-conquer per source class</strong>. Each
+class — compact-nuclear, extended-disk, multi-component, non-detection
+— gets its own appropriate diagnostic chain. Detection (yes/no) is
+still decided by the scan-based <span class="math inline">$\mathrm{S/N}$</span> against the per-galaxy
+null, but the <em>flux quoted in the catalogue</em> now uses a uniform
+truth-flux estimator:</p>
+<div class="math block">
+<p>$$
+\mathcal{F}_\text{clean}
+=
+\mathcal{F}_\text{signal}
+-
+\big\langle \mathcal{F} \text{ at } K = 16
+\text{ random spatial-null positions} \big\rangle,
+$$</p>
+
+</div>
+<p>where the signal aperture is an intensity-weighted-PCA-fitted ellipse
+on the <span class="math inline">$3\sigma$</span> connected seed (so the aperture has no per-galaxy
+hand-tuning) and the null positions are random <em>spatial</em> offsets
+(not velocity offsets — the point is to characterise the local
+background under the same aperture). Validation: NGC 4945 matches
+Toma (2024) to <span class="math inline">$0.1$</span>–<span class="math inline">$2\%$</span> in flux; NGC 3628 matches Toma to
+<span class="math inline">$2$</span>–<span class="math inline">$6\%$</span>.</p>
+<p>A parallel diagnostic — <strong>per-pixel baseline-residual subtraction
+along the mask centre-of-gravity path</strong> — was deployed in the same
+week. It adds a new systematic-uncertainty column to the catalogue
+(typical <span class="math inline">$|F_\text{res}|/\sigma \leq 1.1$</span> over the validation set)
+without moving any detection thresholds. The CoG fingerprints flagged
+by this diagnostic come from mask morphology or CLEAN sidelobes, not
+from baseline residuals — i.e. the baseline subtraction itself has
+been adequate all along; the diagnostic just makes that quantitative.</p>
+<h2 id="9-methodology-subtraction-23-may">9. Methodology subtraction (23 May)</h2>
+<p>After the per-class divide-and-conquer pivot in §8 the project paused
+to audit which steps were doing measurable work versus surviving as
+belt-and-suspenders, and adopted <strong>subtraction by default</strong>: any step
+that has to be defended on conceptual grounds rather than by naming
+the galaxies whose verdict it changes is a candidate for removal.</p>
+<p>Two steps were retired on this round:</p>
+<ul>
+<li><strong>The CO footprint AND-constraint</strong> (§3, item 1). It was originally
+introduced in late April to fix the NGC 7793 huge-mask and NGC 1313
+one-beam-hotspot incidents. The week it shipped, an independent
+rule was also tightened: <em>the spatial mask must come from an
+independent strong tracer (CO), not from the HRL cube itself</em>. That
+rule already eliminates the most violent failure mode — self-masking
+— that the footprint constraint would otherwise prevent. With
+self-masking forbidden by construction and the scan picking the
+smoothing × σ-threshold combination that maximises S/N, the
+scan-best mask sits inside the would-be footprint anyway. The
+AND-step changed the verdict on zero galaxies in the 32-source
+sample. Removed.</li>
+<li><strong>The IoU diagnostic column</strong> (§3, item 3). It changed the verdict
+on four marginal-band galaxies (NGC 7582, NGC 5643, NGC 1377,
+IRAS F18293-3413), all of which the per-galaxy null and the
+fixed-envelope diagnostic also moved from &quot;tentative&quot; to
+&quot;selector-bias non-detection&quot;. The four-quadrant interpretation was
+pedagogically nice but the column itself wasn't load-bearing.
+Removed.</li>
+</ul>
+<p>What remains as the load-bearing diagnostic chain: <strong>mask-from-CO
+rule</strong> (the structural safeguard against self-masking), <strong>per-galaxy
+null test</strong> (§4, the detection threshold), <strong>fixed-envelope
+diagnostic</strong> (§3, item 2, the parallel mask-shape sanity check),
+<strong>baseline-residual diagnostic</strong> (§8, the systematic-uncertainty
+column), and <strong>canonical ellipse-CoG flux</strong> (§8, the catalogue flux).
+The full retrospective on the two retired steps is on the
+<a href="./03-footprint-iou-demo.html">footprint-and-IoU page</a>.</p>
+<p>The broader implication, adopted as a project-wide stance: when the
+next methodology question arises, the default is to subtract a step,
+not to add one. New steps need to name the galaxies whose verdict
+they would change vs. the existing pipeline — &quot;conceptually it
+helps&quot; is not a sufficient justification on its own.</p>
+<h2 id="where-it-stands-today-23-may">Where it stands today (23 May)</h2>
+<ul>
+<li><strong>8 clean detection rows across 7 distinct galaxies</strong>: NGC 253,
+NGC 4945, NGC 3628, NGC 3627, NGC 5253 (independently confirmed in
+two different cubes: cross-mousid <span class="math inline">$0.91''$</span> and native <span class="math inline">$0.19''$</span>),
+Hen 2-10, Circinus. The strong-calibration detections agree with
+published values within their respective absolute-flux calibration
+budgets: NGC 4945 vs Toma (2024) at <span class="math inline">$4.7\%$</span>, NGC 3628 vs Toma at
+<span class="math inline">$\sim 2\%$</span>, NGC 5253 X1a vs Bendo (2017) at <span class="math inline">$6\%$</span>.</li>
+<li><strong>2 marginal cases</strong>: IRAS F18293-3413 and NGC 7582 (selector-bias
+non-detection under the joint diagnostic, scan-best <span class="math inline">$\mathrm{S/N}$</span>
+inside the marginal band).</li>
+<li><strong>1 deferred case</strong>: NGC 5135. Per-galaxy null exposed two SPW
+contamination families; classification deferred pending re-imaging
+from the visibilities.</li>
+</ul>
+<p>Two upcoming exercises will be presented separately:</p>
+<ol>
+<li><strong>An interactive side-by-side comparison</strong> of representative
+detections under different methodologies (pre-footprint / pre-null /
+pre-line-aware-null), with the same cube and the same coloured-mom-0
+panels, so that the &quot;what changed and why it changed&quot; of each step
+above is visible on the figure rather than just narrated in text.</li>
+<li><strong>A worked NGC 5253 trifecta</strong> (cross-mousid <span class="math inline">$0.91''$</span>, native
+<span class="math inline">$0.19''$</span>, Bendo-class published) demonstrating that the matched-
+filter S/N hierarchy predicted by the cube geometry actually
+reproduces in the data — the strongest single calibration of the
+pipeline.</li>
+</ol>
+
+    </article>    <aside class="page-toc">
+      <div class="page-toc-label">On this page</div>
+      <ul>        <li class="lvl-2"><a href="#1-calibration-on-a-single-galaxy-early-april">1. Calibration on a single galaxy (early April)</a></li>        <li class="lvl-2"><a href="#2-from-one-galaxy-to-the-archive-2124-april">2. From one galaxy to the archive (21–24 April)</a></li>        <li class="lvl-2"><a href="#3-the-selector-bias-problem-2425-april">3. The selector-bias problem (24–25 April)</a></li>        <li class="lvl-2"><a href="#4-two-complementary-null-tests-22-april-13-may">4. Two complementary null tests (22 April → 13 May)</a></li>        <li class="lvl-3"><a href="#why-we-quote-p95-not-a-gaussian-3σ">Why we quote P95, not a Gaussian 3σ</a></li>        <li class="lvl-2"><a href="#5-sample-selection-priors-and-the-multi-line-search-1-may">5. Sample-selection priors and the multi-line search (1 May)</a></li>        <li class="lvl-2"><a href="#6-selector-bias-inside-the-null-itself-circinus-13-may">6. Selector bias inside the null itself — Circinus (13 May)</a></li>        <li class="lvl-2"><a href="#7-a-pre-registration-attempt-and-why-it-was-rolled-back-14-may">7. A pre-registration attempt — and why it was rolled back (14 May)</a></li>        <li class="lvl-2"><a href="#8-per-class-tooling-and-the-canonical-flux-17-may-present">8. Per-class tooling and the canonical flux (17 May → present)</a></li>        <li class="lvl-2"><a href="#9-methodology-subtraction-23-may">9. Methodology subtraction (23 May)</a></li>        <li class="lvl-2"><a href="#where-it-stands-today-23-may">Where it stands today (23 May)</a></li>      </ul>
+    </aside>  </div>
+
+  <script src="../../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

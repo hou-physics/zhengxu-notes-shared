@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>step1_uvcontsub.py (Scenario A only) — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html">
+  <link rel="stylesheet" href="../../../../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../../../../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../../../../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details >
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../../../../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../../../../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../../../../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../../../../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../../../../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../../../../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../../../../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../../../../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../../../../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details open>
+        <summary>Archive</summary>        <ul>          <li><a href="../../../../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../../../../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../../../../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../../../../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../../../../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details open>
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details open>
+        <summary>Code</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details open>
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+class="current">step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../../../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>step1_uvcontsub.py (Scenario A only)</h1>
+      <p>UV-plane continuum subtraction in CASA, used only when re-imaging from
+visibility data (Scenario A). For all 32 sources in the final sample
+the pipeline-imaged FITS product was used directly (Scenario B), so
+this script was not run; it is preserved as the reference for the
+two cases (NGC 4418, NGC 1097) where re-imaging was considered.</p>
+<p>Line-free channel windows are tabulated explicitly per SPW. The
+<code>fitorder = 1</code> degree-1 polynomial baseline matches the rest of the
+pipeline.</p>
+<pre><code class="language-python">##############################################################################
+# Step 1: UV Plane Continuum Subtraction (CASA 6.6)
+#
+# Usage: run inside CASA 6.6
+#   cd to the manual_calibration directory
+#   casa --nologger --nogui
+#   execfile('step1_uvcontsub.py')
+#
+# Note: CASA 6.6's uvcontsub is the new API:
+#   - parameter name: fitspec (not fitspw)
+#   - outputvis must be specified (no automatic .contsub naming)
+#   - does NOT support: combine, want_cont, solint
+#   - for the old behaviour, use uvcontsub_old
+##############################################################################
+
+import os
+
+vis = 'NGC3628_concatenated.ms'
+outputvis = 'NGC3628_concatenated.ms.contsub'
+
+if not os.path.exists(vis):
+    print(&quot;ERROR: {} not found!&quot;.format(vis))
+    import sys; sys.exit(1)
+
+print(&quot;=&quot;*70)
+print(&quot;  Step 1: UV Plane Continuum Subtraction (CASA 6.6)&quot;)
+print(&quot;=&quot;*70)
+print(&quot;&quot;)
+
+# ---- listobs ----
+print(&quot;--- running listobs ---&quot;)
+listobs(vis=vis, listfile='NGC3628_listobs_check.txt', overwrite=True)
+print(&quot;saved to NGC3628_listobs_check.txt&quot;)
+print(&quot;&quot;)
+
+# ---- clean up previous output ----
+if os.path.exists(outputvis):
+    print(&quot;removing previous {} ...&quot;.format(outputvis))
+    os.system('rm -rf ' + outputvis)
+
+# ============================================================================
+# fitspec parameter
+#
+# CASA 6.6 uvcontsub uses fitspec in place of the legacy fitspw.
+# Same syntax: 'spw:frequency-range' or 'spw:channel-range'.
+#
+# SPW configuration for NGC 3628:
+#   SPW 0/4: ~228.44–230.30 GHz, contains CO(2-1) near ~229.90 GHz
+#   SPW 1/5: ~230.81–232.69 GHz, contains H30α near ~231.26 GHz
+#
+# Strategy: pick line-free channels for the continuum fit
+#   SPW 0: 228.49–229.55 GHz (left of CO, excluding SPW edges and CO)
+#   SPW 1: 230.86–231.00 GHz; 231.55–232.64 GHz (either side of H30α)
+#   SPW 4: same as SPW 0
+#   SPW 5: same as SPW 1
+#
+# Always check NGC3628_listobs_check.txt for the actual SPW frequency
+# ranges before running; adjust the values below if they differ.
+# ============================================================================
+
+fitspec_str = (
+    '0:228.49~229.55GHz,'
+    '1:230.86~231.00GHz;231.55~232.64GHz,'
+    '4:228.49~229.55GHz,'
+    '5:230.86~231.00GHz;231.55~232.64GHz'
+)
+
+print(&quot;fitspec = '{}'&quot;.format(fitspec_str))
+print(&quot;fitorder = 1&quot;)
+print(&quot;outputvis = '{}'&quot;.format(outputvis))
+print(&quot;&quot;)
+print(&quot;starting uvcontsub ... (typically 20-40 minutes)&quot;)
+print(&quot;&quot;)
+
+uvcontsub(
+    vis       = vis,
+    outputvis = outputvis,
+    field     = 'NGC_3628',
+    spw       = '0,1,4,5',
+    fitspec   = fitspec_str,
+    fitorder  = 1
+)
+
+print(&quot;&quot;)
+if os.path.exists(outputvis):
+    print(&quot;uvcontsub finished. Output: {}&quot;.format(outputvis))
+    listobs(vis=outputvis, listfile='NGC3628_contsub_listobs.txt', overwrite=True)
+    print(&quot;listobs saved&quot;)
+else:
+    print(&quot;ERROR: output file was not created!&quot;)
+
+print(&quot;&quot;)
+print(&quot;=&quot;*70)
+print(&quot;Next steps:&quot;)
+print(&quot;  1. Inspect quality with plotms (in CASA GUI):&quot;)
+print(&quot;     plotms(vis='{}',&quot;.format(outputvis))
+print(&quot;            xaxis='frequency', yaxis='amplitude',&quot;)
+print(&quot;            avgtime='1e8', avgscan=True, field='NGC_3628')&quot;)
+print(&quot;  2. Confirm line-free regions are near zero, CO is clear, and&quot;)
+print(&quot;     the H30α neighbourhood is clean.&quot;)
+print(&quot;  3. Run step2_imaging.py&quot;)
+print(&quot;=&quot;*70)
+</code></pre>
+
+    </article>  </div>
+
+  <script src="../../../../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

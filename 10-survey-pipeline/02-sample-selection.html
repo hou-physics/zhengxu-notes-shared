@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Step 1 — Sample selection — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/10-survey-pipeline/02-sample-selection.html">
+  <link rel="stylesheet" href="../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details open>
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+class="current">Step 1 — Sample selection</a></li>          <li><a href="../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details >
+        <summary>Archive</summary>        <ul>          <li><a href="../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details >
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+>Data selection method</a></li>          <li><a href="../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details >
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details >
+        <summary>Code</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>Step 1 — Sample selection</h1>
+      <h1>Step 1 — Sample selection</h1>
+<p>The sample is built by intersecting three public archives, in this
+order. No step anywhere asks &quot;is the recombination line likely to be
+detectable?&quot; — that would bias the survey toward detections.</p>
+<h2 id="1-parent-catalog-iras-bright-galaxies-60-μm">1. Parent catalog: IRAS bright galaxies (60 μm)</h2>
+<p><strong>Source</strong>: the IRAS Revised Bright Galaxy Sample (RBGS; Sanders et al.
+2003), VizieR table <code>J/AJ/126/1607</code> — 629 galaxies, complete above a
+60 μm flux of <strong>f60 &gt; 5.24 Jy</strong> (ten times the IRAS survey's faint
+limit).</p>
+<p>Why this catalog: the correlation's x-axis <em>is</em> infrared luminosity, so
+a flux-limited infrared parent gives the survey a well-defined selection
+function on exactly that axis, while remaining blind to the y-axis
+(the recombination line).</p>
+<h2 id="2-sky-position-filter-dec-40">2. Sky-position filter: DEC ≤ +40°</h2>
+<p>An engineering filter, not a scientific one. ALMA sits at latitude
+−23°; a source at declination +40° never rises above 27° elevation, and
+in practice the archive contains almost nothing above that line.</p>
+<h2 id="3-infrared-resolution-requirement-spitzer-8-μm-coverage">3. Infrared-resolution requirement: Spitzer 8 μm coverage</h2>
+<p><strong>Source</strong>: Spitzer Enhanced Imaging Products (SEIP), queried
+automatically against the IRSA <code>slphotdr4</code> source list.
+<strong>Script</strong>: <code>target_list_build/rbgs_seip_intersect.py</code>.</p>
+<p>Why 8 μm: the infrared luminosity must eventually be scaled to the
+small central region where the line is measured (page 6). Of all
+infrared surveys, only Spitzer's 8 μm band (~2″ resolution) can resolve
+those regions; IRAS (~arcminutes) and WISE 22 μm (~12″) cannot.
+Galaxies without an 8 μm map cannot receive an aperture-matched
+infrared value.</p>
+<p><strong>629 → 501 (after DEC) → 305 with 8 μm coverage.</strong></p>
+<h2 id="4-alma-archive-search">4. ALMA archive search</h2>
+<p><strong>Script</strong>: <code>target_list_build/alma_scout.py</code> (queries the ALMA Science
+Archive via <code>astroquery.alma</code>).</p>
+<p>For each of the 305 galaxies the script asks: does public,
+single-pointing ALMA data exist whose frequency coverage contains a
+recombination line <strong>plus</strong> a bright tracer line (CO, CS or HCO⁺) at
+the galaxy's redshift? It records the best angular resolution, the
+archive-reported sensitivity (noise per 10 km/s channel — the same
+quantity we later measure ourselves, allowing a promised-vs-delivered
+comparison), and the download size.</p>
+<p><strong>305 → 131 galaxies with usable archival data.</strong></p>
+<p>Mosaicked observations (multiple stitched pointings) are excluded here
+via the archive's <code>is_mosaic</code> flag — the measurement procedure is
+defined for single pointings only. This is the <em>only</em> hard cut before
+download; softer indicators (e.g. how centrally concentrated the WISE
+light is) are recorded as advisory flags but never exclude a galaxy by
+themselves. The philosophy, fixed after one galaxy (NGC 5236) crossed
+a would-be threshold: <strong>predictions rank, only rules kill</strong> — a
+wrongly-admitted galaxy costs one download and is then excluded by an
+objective rule; a wrongly-excluded galaxy is invisible forever.</p>
+<h2 id="5-download">5. Download</h2>
+<p>Per target we download only the pipeline's actual diet — the calibrated
+image cubes (<code>*.cube.I.pbcor.fits</code>) and primary-beam maps
+(<code>*.pb.fits.gz</code>) — not the full archive tarballs; this is 3–50× smaller.
+The first batch of 16 new targets (&quot;wave 1&quot;, ~345 GB) was processed in
+August 2026; the remaining 95 candidates are queued in the survey
+registry with per-target size estimates.</p>
+<p>One lesson from wave 1, now a documented rule: two targets (NGC 7552,
+NGC 6814) turned out to have the line <em>outside</em> the observed band at
+their true redshift — the archive search had matched line frequencies
+at rest wavelength. The re-scout for the next wave matches redshifted
+frequencies and treats catalog redshifts of faint distant galaxies as
+uncertain by a few hundred km/s (see the next page for why).</p>
+
+    </article>    <aside class="page-toc">
+      <div class="page-toc-label">On this page</div>
+      <ul>        <li class="lvl-2"><a href="#1-parent-catalog-iras-bright-galaxies-60-μm">1. Parent catalog: IRAS bright galaxies (60 μm)</a></li>        <li class="lvl-2"><a href="#2-sky-position-filter-dec-40">2. Sky-position filter: DEC ≤ +40°</a></li>        <li class="lvl-2"><a href="#3-infrared-resolution-requirement-spitzer-8-μm-coverage">3. Infrared-resolution requirement: Spitzer 8 μm coverage</a></li>        <li class="lvl-2"><a href="#4-alma-archive-search">4. ALMA archive search</a></li>        <li class="lvl-2"><a href="#5-download">5. Download</a></li>      </ul>
+    </aside>  </div>
+
+  <script src="../interactive.js?v=1271e50.1787922657"></script></body>
+</html>

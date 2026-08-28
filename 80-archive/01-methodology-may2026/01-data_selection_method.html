@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data selection method — Zhengxu&#39;s Notes</title>  <link rel="canonical" href="https://hou-physics.github.io/zhengxu-notes-shared/80-archive/01-methodology-may2026/01-data_selection_method.html">
+  <link rel="stylesheet" href="../../style.css?v=1271e50.1787922657">
+
+  <!-- KaTeX (math) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ]})"></script>
+
+  <!-- Plotly (interactive figures) -->
+  <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+
+  <!-- highlight.js (code block syntax colouring; styling comes from our
+       own .hljs-* rules in style.css so it picks up the active theme) -->
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.10.0/build/highlight.min.js"></script>  <!-- Hypothes.is annotations -->
+  <script src="https://hypothes.is/embed.js" async></script></head>
+
+<body data-theme="manuscript">
+
+  <button class="sidebar-toggle" aria-label="Toggle sidebar" title="Collapse / expand sidebar">
+    <span class="ico" aria-hidden="true"></span>
+  </button>
+
+  <aside class="sidebar">
+    <div class="site-title">Zhengxu&#39;s Notes</div>    <div class="site-subtitle">Research log + interactive notebook</div>
+    <nav>      <details >
+        <summary>Intro</summary>        <ul>          <li><a href="../../00-intro/01-welcome.html?v=1271e50.1787922657"
+>Welcome</a></li>          <li><a href="../../00-intro/02-features-demo.html?v=1271e50.1787922657"
+>Features demo</a></li>        </ul>      </details>      <details >
+        <summary>Survey pipeline</summary>        <ul>          <li><a href="../../10-survey-pipeline/01-overview.html?v=1271e50.1787922657"
+>Overview: what the survey does</a></li>          <li><a href="../../10-survey-pipeline/02-sample-selection.html?v=1271e50.1787922657"
+>Step 1 — Sample selection</a></li>          <li><a href="../../10-survey-pipeline/03-data-and-redshifts.html?v=1271e50.1787922657"
+>Step 2 — Getting the ALMA data</a></li>          <li><a href="../../10-survey-pipeline/04-alma-processing.html?v=1271e50.1787922657"
+>Step 3 — Processing the ALMA data</a></li>          <li><a href="../../10-survey-pipeline/05-aperture-and-flux.html?v=1271e50.1787922657"
+>Step 4 — Aperture construction and flux measurement</a></li>          <li><a href="../../10-survey-pipeline/06-infrared-and-distances.html?v=1271e50.1787922657"
+>Step 5 — Infrared side and distances</a></li>          <li><a href="../../10-survey-pipeline/07-correlation-plot.html?v=1271e50.1787922657"
+>Step 6 — The correlation diagram</a></li>        </ul>      </details>      <details >
+        <summary>Results</summary>        <ul>          <li><a href="../../20-results/01-current-results.html?v=1271e50.1787922657"
+>Current results (2026-08-28)</a></li>        </ul>      </details>      <details >
+        <summary>Survey registry</summary>        <ul>          <li><a href="../../30-survey-registry/01-registry.html?v=1271e50.1787922657"
+>Survey registry — all 142 targets</a></li>        </ul>      </details>      <details open>
+        <summary>Archive</summary>        <ul>          <li><a href="../../80-archive/00-about.html?v=1271e50.1787922657"
+>About this archive</a></li>        </ul>        <details open>
+        <summary>Methodology may2026</summary>        <ul>          <li><a href="../../80-archive/01-methodology-may2026/01-data_selection_method.html?v=1271e50.1787922657"
+class="current">Data selection method</a></li>          <li><a href="../../80-archive/01-methodology-may2026/02-method-evolution.html?v=1271e50.1787922657"
+>Method evolution (April–May 2026)</a></li>          <li><a href="../../80-archive/01-methodology-may2026/03-footprint-iou-demo.html?v=1271e50.1787922657"
+>Footprint and IoU — tried, then dropped</a></li>          <li><a href="../../80-archive/01-methodology-may2026/04-curve-of-growth-demo.html?v=1271e50.1787922657"
+>Curve of growth — two aperture methods on a real source</a></li>        </ul>      </details>        <details >
+        <summary>Code and skills may2026</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/00-about-skills.html?v=1271e50.1787922657"
+>About Claude Code skills</a></li>        </ul>        <details >
+        <summary>Skills</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/01-skills/01-alma-query.html?v=1271e50.1787922657"
+>/alma-query skill</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/01-skills/02-analyze-galaxy.html?v=1271e50.1787922657"
+>/analyze-galaxy skill</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/01-skills/03-update-progress.html?v=1271e50.1787922657"
+>/update-progress skill</a></li>        </ul>      </details>        <details >
+        <summary>Code</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/01-dual-cube-pipeline.html?v=1271e50.1787922657"
+>Dual-cube analysis pipeline</a></li>        </ul>        <details >
+        <summary>Alma query</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/02-alma-query/01-step-1_download.html?v=1271e50.1787922657"
+>step-1_download.py</a></li>        </ul>      </details>        <details >
+        <summary>Analyze galaxy</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/01-step3_analyze.html?v=1271e50.1787922657"
+>step3_analyze.py</a></li>        </ul>        <details >
+        <summary>Step3 package</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/01-analyze.html?v=1271e50.1787922657"
+>analyze.py</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/02-config.html?v=1271e50.1787922657"
+>config.py</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/03-mask.html?v=1271e50.1787922657"
+>mask.py</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/03-analyze-galaxy/02-step3-package/04-other-modules.html?v=1271e50.1787922657"
+>Other modules (referenced, not embedded)</a></li>        </ul>      </details>      </details>        <details >
+        <summary>Scenario a imaging</summary>        <ul>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/01-step1_uvcontsub.html?v=1271e50.1787922657"
+>step1_uvcontsub.py (Scenario A only)</a></li>          <li><a href="../../80-archive/02-code-and-skills-may2026/02-code/04-scenario-a-imaging/02-step2_imaging.html?v=1271e50.1787922657"
+>step2_imaging.py (Scenario A only)</a></li>        </ul>      </details>      </details>      </details>      </details>    </nav>
+
+    <div class="theme-switcher">      <button data-set-theme="manuscript">Light</button>      <button data-set-theme="iceberg">Iceberg</button>      <button data-set-theme="slate">Dark</button>    </div>
+  </aside>
+
+  <div class="content-wrap">
+    <article class="main">
+      <h1>Data selection method</h1>
+      <p><em>Snapshot 2026-05-19, prepared for Prof. F. Bertoldi</em></p>
+<h2 id="1-candidate-pools">1. Candidate pools</h2>
+<p>Six candidate pools, in chronological order, reflecting the evolution from
+calibration to systematic blind search to re-selection after early failures:</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Pool</th>
+<th>Date</th>
+<th>Size</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Calibration galaxies</td>
+<td>pre-2026-04-22 + rolling</td>
+<td>5</td>
+<td>Nearby starbursts with published HRL flux measurements (Bendo+ 2015, 2017; Toma 2024; Bittner 2022), re-analysed on the same archival cubes as a pipeline cross-check</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Lau (2019) Table 2.1 unanalysed</td>
+<td>concurrent</td>
+<td>15</td>
+<td>Lau's Table 2.1 lists 36 candidate galaxies (47 ALMA archival projects); only 6 were analysed in detail by Lau. We follow up on 15 of the remaining 30 as a novel-thesis contribution. Band 6 H30α with the validated pipeline</td>
+</tr>
+<tr>
+<td>2</td>
+<td>PHANGS-ALMA ∪ ALMaQUEST</td>
+<td>2026-04-22</td>
+<td>136 (90+46)</td>
+<td>Nearby star-forming galaxy surveys; vetted M*/SFR/D; CO directly usable as a spatial mask</td>
+</tr>
+<tr>
+<td>3</td>
+<td>IRAS compact-starburst pool</td>
+<td>2026-04-24 pivot</td>
+<td>3 + reactivations</td>
+<td>Filter on IRAS 25/60 μm warm colour (<span class="math inline">$S_{25}/S_{60} > 0.08$</span>, de Grijp+ 1985 / Sanders+ 1988 threshold) to exclude cold smooth disks, then rank by IR brightness, proximity, and warm colour. By construction biased toward compact nuclear starbursts</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Novel LIRG/ULIRG pool</td>
+<td>2026-04-30</td>
+<td>6</td>
+<td><code>/alma-query --batch</code> results requiring joint same-SPW H30α + CO(2-1) coverage; none previously analysed by Lau / Bittner / Toma</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Edge-on starburst + dwarf BCG manual pool</td>
+<td>2026-05-01</td>
+<td>19</td>
+<td>Manual list compiled after NED z-lookup timeouts; contains an &quot;NGC 5253-like&quot; dwarf BCG sub-table. <strong>The Hen 2-10 detection originates from this pool</strong></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Ada (2022) reproduction</td>
+<td>rolling</td>
+<td>3</td>
+<td>NGC 7582 / 5643 / 7465, cross-checking Ada's Sy AGN sub-sample</td>
+</tr>
+</tbody>
+</table>
+<p>In total ~80 candidates. After archive query, geometric filtering, and cube
+availability, <strong>N = 32 enter the analysis (§6)</strong>.</p>
+<h2 id="2-alma-archive-query-alma-query">2. ALMA archive query (<code>/alma-query</code>)</h2>
+<p>For each galaxy the workflow is:</p>
+<ol>
+<li>NED coordinate resolution + ALMA archive 60″ cone-search.</li>
+<li><strong>Line-coverage prerequisite</strong>: keep only observations covering both an
+HRL (H<span class="math inline">$n\alpha$</span>, <span class="math inline">$n \in \{27\text{–}32,\;39\text{–}42\}$</span>) and a
+same-band strong-tracer line
+(CO(2-1) / CO(1-0) / HCN(3-2) / HCO+(3-2)). The strong-tracer line is
+used only to define the spatial mask.</li>
+<li><strong>Multi-line search added 2026-05-01</strong>: besides the default
+H30α + CO(2-1) (Band 6), we also search for H26α + HCN(4-3) (B7),
+H33α + HCN(2-1) (B5), and H40α + CS(2-1) (B3) joint same-SPW pairs.
+Both the Hen 2-10 and Circinus detections enter through the
+H40α + CS(2-1) channel.</li>
+<li><strong>Sensitivity threshold</strong>: reject observations with archive-reported
+<span class="math inline">$\text{rms}_{10\,\text{km/s}} > 30$</span> mJy. For a typical HRL flux
+<span class="math inline">$0.1$</span>–<span class="math inline">$5$</span> Jy·km/s, line FWHM <span class="math inline">$\sim 200$</span> km/s, and a <span class="math inline">$5$</span>–<span class="math inline">$10$</span> beam mask,
+this yields <span class="math inline">$\sigma_F \approx 3$</span>–<span class="math inline">$4$</span> Jy·km/s (per-beam
+<span class="math inline">$1.3 \times \sqrt{N_\text{beam}} \approx 2.2$</span>–<span class="math inline">$3.2$</span> factor), giving a
+<span class="math inline">$3\sigma$</span> floor of <span class="math inline">$\sim 10$</span> Jy·km/s — the strongest typical source
+would not exceed <span class="math inline">$3\sigma$</span>.</li>
+<li><strong>Geometric hard filter</strong> (introduced 2026-05-01; DEC criterion added
+2026-05-13 after the M82 incident; see §5).</li>
+<li><strong>Sensitivity ranking</strong>: sort by sensitivity_10kms; within a 1.5× tie,
+prefer single-pointing over mosaic.</li>
+<li>Output: ranked markdown report + <code>step-1_download.py</code> download script.</li>
+</ol>
+<h2 id="3-r-pred-predictive-ranking-quantity">3. R_pred — predictive ranking quantity</h2>
+<p>After line-coverage filtering, the PHANGS + ALMaQUEST + Lau pool yields
+several hundred (galaxy × observation × H<span class="math inline">$n\alpha$</span>) triplets. We need a
+single number to rank them from &quot;most likely to detect&quot; to &quot;least
+likely&quot;:</p>
+<div class="math block">
+<p>$$
+R_\text{pred} \;=\; \log_{10}\!\left(\frac{\text{SFR}}{M_\odot\,\text{yr}^{-1}}\right)
+\;-\; 2\log_{10}\!\left(\frac{D}{\text{Mpc}}\right)
+\;-\; \log_{10}\!\left(\frac{\text{rms}_{10\,\text{km/s}}}{\text{mJy}}\right)
+$$</p>
+
+</div>
+<p>Physical basis for each term:</p>
+<ul>
+<li><strong>SFR coefficient <span class="math inline">$+1$</span></strong>: under Case B in HII regions,
+<span class="math inline">$L_\text{HRL} \propto$</span> ionising-photon rate <span class="math inline">$\propto$</span> SFR (Murphy+ 2011
+line-SFR calibration; Storey &amp; Hummer 1995 emission coefficients).
+Absolute coefficients (<span class="math inline">$T_e$</span>, filling factor, beam–source geometry)
+cancel for relative ranking within a homogeneous nearby sample.</li>
+<li><strong>D coefficient <span class="math inline">$-2$</span></strong>: for an unresolved source, <span class="math inline">$F \propto 1/D^2$</span>.
+<strong>This is the root of <span class="math inline">$R_\text{pred}$</span>'s breakdown for resolved disks</strong>
+— galaxy-integrated SFR does not translate to per-beam HRL surface
+brightness.</li>
+<li><strong>rms coefficient <span class="math inline">$-1$</span></strong>: <span class="math inline">$\text{S/N} \propto 1/\text{rms}$</span>.</li>
+</ul>
+<p>The <span class="math inline">$-2 \log D$</span> term implicitly assumes the source fits inside one
+beam. The figure below makes the failure of that assumption visible —
+drag the sliders and watch the <strong>saturated</strong> disk (what one beam
+collects) stop growing once the source overflows the beam.</p>
+<div class="rpred-demo">
+  <div class="rpred-controls">
+    <div class="rpred-control">
+      <label>Distance D</label>
+      <div class="rpred-row">
+        <input type="range" id="rpred-d" min="2" max="40" step="0.5" value="10">
+        <output id="rpred-d-val">10</output> Mpc
+      </div>
+    </div>
+    <div class="rpred-control">
+      <label>Source physical radius r</label>
+      <div class="rpred-row">
+        <input type="range" id="rpred-r" min="10" max="500" step="5" value="80">
+        <output id="rpred-r-val">80</output> pc
+      </div>
+    </div>
+  </div>
+  <div class="rpred-svg-wrap">
+    <svg viewBox="-160 -160 320 320" class="rpred-svg" preserveAspectRatio="xMidYMid meet"
+         xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="rpred-beam-clip"><circle cx="0" cy="0" r="50"/></clipPath>
+      </defs>
+      <circle id="rpred-galaxy-pale" cx="0" cy="0" r="0"
+              fill="var(--accent-2)" opacity="0.18"/>
+      <circle id="rpred-galaxy-bright" cx="0" cy="0" r="0"
+              fill="var(--accent-2)" opacity="0.85"
+              clip-path="url(#rpred-beam-clip)"/>
+      <circle cx="0" cy="0" r="50"
+              fill="none" stroke="var(--ink)"
+              stroke-width="1.6" stroke-dasharray="5 3"/>
+      <text x="56" y="-50" font-size="11"
+            fill="var(--ink-2)" font-style="italic"
+            font-family="Charter, Georgia, serif">beam (HPBW ≈ 1″)</text>
+      <text x="-152" y="155" font-size="11"
+            fill="var(--ink-2)" font-style="italic"
+            font-family="Charter, Georgia, serif">pale = full source · saturated = what one beam catches</text>
+    </svg>
+  </div>
+  <div class="rpred-result">
+    <div class="rpred-result-row">
+      <span class="rpred-label">θ<sub>source</sub> / θ<sub>beam</sub></span>
+      <span class="rpred-bar"><span class="rpred-bar-fill" id="rpred-ratio-bar"></span></span>
+      <span class="rpred-value"><span id="rpred-ratio">—</span> <em id="rpred-regime"></em></span>
+    </div>
+    <div class="rpred-result-row">
+      <span class="rpred-label">Per-beam flux (actual)</span>
+      <span class="rpred-bar"><span class="rpred-bar-fill" id="rpred-actual-bar"></span></span>
+      <span class="rpred-value" id="rpred-actual">—</span>
+    </div>
+    <div class="rpred-result-row">
+      <span class="rpred-label">R<sub>pred</sub> predicts (∝ 1/D²)</span>
+      <span class="rpred-bar"><span class="rpred-bar-fill rpred-bar-naive" id="rpred-naive-bar"></span></span>
+      <span class="rpred-value" id="rpred-naive">—</span>
+    </div>
+  </div>
+</div>
+<style>
+.rpred-demo {
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--paper-2);
+  padding: 1.2em 1.4em;
+  margin: 1.4em 0;
+}
+.rpred-controls { display: flex; gap: 1.6em; flex-wrap: wrap; margin-bottom: 1em; }
+.rpred-control { flex: 1; min-width: 240px; }
+.rpred-control > label {
+  display: block; font-style: italic; color: var(--ink-2);
+  font-size: 0.9em; margin-bottom: 0.25em;
+}
+.rpred-row { display: flex; align-items: center; gap: 0.6em; }
+.rpred-row input[type=range] { flex: 1; accent-color: var(--accent); min-width: 100px; }
+.rpred-row output {
+  font-family: "SF Mono", Menlo, monospace;
+  color: var(--accent); min-width: 3em; text-align: right;
+}
+.rpred-svg-wrap { display: flex; justify-content: center; margin: 0.6em 0; }
+.rpred-svg {
+  width: 100%; max-width: 420px; height: auto;
+  background: var(--paper); border-radius: 6px;
+  border: 1px solid var(--rule); display: block;
+}
+.rpred-result { margin-top: 1em; font-size: 0.93em; }
+.rpred-result-row {
+  display: grid;
+  grid-template-columns: 220px 1fr 140px;
+  column-gap: 0.9em; align-items: center;
+  margin: 0.35em 0;
+}
+.rpred-label { color: var(--ink-2); }
+.rpred-value {
+  font-family: "SF Mono", Menlo, monospace;
+  color: var(--accent); text-align: right;
+}
+.rpred-value em {
+  font-style: italic; color: var(--accent-2);
+  font-family: "Charter", Georgia, serif;
+  font-size: 0.92em; margin-left: 0.4em;
+}
+.rpred-bar {
+  display: block; height: 8px; background: var(--paper);
+  border-radius: 4px; overflow: hidden; border: 1px solid var(--rule);
+}
+.rpred-bar-fill {
+  display: block; height: 100%; background: var(--accent-2);
+  width: 0%; transition: width 0.08s linear;
+}
+.rpred-bar-fill.rpred-bar-naive { background: var(--ink-2); opacity: 0.55; }
+@media (max-width: 700px) {
+  .rpred-result-row { grid-template-columns: 1fr; gap: 0.2em; }
+  .rpred-result-row .rpred-value { text-align: left; }
+}
+</style>
+<script>
+(function () {
+  const dEl       = document.getElementById('rpred-d');
+  const rEl       = document.getElementById('rpred-r');
+  const dValEl    = document.getElementById('rpred-d-val');
+  const rValEl    = document.getElementById('rpred-r-val');
+  const paleEl    = document.getElementById('rpred-galaxy-pale');
+  const brightEl  = document.getElementById('rpred-galaxy-bright');
+  const ratioEl   = document.getElementById('rpred-ratio');
+  const ratioBar  = document.getElementById('rpred-ratio-bar');
+  const regimeEl  = document.getElementById('rpred-regime');
+  const actualEl  = document.getElementById('rpred-actual');
+  const naiveEl   = document.getElementById('rpred-naive');
+  const actualBar = document.getElementById('rpred-actual-bar');
+  const naiveBar  = document.getElementById('rpred-naive-bar');
+
+  const ARCSEC_PX = 100;       // 1″ = 100 viewBox units
+  const BEAM_R_ARCSEC = 0.5;   // HPBW = 1″ → radius 0.5″
+
+  function update() {
+    const D = +dEl.value;
+    const r = +rEl.value;
+    dValEl.textContent = D.toFixed(1);
+    rValEl.textContent = r.toFixed(0);
+    // angular source radius in arcsec: θ = r [pc] × 0.206265 / D [Mpc]
+    const thetaSrc = r * 0.206265 / D;
+    const srcRpx = thetaSrc * ARCSEC_PX;
+    paleEl.setAttribute('r', srcRpx);
+    brightEl.setAttribute('r', srcRpx);
+    const ratio = thetaSrc / BEAM_R_ARCSEC;
+    ratioEl.textContent = ratio.toFixed(2);
+    regimeEl.textContent = ratio > 1 ? '· resolved' : '· unresolved';
+    ratioBar.style.width = Math.min(100, ratio / 6 * 100).toFixed(1) + '%';
+    const K = 100;
+    const Dcrit = r * 0.206265 / BEAM_R_ARCSEC;
+    const fNaive  = K / (D * D);
+    const fActual = K / Math.pow(Math.max(D, Dcrit), 2);
+    actualEl.textContent = fActual.toFixed(2);
+    naiveEl.textContent  = fNaive.toFixed(2);
+    const SCALE = 25;
+    actualBar.style.width = Math.min(100, fActual / SCALE * 100).toFixed(1) + '%';
+    naiveBar.style.width  = Math.min(100, fNaive  / SCALE * 100).toFixed(1) + '%';
+  }
+
+  dEl.addEventListener('input', update);
+  rEl.addEventListener('input', update);
+  update();
+})();
+</script>
+<div class="compare"><div class="col"><p><strong>Unresolved</strong>  (<span class="math inline">$\theta_\text{source} < \theta_\text{beam}$</span>)</p>
+<p>Slide D right, or r small. The saturated disk <strong>equals</strong> the source.
+Per-beam flux scales exactly as <span class="math inline">$1/D^2$</span>, and the two bars at the
+bottom of the figure track each other. This is the regime where
+<span class="math inline">$R_\text{pred}$</span> is rigorous.</p>
+</div><div class="col"><p><strong>Resolved</strong>  (<span class="math inline">$\theta_\text{source} > \theta_\text{beam}$</span>)</p>
+<p>Slide D left with r ≳ 50 pc. The source overflows the beam. The
+saturated disk stops growing — it is now identical to the beam
+itself. Per-beam flux saturates; <span class="math inline">$R_\text{pred}$</span>'s bar keeps climbing
+because the formula doesn't know about resolution. The <strong>gap between
+the two bars is the factor by which <span class="math inline">$R_\text{pred}$</span> over-counts</strong>.</p>
+</div></div>
+<h3 id="r-pred-performance-on-the-phangs-pool">R_pred performance on the PHANGS pool</h3>
+<p>The Table D top picks ranked by R_pred contributed 5 sources to the
+analysis. M83 / M64 / NGC 2903 are also in Table D, but they entered
+the analysis through the IRAS pivot Table E and are not counted as
+R_pred-direct picks.</p>
+<table>
+<thead>
+<tr>
+<th>Rank</th>
+<th>Galaxy</th>
+<th>R_pred</th>
+<th>i (°)</th>
+<th>D (Mpc)</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Circinus (ESO 097-013)</td>
+<td>−0.46</td>
+<td>68</td>
+<td>4.2</td>
+<td>PHANGS Band 6 H30α path required re-imaging, deferred. On 2026-05-13 we found a Band 3 H40α + CS(2-1) path via multi-line query, ✅ S/N 10.43</td>
+</tr>
+<tr>
+<td>2</td>
+<td>NGC 5248</td>
+<td>−1.86</td>
+<td>52</td>
+<td>16.4</td>
+<td>❌ 12 m C43-9/10 long-baseline configuration (MRS 2–3″) resolves out the entire 30″ disk</td>
+</tr>
+<tr>
+<td>4</td>
+<td>NGC 1313</td>
+<td>−2.02</td>
+<td>40</td>
+<td>4.3</td>
+<td>❌ face-on dwarf spiral</td>
+</tr>
+<tr>
+<td>6</td>
+<td>NGC 4569</td>
+<td>−2.36</td>
+<td>66</td>
+<td>(Virgo)</td>
+<td>❌ Virgo anaemic, ram-pressure stripped</td>
+</tr>
+<tr>
+<td>8</td>
+<td>NGC 7793</td>
+<td>−2.48</td>
+<td>55</td>
+<td>3.6</td>
+<td>❌ smooth disk</td>
+</tr>
+</tbody>
+</table>
+<p>Of the 5 R_pred top picks, 4 are non-detections. The single detection
+(Circinus) was not obtained on the project R_pred selected, but through
+a multi-line query that found a separate archival observation.
+The ALMaQUEST sample at <span class="math inline">$D = 40$</span>–<span class="math inline">$260$</span> Mpc is suppressed by <span class="math inline">$1/D^2$</span>;
+<strong>0/46 sources reached the download stage</strong>.</p>
+<h3 id="r-pred-limitations">R_pred limitations</h3>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Uses galaxy-integrated SFR, not per-beam HRL surface brightness</td>
+<td>Smooth-disk galaxies fall below the per-beam 3σ floor</td>
+</tr>
+<tr>
+<td>Inclination ignored (HRL path length <span class="math inline">$\propto \sec i$</span>)</td>
+<td>Face-on galaxies are not seen through</td>
+</tr>
+<tr>
+<td>Beam–source geometry matching not considered</td>
+<td>Long-baseline configurations resolve out diffuse sources</td>
+</tr>
+<tr>
+<td>rms term uses the archive map-centre value</td>
+<td>Sources near the primary-beam edge experience reduced effective σ</td>
+</tr>
+</tbody>
+</table>
+<p><span class="math inline">$R_\text{pred}$</span> works for relative ranking within a homogeneous
+morphological sub-sample, but breaks across the &quot;compact nuclear ↔
+smooth disk&quot; boundary. The asymmetry of its failure is worth spelling
+out.</p>
+<p><strong>At large <span class="math inline">$D$</span></strong>, the source is unresolved by virtue of distance, but
+the integrated luminosity is suppressed by <span class="math inline">$1/D^2$</span>. The ALMaQUEST
+sample at <span class="math inline">$D = 40\text{–}260$</span> Mpc bottoms out this regime — 0 of 46
+sources reached the download stage.</p>
+<p><strong>At small <span class="math inline">$D$</span> with extended structure</strong>, the source is resolved
+across many beams and per-beam flux saturates at the surface-brightness
+ceiling <span class="math inline">$I_\nu \cdot \Omega_\text{beam}$</span>, independent of <span class="math inline">$D$</span> (figure
+above). The <span class="math inline">$-2 \log D$</span> term keeps rising past this point, so the
+ranker <em>over-counts</em> these sources. NGC 5248 is the canonical case:
+<span class="math inline">$R_\text{pred}$</span> ranked it 2 of 8 in the PHANGS pool, but its
+<span class="math inline">$\sim 30''$</span> disk is fully resolved out by the 12 m C43-9/10 long-baseline
+configuration (<span class="math inline">$\text{MRS} \sim 2\text{–}3''$</span>).</p>
+<p><strong>The favourable regime — compact + nearby.</strong> &quot;Unresolved&quot; can be
+reached by two paths: small <span class="math inline">$D$</span> with a <em>physically small</em> source, or
+large <span class="math inline">$D$</span> with any source. Only the first path helps detection — it
+concentrates the full luminosity into a single beam <em>at small <span class="math inline">$D$</span></em>,
+maximising per-beam flux. The second is just <span class="math inline">$1/D^2$</span> dilution. The
+IRAS pivot (§4) selects on warm <span class="math inline">$S_{25}/S_{60}$</span> colour precisely
+because that cut singles out compact nuclear starbursts — giving the
+geometric small-<span class="math inline">$D$</span> benefit <em>without</em> the smooth-disk saturation
+penalty. NGC 5253 X1a (<span class="math inline">$r \sim 30$</span> pc, <span class="math inline">$D = 3.8$</span> Mpc), Circinus
+(<span class="math inline">$r \sim 100$</span> pc, <span class="math inline">$D = 4.2$</span> Mpc), and Hen 2-10 (<span class="math inline">$r \sim 50$</span> pc,
+<span class="math inline">$D = 12.5$</span> Mpc) all live in this regime.</p>
+<p>Operationally, after 2026-04-24 the selection therefore relies on two
+layers that <span class="math inline">$R_\text{pred}$</span> alone cannot encode:</p>
+<ol>
+<li><strong>Geometric hard filter (§5)</strong> on <span class="math inline">$\text{beam}_\text{pc}$</span>, <span class="math inline">$D$</span>,
+<span class="math inline">$i$</span>, <span class="math inline">$\delta$</span> — operationally excludes both failure modes by working
+on <span class="math inline">$\text{beam}_\text{pc} = \theta_\text{beam} \cdot D$</span> rather than
+<span class="math inline">$D$</span> alone.</li>
+<li><strong>IRAS-colour cut</strong> — finds compact sources that <span class="math inline">$R_\text{pred}$</span>
+could not single out from galaxy-integrated SFR.</li>
+</ol>
+<h2 id="4-sample-expansion-after-the-iras-pivot">4. Sample expansion after the IRAS pivot</h2>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Pool</th>
+<th>Added</th>
+<th>Key outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-04-24</td>
+<td>IRAS Table E</td>
+<td>M83, M64 (NGC 4826), NGC 2903; <strong>NGC 5253 / NGC 3627 reactivated</strong></td>
+<td>NGC 5253 X1a → ✅ first IRAS-pivot detection (2026-04-25, S/N 7.6, F = 0.808 Jy·km/s vs Bendo+ 2017 X1a 0.86)</td>
+</tr>
+<tr>
+<td>2026-04-30</td>
+<td>Novel LIRG/ULIRG Table G</td>
+<td>NGC 1377, IC 5179, IC 4687, NGC 7172, IRAS 17208-0014, NGC 4418</td>
+<td>All non-detections</td>
+</tr>
+<tr>
+<td>2026-05-01</td>
+<td>Edge-on + dwarf BCG Table H</td>
+<td>19 sources, including Hen 2-10, NGC 5408, NGC 1569, IC 10, Mrk 33</td>
+<td><strong>Hen 2-10 → ✅</strong> (S/N 7.89, F = 0.263 Jy·km/s, H40α + CS(2-1) Band 3)</td>
+</tr>
+<tr>
+<td>2026-05-13</td>
+<td>Multi-line query second pass</td>
+<td>Circinus via the Band 3 path</td>
+<td><strong>Circinus → ✅</strong> (S/N 10.43, F = 0.415 Jy·km/s; bonus SO + tentative H50β)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-failure-modes-geometric-hard-filter">5. Failure modes + geometric hard filter</h2>
+<p>Failure modes identified empirically after analysing the first
+~27 galaxies:</p>
+<table>
+<thead>
+<tr>
+<th>Failure mode</th>
+<th>Physics</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Face-on (low <span class="math inline">$i$</span>)</td>
+<td>Per-pixel HRL surface brightness <span class="math inline">$\propto \sec i$</span></td>
+<td>NGC 1313, M83</td>
+</tr>
+<tr>
+<td>Smooth disk</td>
+<td>HRL emission is diffuse; per-beam signal is low; archival baseline residual integrates above the line signal</td>
+<td>NGC 7793, M64, NGC 2903</td>
+</tr>
+<tr>
+<td>Anaemic / stripped</td>
+<td>Gas removed by ram-pressure stripping</td>
+<td>NGC 4569 (Virgo)</td>
+</tr>
+<tr>
+<td>Long baseline resolves out</td>
+<td>12 m-only MRS ~2–3″ &lt; galaxy angular extent</td>
+<td>NGC 5248</td>
+</tr>
+<tr>
+<td>Too distant</td>
+<td><span class="math inline">$1/D^2$</span> dilution dominates</td>
+<td>All of ALMaQUEST; IRAS 17208-0014 (<span class="math inline">$D = 183$</span> Mpc, distance-exception probe)</td>
+</tr>
+<tr>
+<td>Not visible from ALMA</td>
+<td>Chajnantor at lat. <span class="math inline">$-23^\circ$</span>, <span class="math inline">$\delta > +40^\circ$</span> elevation insufficient</td>
+<td>M82, IC 342, NGC 2146</td>
+</tr>
+</tbody>
+</table>
+<p>These motivate four hard filters, applied before R_pred / sensitivity
+ranking:</p>
+<table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>Threshold</th>
+<th>Physics</th>
+<th>Date added</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inclination</td>
+<td><span class="math inline">$i \geq 47^\circ$</span> (disk galaxies)</td>
+<td><span class="math inline">$\sec i$</span> path length insufficient</td>
+<td>2026-05-01</td>
+</tr>
+<tr>
+<td>Beam physical size</td>
+<td><span class="math inline">$15 \leq \text{beam}_\text{pc} \leq 150$</span></td>
+<td><span class="math inline">$<15$</span> pc: long baseline resolves out; <span class="math inline">$>150$</span> pc: noise dilution</td>
+<td>2026-05-01</td>
+</tr>
+<tr>
+<td>Distance</td>
+<td><span class="math inline">$D \leq 50$</span> Mpc</td>
+<td><span class="math inline">$1/D^2$</span> dilution dominates</td>
+<td>2026-05-01</td>
+</tr>
+<tr>
+<td>Declination</td>
+<td><span class="math inline">$\delta \leq +40^\circ$</span></td>
+<td>Not observable from ALMA</td>
+<td>2026-05-13 (post-M82 incident)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Dwarf BCG exception</strong>: when HyperLeda MType = Irr / I0 or logR25 is
+undefined, the inclination criterion is bypassed — the optical axis
+ratio measures apparent ellipticity, not true disk inclination.
+NGC 5253 (<span class="math inline">$i = 68^\circ$</span>) and Hen 2-10 (<span class="math inline">$i = 40^\circ$</span>) both fall under
+this carve-out.</p>
+<h2 id="6-final-sample-n-32">6. Final sample (N = 32)</h2>
+<p>&quot;Reproduction&quot; = a published HRL flux measurement exists in the
+literature, and this work re-analyses the same archival cube as a
+cross-check.</p>
+<h3 id="clean-detections-7">Clean detections (7)</h3>
+<table>
+<thead>
+<tr>
+<th>Galaxy</th>
+<th>Project</th>
+<th>Line</th>
+<th>S/N</th>
+<th>F (Jy·km/s)</th>
+<th>i (°)</th>
+<th>D (Mpc)</th>
+<th>Reference / reproduction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NGC 253</td>
+<td>2017.1.00161.L</td>
+<td>H40α</td>
+<td>58.1</td>
+<td>4.695</td>
+<td>88</td>
+<td>3.5</td>
+<td>Reproducing Bendo+ 2015, Toma 2024</td>
+</tr>
+<tr>
+<td>NGC 4945</td>
+<td>2016.1.01279.S</td>
+<td>H30α</td>
+<td>23.5</td>
+<td>8.839 (Toma 9.27)</td>
+<td>86</td>
+<td>3.8</td>
+<td>Reproducing Toma 2024</td>
+</tr>
+<tr>
+<td>NGC 3628</td>
+<td>2013.1.00087.S</td>
+<td>H30α</td>
+<td>15.81</td>
+<td>0.982</td>
+<td>80</td>
+<td>10.0</td>
+<td>Reproducing Bittner 2022, Toma 2024</td>
+</tr>
+<tr>
+<td><strong>Circinus (ESO 097-013)</strong></td>
+<td>2015.1.01286.S</td>
+<td>H40α</td>
+<td><strong>10.43</strong></td>
+<td><strong>0.415</strong></td>
+<td>68</td>
+<td>4.2</td>
+<td><s>First reported mm-RRL detection of Circinus</s> <em>(correction 2026-08-22: Izumi et al. 2023, Science 382, 554, had already detected ALMA H36α on parsec scales around the AGN; the cm detection is Roy, Goss &amp; Anantharamaiah 2008, A&amp;A 483, 79)</em>. Bonus detections in the same cube: SO (N_J = 2_3–1_2) at S/N ≈ 16; tentative H50β at S/N = 3.0 with β/α = 0.18, consistent with the Storey &amp; Hummer (1995) LTE prediction of 0.10–0.15</td>
+</tr>
+<tr>
+<td>NGC 5253 (X1a)</td>
+<td>2013.1.00210.S</td>
+<td>H30α</td>
+<td>7.6</td>
+<td>0.808 (Bendo+ 2017 X1a 0.86)</td>
+<td>68*</td>
+<td>3.8</td>
+<td>Reproducing Bendo+ 2017 X1a (dwarf BCG)</td>
+</tr>
+<tr>
+<td><strong>Hen 2-10</strong></td>
+<td>2019.1.01641.S</td>
+<td>H40α</td>
+<td><strong>7.89</strong></td>
+<td><strong>0.263</strong></td>
+<td>40*</td>
+<td>12.5</td>
+<td><strong>First reported mm-HRL detection of Hen 2-10</strong> (dwarf BCG, analogous to NGC 5253), found via H40α + CS(2-1) Band 3 archival data; the default H30α + CO(2-1) Band 6 has no archival coverage for this source</td>
+</tr>
+<tr>
+<td>NGC 3627 (M66)</td>
+<td>2015.1.00956.S</td>
+<td>H30α</td>
+<td>4.42</td>
+<td>1.341</td>
+<td>66</td>
+<td>11.3</td>
+<td>Reproducing Bittner 2022, Toma 2024</td>
+</tr>
+</tbody>
+</table>
+<p>*dwarf BCG, bypasses the inclination filter.</p>
+<p><strong>Source-level new detections: 2/7 ≈ 29%</strong> — Circinus and Hen 2-10.</p>
+<h3 id="marginal-2">Marginal (2)</h3>
+<table>
+<thead>
+<tr>
+<th>Galaxy</th>
+<th>S/N</th>
+<th>F (Jy·km/s)</th>
+<th>i (°)</th>
+<th>D (Mpc)</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IRAS F18293-3413</td>
+<td>3.7</td>
+<td>0.299</td>
+<td>47</td>
+<td>78</td>
+<td>Lau T2.1; tentative</td>
+</tr>
+<tr>
+<td>NGC 7582</td>
+<td>3.09</td>
+<td>0.375</td>
+<td>69</td>
+<td>23.2</td>
+<td>Ada 2022 Sy 2 reproduction; consistent with Ada's &quot;borderline&quot; classification and Toma's &lt; 0.4 Jy·km/s upper limit (we measure 0.375)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="non-detections-23">Non-detections (23)</h3>
+<table>
+<thead>
+<tr>
+<th>Galaxy</th>
+<th>S/N</th>
+<th>i (°)</th>
+<th>D (Mpc)</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NGC 5135</td>
+<td>—</td>
+<td>36</td>
+<td>58.6</td>
+<td>Lau T2.1; cube data quality issue, pending re-imaging</td>
+</tr>
+<tr>
+<td>NGC 6810</td>
+<td>3.0</td>
+<td>74</td>
+<td>28.7</td>
+<td>Lau T2.1</td>
+</tr>
+<tr>
+<td>NGC 7172</td>
+<td>2.88</td>
+<td>53</td>
+<td>37.4</td>
+<td>LIRG (Sy2 + SB)</td>
+</tr>
+<tr>
+<td>NGC 5643</td>
+<td>2.68</td>
+<td>32</td>
+<td>17.1</td>
+<td>Ada 2022 reproduction, face-on</td>
+</tr>
+<tr>
+<td>NGC 7793</td>
+<td>2.6</td>
+<td>55</td>
+<td>3.6</td>
+<td>PHANGS smooth disk</td>
+</tr>
+<tr>
+<td>NGC 1377</td>
+<td>2.53</td>
+<td>64</td>
+<td>24.0</td>
+<td>S0 silent quasar (compact obscured nucleus)</td>
+</tr>
+<tr>
+<td>NGC 1386</td>
+<td>2.47</td>
+<td>73</td>
+<td>13.1</td>
+<td>Lau T2.1</td>
+</tr>
+<tr>
+<td>IC 5063</td>
+<td>2.2</td>
+<td>45</td>
+<td>48.6</td>
+<td>Lau T2.1, Sy AGN</td>
+</tr>
+<tr>
+<td>IC 4687</td>
+<td>2.19</td>
+<td>51</td>
+<td>74</td>
+<td>LIRG pair</td>
+</tr>
+<tr>
+<td>NGC 3227</td>
+<td>2.1</td>
+<td>61</td>
+<td>16.1</td>
+<td>Lau T2.1</td>
+</tr>
+<tr>
+<td>NGC 4569</td>
+<td>2.1</td>
+<td>66</td>
+<td>(Virgo)</td>
+<td>PHANGS anaemic</td>
+</tr>
+<tr>
+<td>IC 5179</td>
+<td>2.0</td>
+<td>60</td>
+<td>48.8</td>
+<td>LIRG</td>
+</tr>
+<tr>
+<td>NGC 7130</td>
+<td>1.9</td>
+<td>30</td>
+<td>69.2</td>
+<td>Lau T2.1</td>
+</tr>
+<tr>
+<td>NGC 5728</td>
+<td>1.68</td>
+<td>56</td>
+<td>39.3</td>
+<td>Lau T2.1</td>
+</tr>
+<tr>
+<td>IRAS 17208-0014</td>
+<td>1.53</td>
+<td>50</td>
+<td>183</td>
+<td>ULIRG (distance-exception probe)</td>
+</tr>
+<tr>
+<td>NGC 7465</td>
+<td>1.48</td>
+<td>53</td>
+<td>28</td>
+<td>Ada 2022 reproduction</td>
+</tr>
+<tr>
+<td>NGC 5248</td>
+<td>1.31</td>
+<td>52</td>
+<td>16.4</td>
+<td>PHANGS; 12 m long-baseline (insufficient MRS)</td>
+</tr>
+<tr>
+<td>NGC 1097</td>
+<td>&lt; 1</td>
+<td>—</td>
+<td>—</td>
+<td>Reproducing Ada §4.4 non-detection</td>
+</tr>
+<tr>
+<td>NGC 5236 (M83)</td>
+<td>0.8</td>
+<td>22</td>
+<td>4.5</td>
+<td>IRAS Table E, face-on</td>
+</tr>
+<tr>
+<td>NGC 1313</td>
+<td>0.5</td>
+<td>40</td>
+<td>4.3</td>
+<td>PHANGS face-on</td>
+</tr>
+<tr>
+<td>NGC 4826 (M64)</td>
+<td>0.4</td>
+<td>62</td>
+<td>7.4</td>
+<td>IRAS Table E, ACA-only</td>
+</tr>
+<tr>
+<td>NGC 2903</td>
+<td>0.22</td>
+<td>65</td>
+<td>7.7</td>
+<td>IRAS Table E, smooth disk</td>
+</tr>
+<tr>
+<td>NGC 5408</td>
+<td>0.15</td>
+<td>57</td>
+<td>7.2</td>
+<td>Dwarf SB</td>
+</tr>
+</tbody>
+</table>
+<h3 id="summary-statistics">Summary statistics</h3>
+<ul>
+<li>Clean detection rate: <strong>7/32 ≈ 22%</strong> (including two source-level new
+detections, Circinus and Hen 2-10).</li>
+<li>All 7 detections sit at <span class="math inline">$D \leq 12.5$</span> Mpc.</li>
+</ul>
+<h2 id="7-workflow-notes-skill-download-strategy-dual-cube-processing">7. Workflow notes: skill, download strategy, dual-cube processing</h2>
+<h3 id="claude-code-and-the-alma-query-skill">Claude Code and the <code>/alma-query</code> skill</h3>
+<p>Claude Code is Anthropic's AI programming CLI. A &quot;skill&quot; in Claude Code
+is a markdown configuration file that defines a reusable, parameterised
+workflow, invoked at the terminal by typing <code>/alma-query &lt;galaxy&gt;</code>.</p>
+<p>The <code>/alma-query</code> skill encapsulates the §2 query workflow as a single
+command:</p>
+<ol>
+<li>NED coordinate resolution + ALMA archive 60″ cone-search.</li>
+<li>SPW filtering (require joint coverage of an HRL and a same-band
+strong-tracer line).</li>
+<li>Geometric hard filter (i, beam_pc, D, DEC).</li>
+<li>Sensitivity ranking.</li>
+<li>Output: ranked report + <code>step-1_download.py</code> download script.</li>
+</ol>
+<p>Compared with manual browsing of the ALMA web interface or
+per-galaxy astroquery scripts, the skill automates and version-controls
+the entire workflow. Every galaxy is processed with identical selection
+criteria, and the procedure can be reproduced by any user. Query
+outputs for all N = 32 sources are archived in the project's git
+repository.</p>
+<h3 id="download-strategy-prefer-pre-imaged-fits-cubes">Download strategy: prefer pre-imaged FITS cubes</h3>
+<p>The ALMA archive offers two product tiers:</p>
+<ul>
+<li><strong>Scenario A (raw MS)</strong>: visibility data, requiring local CASA
+pipeline calibration and imaging. Each source takes several hours
+and 10–50 GB of intermediate disk space.</li>
+<li><strong>Scenario B (pipeline-imaged FITS)</strong>: archive-completed standard
+imaging, downloadable directly as <code>*.pbcor.fits</code> and ready for the
+analysis pipeline.</li>
+</ul>
+<p><strong>All N = 32 sources in this work were analysed via Scenario B</strong>,
+in order to validate 30+ sources within the thesis timeline and avoid
+the time and disk overhead of per-source re-imaging. Scenario A/C
+candidates (e.g. NGC 4418, an ultra-compact obscured nucleus; NGC 1097,
+a nuclear-bar starburst) were cancelled or deferred because the CASA
+pipeline workload was unjustified given low predicted detection
+probability from other criteria.</p>
+<p>NGC 3628 serves as a cautionary case: an early custom v5 imaging washed
+the signal down to 4.71σ; switching back to the ALMA pipeline standard
+product gave S/N 15.81 and F = 0.982 Jy·km/s, consistent with Toma's
+literature value. <strong>Do not re-image unless necessary.</strong></p>
+<h3 id="when-the-strong-line-and-weak-line-are-in-different-cubes">When the strong line and weak line are in different cubes</h3>
+<p>ALMA SPW bandwidth is ~1.875 GHz. Ideally the HRL (e.g. H30α) and the
+strong-tracer line (e.g. CO(2-1)) fall in the same SPW, so a single
+cube contains both lines.</p>
+<p>In many archival cases, however:</p>
+<ul>
+<li>The HRL and the tracer fall in two different SPWs of the same ALMA
+observation → two independent cubes.</li>
+<li>Or they belong to entirely different ALMA observations → two cubes
+from different projects.</li>
+</ul>
+<p>The dual-cube processing workflow is:</p>
+<ol>
+<li><strong>Common-beam convolution</strong>: convolve both cubes to a common
+synthesized beam via <code>radio_beam</code> (the larger beam is the target).</li>
+<li><strong>Spatial reprojection</strong>: align both cubes to a common pixel grid
+via <code>reproject</code>.</li>
+<li><strong>Mask construction</strong>: build the spatial mask on the CO cube using
+a 3σ threshold, a velocity-integration window, and a
+morphological-connectivity filter.</li>
+<li><strong>Mask transfer</strong>: reproject the mask onto the HRL cube.</li>
+<li><strong>Flux integration</strong>: integrate the HRL pbcor cube within the mask
+in the velocity direction.</li>
+</ol>
+<p>This dual-cube approach allows archival observation pairs in which the
+HRL and CO are not co-located in a single cube to enter the analysis,
+significantly expanding the usable archive. NGC 3628 (spw0 = CO(2-1),
+spw1 = H30α in the same observation) and NGC 5253 X1a (cross-MOUS-ID
+H30α + CO(2-1) from two separate observations) are both detected
+through this workflow.</p>
+
+    </article>    <aside class="page-toc">
+      <div class="page-toc-label">On this page</div>
+      <ul>        <li class="lvl-2"><a href="#1-candidate-pools">1. Candidate pools</a></li>        <li class="lvl-2"><a href="#2-alma-archive-query-alma-query">2. ALMA archive query (/alma-query)</a></li>        <li class="lvl-2"><a href="#3-r-pred-predictive-ranking-quantity">3. R_pred — predictive ranking quantity</a></li>        <li class="lvl-3"><a href="#r-pred-performance-on-the-phangs-pool">R_pred performance on the PHANGS pool</a></li>        <li class="lvl-3"><a href="#r-pred-limitations">R_pred limitations</a></li>        <li class="lvl-2"><a href="#4-sample-expansion-after-the-iras-pivot">4. Sample expansion after the IRAS pivot</a></li>        <li class="lvl-2"><a href="#5-failure-modes-geometric-hard-filter">5. Failure modes + geometric hard filter</a></li>        <li class="lvl-2"><a href="#6-final-sample-n-32">6. Final sample (N = 32)</a></li>        <li class="lvl-3"><a href="#clean-detections-7">Clean detections (7)</a></li>        <li class="lvl-3"><a href="#marginal-2">Marginal (2)</a></li>        <li class="lvl-3"><a href="#non-detections-23">Non-detections (23)</a></li>        <li class="lvl-3"><a href="#summary-statistics">Summary statistics</a></li>        <li class="lvl-2"><a href="#7-workflow-notes-skill-download-strategy-dual-cube-processing">7. Workflow notes: skill, download strategy, dual-cube processing</a></li>        <li class="lvl-3"><a href="#claude-code-and-the-alma-query-skill">Claude Code and the /alma-query skill</a></li>        <li class="lvl-3"><a href="#download-strategy-prefer-pre-imaged-fits-cubes">Download strategy: prefer pre-imaged FITS cubes</a></li>        <li class="lvl-3"><a href="#when-the-strong-line-and-weak-line-are-in-different-cubes">When the strong line and weak line are in different cubes</a></li>      </ul>
+    </aside>  </div>
+
+  <script src="../../interactive.js?v=1271e50.1787922657"></script></body>
+</html>
